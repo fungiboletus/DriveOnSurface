@@ -1,6 +1,8 @@
 var express = require('express'),
 	io = require('socket.io'),
-	http = require('http');
+	http = require('http'),
+	game = require('./js/game'),
+	Canvas = require('canvas');
 
 var app = express(),
 	server = http.createServer(app),
@@ -8,8 +10,12 @@ var app = express(),
 
 server.listen(3333);
 
+var canvas = new Canvas(1024, 768);
+var a = game(canvas);
+
 app.get('/', function(req, res) {
-	res.send("canard");
+	res.type('png');
+	res.send(canvas.toBuffer());
 });
 
 io.sockets.on('connection', function (socket) {
