@@ -1,0 +1,4 @@
+c:\users\bastien\documents\visual studio 2010\Projects\DriveOnSurface\DriveOnSurface\DriveOnSurfaceContent\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\bastien\Documents\My Dropbox\M2\Evolution des interfaces\Projet\Visual Studio 2010\Projects\DriveOnSurface\DriveOnSurface\DriveOnSurfaceContent\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\bastien\Documents\My Dropbox\M2\Evolution des interfaces\Projet\Visual Studio 2010\Projects\DriveOnSurface\DriveOnSurface\DriveOnSurface\DriveOnSurfaceContent\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\bastien\Documents\My Dropbox\M2\Evolution des interfaces\Projet\DriveOnSurface\DriveOnSurface\DriveOnSurfaceContent\obj\x86\Debug\ResolveAssemblyReference.cache
