@@ -9,6 +9,8 @@ namespace DriveOnSurface
 {
     interface IDrawableObject
     {
+        String getID();
+
         void Draw(SpriteBatch sb);
 
         void LoadContent(ContentManager theContentManager);

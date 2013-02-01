@@ -16,9 +16,7 @@ namespace DriveOnSurface
 
         float getRotation();
 
-        void setRotation(float Rot);
-
-        String getID();
+        void setRotation(float Rot);        
 
     }
 }

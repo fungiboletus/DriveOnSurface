@@ -36,9 +36,7 @@ namespace DriveOnSurface
 
         // Les objets du jeu
 
-        List<IDrawableObject> DrawableObjects = new List<IDrawableObject>();
-
-        List<IMovableObject> MovableObjects = new List<IMovableObject>();
+        Dictionary<string, IDrawableObject> DrawableObjects = new Dictionary<string, IDrawableObject>();
 
         SpriteFont spriteFont;
 
@@ -125,7 +123,7 @@ namespace DriveOnSurface
             loadConfig();
 
             Background bBackground = new Background(new Vector2(0,0));
-            DrawableObjects.Add(bBackground);
+            DrawableObjects.Add("background", bBackground);
 
             IsMouseVisible = true; // easier for debugging not to "lose" mouse
             SetWindowOnSurface();
@@ -166,7 +164,7 @@ namespace DriveOnSurface
 
             // TODO: use this.Content to load your application content here
 
-            foreach (IDrawableObject DObj in DrawableObjects)
+            foreach (IDrawableObject DObj in DrawableObjects.Values)
             {
                 DObj.LoadContent(this.Content);
             }
@@ -230,12 +228,11 @@ namespace DriveOnSurface
             //Console.WriteLine(gameTime.ElapsedGameTime);
             refreshGameState();
 
-            foreach (IDrawableObject DObj in DrawableObjects) 
+            foreach (IDrawableObject DObj in DrawableObjects.Values) 
             {
                 DObj.Draw(this.spriteBatch);
                 if(DObj is IMovableObject) {
                     //Console.WriteLine("==========================\nDraw object at " + ((IMovableObject)DObj).getPosition().Y);
-
                 }
             }
 
@@ -243,13 +240,13 @@ namespace DriveOnSurface
 
             foreach (var t in touches) // création de la liste des tags posés
             {
-                if (t.Tag != TagData.None )
+                if (t.Tag != TagData.None)
                 {
                     detectedTags.Add(t.Tag.Value.ToString());
                     if(!TagValues.ContainsKey(t.Tag.Value.ToString())) {
                         TagValues.Add(t.Tag.Value.ToString(), t);
-                        WebRequest wrGETURL = WebRequest.Create(serverURL + "tableEvent?type=put_tag&tag_value="
-                            + t.Tag.Value.ToString() + "&tag_x=" + t.X + "&tag_y=" + t.Y);
+                        WebRequest wrGETURL = WebRequest.Create(serverURL + "put_tag/"
+                            + t.Tag.Value.ToString() + "/" + t.X / 16 + "/" + t.Y / 16);
                     }
                 }
             }
@@ -258,7 +255,7 @@ namespace DriveOnSurface
             {
                 if(! detectedTags.Contains(tagV)) {
                     TagValues.Remove(tagV);
-                    WebRequest wrGETURL = WebRequest.Create(serverURL + "tableEvent?type=removed_tag&tag_value="
+                    WebRequest wrGETURL = WebRequest.Create(serverURL + "removed_tag/"
                         + tagV);
                 }
             }
@@ -354,149 +351,70 @@ namespace DriveOnSurface
 
                     JObject o = JObject.Parse(json_data);
 
-                    JsonTextReader reader = new JsonTextReader(new StringReader(json_data));
+                    List<string> objectsIdToKeep = new List<string>();
+                    objectsIdToKeep.Add("background");
 
-                    //Console.WriteLine("======================Begining===================");
-
-                    while (reader.Read())
+                    foreach (JObject player in o["joueurs"])
                     {
-                        //Console.WriteLine("Token: {0}", reader.TokenType);
 
-                        if (reader.TokenType == JsonToken.StartObject) //on a un nouvel objet inconnu
+                        objectsIdToKeep.Add((string) player["pseudo"]);
+
+                        if (DrawableObjects.Keys.Contains((string)player["pseudo"]))
                         {
-                            //Console.WriteLine("New unknown object");
-
-                            reader.Read();
-                            //Console.WriteLine("Token: {0}", reader.TokenType);
-                            
-                            if (reader.TokenType == JsonToken.PropertyName && ((String)reader.Value) == "joueurs") //c'est une liste de joueurs
+                            Console.WriteLine("Updating car position : " + player["pseudo"] + "( " + (int)player["position_x"] + ", " + (int)player["position_y"] + ")");
+                            Car car = (Car) DrawableObjects[(string)player["pseudo"]];
+                            car.setPosition((int)player["position_x"] * 16, (int) player["position_y"] * 16);
+                            car.setRotation((float)player["angle"]);
+                        }
+                        else
+                        {
+                            //Console.WriteLine("Creating new car : " + pseudo);
+                            Car.CColor CarColor;
+                            switch ((string)player["color"])
                             {
-                                reader.Read();
-                                //Console.WriteLine("Token: {0}", reader.TokenType);
-                                //Console.WriteLine("It's a player Array !");
-
-                                List<String> pseudos = new List<string>();
-
-                                while (reader.TokenType != JsonToken.EndArray && reader.TokenType != JsonToken.None) //on lit le tableau jusqu'a la fin
-                                {
-                                    
-                                    reader.Read();
-                                    //Console.WriteLine("Token: {0}", reader.TokenType);
-                                    //Console.WriteLine("New Player !");
-
-                                    String pseudo = "";
-                                    String color = "";
-                                    double position_x = 0;
-                                    double position_y = 0;
-                                    double angle = 0;
-
-                                    while (reader.TokenType != JsonToken.EndObject && reader.TokenType != JsonToken.None) // pour chaque joueur, on lit ses propriétés
-                                    {                                        
-                                        reader.Read();
-                                        //Console.WriteLine("Token: {0}", reader.TokenType);
-
-                                        //Console.WriteLine("player property : " + (String)reader.Value);
-
-                                        if (reader.TokenType == JsonToken.PropertyName)
-                                        {
-                                            switch ((String)reader.Value)
-                                            {
-                                                case "pseudo" :
-                                                    reader.Read();
-                                                    pseudo = (String)reader.Value;
-                                                    pseudos.Add(pseudo);
-                                                    break;
-                                                case "color" :
-                                                    reader.Read();
-                                                    color = (String)reader.Value;
-                                                    break;
-                                                case "position_x" :
-                                                    reader.Read();
-                                                    //Console.WriteLine(reader.Value.ToString());
-                                                    position_x = Double.Parse(reader.Value.ToString())*16 - 11;
-                                                    break;
-                                                case "position_y" :
-                                                    reader.Read();
-                                                    position_y = Double.Parse( reader.Value.ToString())*16 - 22;
-                                                    break;
-                                                case "angle" :
-                                                    reader.Read();
-                                                    angle = Double.Parse( reader.Value.ToString());
-                                                    break;
-                                                default :
-                                                    reader.Read();
-                                                    break;
-                                            }
-                                        }
-                                    }
-                                    // on à lu l'objet voiture
-
-                                    //Console.WriteLine("All properties read.");
-
-                                    bool exists = false;
-                                    Car car = null;
-
-                                    foreach (IMovableObject MObj in MovableObjects) //on recherche si l'objet existe déjà
-                                    {
-                                        if (MObj.getID() == pseudo)
-                                        {
-                                            exists = true;
-                                            car = (Car)MObj;
-                                            break;
-                                        }
-                                    }
-
-                                    if (exists && car != null)
-                                    {
-                                        //Console.WriteLine("Updating car position : " + pseudo + "( " + (int)position_x + ", " + (int)position_y + ")");
-                                        car.setPosition((int)position_x, (int)position_y);
-                                        car.setRotation((float)angle);
-                                    } else {
-                                        //Console.WriteLine("Creating new car : " + pseudo);
-                                        Car.CColor CarColor;
-                                        switch (color)
-                                        {
-                                            case "Blue":
-                                                CarColor = Car.CColor.Blue;
-                                                break;
-                                            case "Yellow":
-                                                CarColor = Car.CColor.Yellow;
-                                                break;
-                                            case "Green":
-                                                CarColor = Car.CColor.Green;
-                                                break;
-                                            case "Red":
-                                                CarColor = Car.CColor.Red;
-                                                break;
-                                            default:
-                                                CarColor = Car.CColor.None;
-                                                break;
-                                        }
-                                        if (CarColor != Car.CColor.None)
-                                        {
-                                            car = new Car(pseudo, CarColor);
-                                            car.LoadContent(this.Content);
-                                            car.setPosition((int)position_x, (int)position_y);
-                                            car.setRotation((float)angle);
-                                            MovableObjects.Add(car);
-                                            DrawableObjects.Add(car);
-                                        }
-                                    }
-
-                                    reader.Read();
-                                }
-
-                                // suppression des voitures qui n'existent plus
-                                foreach(IMovableObject car in MovableObjects) {
-                                    if(! pseudos.Contains(car.getID())) {
-                                        MovableObjects.Remove(car);
-                                        DrawableObjects.Remove(car);
-                                    }
-                                }
-
+                                case "Blue":
+                                    CarColor = Car.CColor.Blue;
+                                    break;
+                                case "Yellow":
+                                    CarColor = Car.CColor.Yellow;
+                                    break;
+                                case "Green":
+                                    CarColor = Car.CColor.Green;
+                                    break;
+                                case "Red":
+                                    CarColor = Car.CColor.Red;
+                                    break;
+                                default:
+                                    CarColor = Car.CColor.None;
+                                    break;
+                            }
+                            if (CarColor != Car.CColor.None)
+                            {
+                                Car car = new Car((string) player["pseudo"], CarColor);
+                                car.LoadContent(this.Content);
+                                car.setPosition(((int)player["position_x"]) * 16, ((int)player["position_y"]) * 16);
+                                car.setRotation((float)player["angle"]);
+                                DrawableObjects.Add((string) player["pseudo"], car);
+                                Console.WriteLine("new Car : " + car.getPosition());
                             }
                         }
                     }
+
+                    // suppression des objets qui n'existent plus
+
+                    List<String> objectsToRemove = new List<string>();
+                    foreach (string id in DrawableObjects.Keys)
+                    {
+                        if (!objectsIdToKeep.Contains(id))
+                        {
+                            objectsToRemove.Add(id);
+                        }
+                    }
+
+                    foreach(string id in objectsToRemove) {
+                        DrawableObjects.Remove(id);
+                    }
+
 
                     /*Console.WriteLine("============================Start refresh============================");
                     while (reader.Read())
