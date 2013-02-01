@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+	<title>DriveOnSurface</title>
+</head>
+<body>
+<img src="http://localhost:3333/" alt="" id="debug" />
+<img src="circuit.png" alt="" id="circuit"/>
+<style type="text/css">
+	#debug, #circuit {
+		width:100%;
+		height:100%;
+		border:0;
+		bottom:0;
+		top:0;
+		position:absolute;
+		right:0;
+		left:0;
+	}	
+
+	#debug {
+		z-index:2;
+	}
+
+	#circuit {
+		z-index:1;
+	}
+
+	#block {
+		background:rgba(255, 0, 0, 0.8);
+	}
+</style>
+<script type="text/javascript">
+var debug = document.getElementById('debug');
+var url = debug.src;
+var lapin = window.setInterval(function() {
+	debug.src = debug.src;
+}, 666);
+
+window.setTimeout(function() {
+	document.onkeyup = function() {
+		window.clearInterval(lapin);
+	};
+}, 1000);
+</script>
+</body>
+</html>
