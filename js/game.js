@@ -66,7 +66,7 @@ module.exports = function(canvas) {
     new Plot(6.5, [24.8, 23]);
     // new BoxProp([18, 0.8], [0, 0]);
 
-    var fs = require('fs'),
+  /*  var fs = require('fs'),
     xml2js = require('xml2js');
 
 
@@ -125,7 +125,7 @@ fs.readFile(__dirname + '/../circuit.svg', function(err, data) {
         console.log('Done');
     });
 });
-
+*/
 
     var cars = [];
 
