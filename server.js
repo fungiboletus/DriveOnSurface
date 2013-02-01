@@ -1,8 +1,14 @@
 var express = require('express'),
 	io = require('socket.io'),
 	http = require('http'),
-	game = require('./js/game'),
-	Canvas = require('canvas');
+	game = require('./js/game');
+
+try {
+
+	var Canvas = require('canvas'),
+		canvas = new Canvas(960, 540);
+}
+catch (e) {}
 
 var app = express(),
 	server = http.createServer(app),
@@ -13,8 +19,8 @@ var app = express(),
 
 server.listen(3333);
 
-var canvas = new Canvas(960, 540),
-	toolsGame = game(canvas);
+var toolsGame = game(canvas);
+
 
 var currentDate = +new Date();
 	// gameInterval = 0;
@@ -29,13 +35,21 @@ var currentDate = +new Date();
 var joueurs = [],
 	nbJoueurs = 0;
 
-app.get('/', function(req, res) {
-	// game.tick(250);
-	toolsGame.debugDraw();
-	res.type('png');
-	// res.setHeader('pragma', 'no-cache');
-	res.send(canvas.toBuffer());
-});
+if (canvas)
+{
+	app.get('/', function(req, res) {
+		// game.tick(250);
+		var newDate = +new Date(),
+			diff = newDate - currentDate;
+
+		currentDate = newDate;
+		toolsGame.tick(diff);
+		toolsGame.debugDraw();
+		res.type('png');
+		// res.setHeader('pragma', 'no-cache');
+		res.send(canvas.toBuffer());
+	});
+}
 
 app.get('/state', function(req, res) {
 	var newDate = +new Date(),
@@ -67,9 +81,21 @@ app.get('/state', function(req, res) {
 
 	state.joueurs = state_joueurs;
 
+	res.header("Access-Control-Allow-Origin", "*");
 	res.send(state);
 
 	// res.send({ok: true});
+});
+
+app.get('/box/:width/:height/:left/:top/:angle', function(req, res) {
+	toolsGame.newBox(req.params);
+	res.header("Access-Control-Allow-Origin", "*");
+	res.send('ok');
+});
+app.get('/plot/:radius/:left/:top', function(req, res) {
+	toolsGame.newPlot(req.params);
+	res.header("Access-Control-Allow-Origin", "*");
+	res.send('ok');
 });
 
 io.sockets.on('data', function(data) {

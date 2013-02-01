@@ -5,11 +5,13 @@
 </head>
 <body>
 <img src="http://localhost:3333/" alt="" id="debug" />
-<img src="circuit.png" alt="" id="circuit"/>
+<img src="circuit-hd.png" alt="" id="circuit"/>
+<div class="block cursor"></div>
 <style type="text/css">
 	#debug, #circuit {
-		width:100%;
-		height:100%;
+		width:960px;
+		height:540px;
+		/*height:100%;*/
 		border:0;
 		bottom:0;
 		top:0;
@@ -26,10 +28,35 @@
 		z-index:1;
 	}
 
-	#block {
+	.block {
 		background:rgba(255, 0, 0, 0.8);
+		border:1px solid red;
+		width:40px;
+		height:8px;
+		position:absolute;
+		z-index:3;
+		top:-10px;
+		-webkit-transform:rotate(0deg);
+		/*-webkit-transform-origin:0,0;*/
+		/*-webkit-transform-origin: 0 0;*/
+		margin-top:-4px;
+		margin-left:-20px;
+	}
+	.block.added {
+		background:rgba(255, 128, 0, 0.7);
+		border:1px solid rgba(255, 64, 0, 0.5);
+	}
+	.block.round {
+		margin-top:-20px;
+		height:40px;
+		border-radius:50%;
+	}
+	body {
+		overflow:hidden;
 	}
 </style>
+<script type="text/javascript" src="js/vendor/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="js/vendor/jquery.mousewheel.min.js"></script>
 <script type="text/javascript">
 var debug = document.getElementById('debug');
 var url = debug.src;
@@ -37,11 +64,160 @@ var lapin = window.setInterval(function() {
 	debug.src = debug.src;
 }, 666);
 
+var block = $('.block:first'),
+	width = block.width(),
+	height = block.height(),
+	angle = 0;
+
+var manageMouse = function(e) {
+	var x = e.clientX;// - width * 0.5,
+		y = e.clientY;// - height * 0.5;
+
+	block.css('left', x).css('top', y);
+};
+
+var round = false;
+
 window.setTimeout(function() {
-	document.onkeyup = function() {
-		window.clearInterval(lapin);
+	document.onkeyup = function(e) {
+		if (e.keyCode === 32)
+		{
+			block.toggleClass('round');
+			round = block.hasClass('round');
+		}
+		else
+			window.clearInterval(lapin);
 	};
 }, 1000);
+
+
+$(window).mousemove(manageMouse).mousewheel(function(e, delta, canard) {
+
+	if (!round)
+	{
+		if (canard) {
+
+			width += canard * width * 0.12;
+			block.css({
+				width: width,
+				height: 8,
+				'margin-left': -width/2,
+				'margin-top': -4
+			});
+		}
+		else {
+			angle = (angle + delta * 1) % 180;
+			if (angle < 0)
+				angle += 180;
+
+			block.css('-webkit-transform', 'rotate('+angle+'deg)');
+		}
+	}
+	else if (delta)
+	{
+		width += delta * width * 0.12;
+		block.css({
+			width: width,
+			height: width,
+			'margin-left': -width/2,
+			'margin-top': -width/2
+		});
+	}
+	manageMouse(e);
+}).click(function(e) {
+	block.hide();
+
+	var pointedElement = document.elementFromPoint(e.clientX, e.clientY);
+	if (pointedElement && pointedElement.className === 'block')
+	{
+		$(pointedElement).remove();
+		block.show();
+	}
+	else
+	{
+		manageMouse(e);
+		block.show();
+		block.clone().addClass('added').removeClass('cursor').appendTo(document.body);
+		getCode();
+		// $('.block').not(block).remove();
+	}
+
+});
+
+function getCode(all) {
+	var code = '';
+	// console.log(all);
+	$(typeof all !== 'undefined' ? '.block:not(.cursor)' : '.block:not(.added)').each(function() {
+		var block = $(this),
+			jwindow = $('#debug'),
+			worldWidth = 120.0,
+			worldHeight = 67.5,
+			windowWidth = jwindow.width(),
+			windowHeight = jwindow.height(),
+			serverWindowWidth = 960,
+			serverWindowHeight = 540,
+			coefWidth = 1/8,//(worldWidth / windowWidth) * (windowWidth / serverWindowWidth),
+			coefHeight = 1/8,//(worldHeight / windowHeight) * (windowHeight / serverWindowHeight),
+			pos = block.position(),
+			height = block.height(),
+			width = block.width(),
+			top = parseInt(block.get(0).style.top),// + height * 0.5,
+			left = parseInt(block.get(0).style.left),// + width * 0.5,
+			angle = block.get(0).style.webkitTransform,
+			worldRatio = worldWidth / worldHeight,
+			windowRatio = windowWidth / windowHeight;
+
+		if (angle)
+		{
+			angle = angle.match(/rotate\((.+)deg\)/);
+			if (angle && angle.length > 0)
+				angle = angle[1] * (Math.PI / 180.0);
+			else
+				angle = 0;
+		}
+		else
+			angle = 0;
+
+		// console.log(top, left);
+
+		// var marg = (Math.cos(angle) * width) / 2;
+		// console.log(marg);
+		// left += marg;
+		// top += (Math.sin(Math.PI / 2 - angle) * height) / 2;
+
+		top *= coefHeight;
+		left *= coefWidth;
+		width *= coefWidth;
+		height *= coefHeight;
+
+		if (all) {
+
+			if (block.hasClass('round'))
+				code += "new BoxProp(["+width+", "+height+"], ["+
+					left+", "+top+"], "+ angle+");\n";
+			else
+				code += "new Plot("+width/2+", ["+
+					left+", "+top+"]);\n";
+		}
+		else
+		{
+			var server = 'http://localhost:3333'
+			if (block.hasClass('round'))
+				var url =  server+"/plot/"+width/2+"/"+
+					left+"/"+top;
+			else 
+				var url =  server+"/box/"+width+"/"+height+"/"+
+					left+"/"+top+"/"+ angle;	
+
+			$.get(url);
+		}
+	});
+
+	if (all)
+		console.log(code);
+
+}
+
 </script>
 </body>
 </html>
