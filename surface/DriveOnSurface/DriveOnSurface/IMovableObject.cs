@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace DriveOnSurface
 {
-    interface IMovableObject
+    interface IMovableObject : IDrawableObject
     {
         Vector2 getPosition();
 

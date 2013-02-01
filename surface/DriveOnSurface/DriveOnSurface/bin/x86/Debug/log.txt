@@ -1,1 +1,2 @@
 Initialisation du jeu
+La collection a été modifiée ; l'opération d'énumération peut ne pas s'exécuter.

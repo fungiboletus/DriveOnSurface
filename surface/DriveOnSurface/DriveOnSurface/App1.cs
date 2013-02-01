@@ -351,6 +351,9 @@ namespace DriveOnSurface
                 try
                 {
                     json_data = w.DownloadString(serverURL + "state");
+
+                    JObject o = JObject.Parse(json_data);
+
                     JsonTextReader reader = new JsonTextReader(new StringReader(json_data));
 
                     //Console.WriteLine("======================Begining===================");
@@ -371,6 +374,8 @@ namespace DriveOnSurface
                                 reader.Read();
                                 //Console.WriteLine("Token: {0}", reader.TokenType);
                                 //Console.WriteLine("It's a player Array !");
+
+                                List<String> pseudos = new List<string>();
 
                                 while (reader.TokenType != JsonToken.EndArray && reader.TokenType != JsonToken.None) //on lit le tableau jusqu'a la fin
                                 {
@@ -399,6 +404,7 @@ namespace DriveOnSurface
                                                 case "pseudo" :
                                                     reader.Read();
                                                     pseudo = (String)reader.Value;
+                                                    pseudos.Add(pseudo);
                                                     break;
                                                 case "color" :
                                                     reader.Read();
@@ -407,11 +413,11 @@ namespace DriveOnSurface
                                                 case "position_x" :
                                                     reader.Read();
                                                     //Console.WriteLine(reader.Value.ToString());
-                                                    position_x = Double.Parse(reader.Value.ToString())*2;
+                                                    position_x = Double.Parse(reader.Value.ToString())*16 - 11;
                                                     break;
                                                 case "position_y" :
                                                     reader.Read();
-                                                    position_y = Double.Parse( reader.Value.ToString())*2;
+                                                    position_y = Double.Parse( reader.Value.ToString())*16 - 22;
                                                     break;
                                                 case "angle" :
                                                     reader.Read();
@@ -450,16 +456,16 @@ namespace DriveOnSurface
                                         Car.CColor CarColor;
                                         switch (color)
                                         {
-                                            case "bleu":
+                                            case "Blue":
                                                 CarColor = Car.CColor.Blue;
                                                 break;
-                                            case "jaune":
+                                            case "Yellow":
                                                 CarColor = Car.CColor.Yellow;
                                                 break;
-                                            case "vert":
+                                            case "Green":
                                                 CarColor = Car.CColor.Green;
                                                 break;
-                                            case "rouge":
+                                            case "Red":
                                                 CarColor = Car.CColor.Red;
                                                 break;
                                             default:
@@ -479,6 +485,15 @@ namespace DriveOnSurface
 
                                     reader.Read();
                                 }
+
+                                // suppression des voitures qui n'existent plus
+                                foreach(IMovableObject car in MovableObjects) {
+                                    if(! pseudos.Contains(car.getID())) {
+                                        MovableObjects.Remove(car);
+                                        DrawableObjects.Remove(car);
+                                    }
+                                }
+
                             }
                         }
                     }
