@@ -34,7 +34,7 @@ namespace DriveOnSurface
         public void Draw(SpriteBatch sb)
         {
             BackgroundImg.Draw(sb);
-            BackgroundSkyImg.Draw(sb);
+            //BackgroundSkyImg.Draw(sb);
         }
 
         public void LoadContent(ContentManager theContentManager)

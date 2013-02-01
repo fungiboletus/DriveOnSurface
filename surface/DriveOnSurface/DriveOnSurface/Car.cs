@@ -9,7 +9,7 @@ namespace DriveOnSurface
 {
     class Car : IDrawableObject, IMovableObject
     {
-        public enum CColor { Red, Green, Blue, Yellow};
+        public enum CColor { Red, Green, Blue, Yellow, None};
 
         public Sprite CarSprite;
 

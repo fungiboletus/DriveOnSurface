@@ -42,9 +42,11 @@ namespace DriveOnSurface
 
         SpriteFont spriteFont;
 
-        //OutToFile redir = new OutToFile("log.txt");
+        OutToFile redir = new OutToFile("log.txt");
 
         String serverURL;
+
+        Dictionary<String, TouchPoint> TagValues = new Dictionary<string, TouchPoint>();
 
         /// <summary>
         /// The target receiving all surface input for the application.
@@ -232,23 +234,33 @@ namespace DriveOnSurface
             {
                 DObj.Draw(this.spriteBatch);
                 if(DObj is IMovableObject) {
-                    Console.WriteLine("==========================\nDraw object at " + ((IMovableObject)DObj).getPosition().Y);
+                    //Console.WriteLine("==========================\nDraw object at " + ((IMovableObject)DObj).getPosition().Y);
 
                 }
             }
 
-            foreach (var t in touches)
+            List<String> detectedTags = new List<string>();
+
+            foreach (var t in touches) // création de la liste des tags posés
             {
-                Car car = new Car(t.ToString(),Car.CColor.Yellow);
-                car.setPosition((int) t.X, (int)t.Y);
-                car.setRotation(90f);
+                if (t.Tag != TagData.None )
+                {
+                    detectedTags.Add(t.Tag.Value.ToString());
+                    if(!TagValues.ContainsKey(t.Tag.Value.ToString())) {
+                        TagValues.Add(t.Tag.Value.ToString(), t);
+                        WebRequest wrGETURL = WebRequest.Create(serverURL + "tableEvent?type=put_tag&tag_value="
+                            + t.Tag.Value.ToString() + "&tag_x=" + t.X + "&tag_y=" + t.Y);
+                    }
+                }
+            }
 
-                car.LoadContent(this.Content);
-                
-                car.Draw(this.spriteBatch);
-                          
-
-                spriteBatch.DrawString(spriteFont, t.ToString(), new Vector2(t.X, t.Y), Color.White);
+            foreach (String tagV in TagValues.Keys) // et on supprime ceux qui ont été enlevés
+            {
+                if(! detectedTags.Contains(tagV)) {
+                    TagValues.Remove(tagV);
+                    WebRequest wrGETURL = WebRequest.Create(serverURL + "tableEvent?type=removed_tag&tag_value="
+                        + tagV);
+                }
             }
 
             spriteBatch.End();
@@ -341,31 +353,31 @@ namespace DriveOnSurface
                     json_data = w.DownloadString(serverURL + "state");
                     JsonTextReader reader = new JsonTextReader(new StringReader(json_data));
 
-                    Console.WriteLine("======================Begining===================");
+                    //Console.WriteLine("======================Begining===================");
 
                     while (reader.Read())
                     {
-                        Console.WriteLine("Token: {0}", reader.TokenType);
+                        //Console.WriteLine("Token: {0}", reader.TokenType);
 
                         if (reader.TokenType == JsonToken.StartObject) //on a un nouvel objet inconnu
                         {
-                            Console.WriteLine("New unknown object");
+                            //Console.WriteLine("New unknown object");
 
                             reader.Read();
-                            Console.WriteLine("Token: {0}", reader.TokenType);
+                            //Console.WriteLine("Token: {0}", reader.TokenType);
                             
                             if (reader.TokenType == JsonToken.PropertyName && ((String)reader.Value) == "joueurs") //c'est une liste de joueurs
                             {
                                 reader.Read();
-                                Console.WriteLine("Token: {0}", reader.TokenType);
-                                Console.WriteLine("It's a player Array !");
+                                //Console.WriteLine("Token: {0}", reader.TokenType);
+                                //Console.WriteLine("It's a player Array !");
 
                                 while (reader.TokenType != JsonToken.EndArray && reader.TokenType != JsonToken.None) //on lit le tableau jusqu'a la fin
                                 {
                                     
                                     reader.Read();
-                                    Console.WriteLine("Token: {0}", reader.TokenType);
-                                    Console.WriteLine("New Player !");
+                                    //Console.WriteLine("Token: {0}", reader.TokenType);
+                                    //Console.WriteLine("New Player !");
 
                                     String pseudo = "";
                                     String color = "";
@@ -376,9 +388,9 @@ namespace DriveOnSurface
                                     while (reader.TokenType != JsonToken.EndObject && reader.TokenType != JsonToken.None) // pour chaque joueur, on lit ses propriétés
                                     {                                        
                                         reader.Read();
-                                        Console.WriteLine("Token: {0}", reader.TokenType);
+                                        //Console.WriteLine("Token: {0}", reader.TokenType);
 
-                                        Console.WriteLine("player property : " + (String)reader.Value);
+                                        //Console.WriteLine("player property : " + (String)reader.Value);
 
                                         if (reader.TokenType == JsonToken.PropertyName)
                                         {
@@ -394,12 +406,12 @@ namespace DriveOnSurface
                                                     break;
                                                 case "position_x" :
                                                     reader.Read();
-                                                    Console.WriteLine(reader.Value.ToString());
-                                                    position_x = Double.Parse(reader.Value.ToString());
+                                                    //Console.WriteLine(reader.Value.ToString());
+                                                    position_x = Double.Parse(reader.Value.ToString())*2;
                                                     break;
                                                 case "position_y" :
                                                     reader.Read();
-                                                    position_y = Double.Parse( reader.Value.ToString());
+                                                    position_y = Double.Parse( reader.Value.ToString())*2;
                                                     break;
                                                 case "angle" :
                                                     reader.Read();
@@ -413,7 +425,7 @@ namespace DriveOnSurface
                                     }
                                     // on à lu l'objet voiture
 
-                                    Console.WriteLine("All properties read.");
+                                    //Console.WriteLine("All properties read.");
 
                                     bool exists = false;
                                     Car car = null;
@@ -430,11 +442,11 @@ namespace DriveOnSurface
 
                                     if (exists && car != null)
                                     {
-                                        Console.WriteLine("Updating car position : " + pseudo + "( " + (int)position_x + ", " + (int)position_y + ")");
+                                        //Console.WriteLine("Updating car position : " + pseudo + "( " + (int)position_x + ", " + (int)position_y + ")");
                                         car.setPosition((int)position_x, (int)position_y);
                                         car.setRotation((float)angle);
                                     } else {
-                                        Console.WriteLine("Creating new car : " + pseudo);
+                                        //Console.WriteLine("Creating new car : " + pseudo);
                                         Car.CColor CarColor;
                                         switch (color)
                                         {
@@ -447,16 +459,22 @@ namespace DriveOnSurface
                                             case "vert":
                                                 CarColor = Car.CColor.Green;
                                                 break;
-                                            default:
+                                            case "rouge":
                                                 CarColor = Car.CColor.Red;
                                                 break;
+                                            default:
+                                                CarColor = Car.CColor.None;
+                                                break;
                                         }
-                                        car = new Car(pseudo, CarColor);
-                                        car.LoadContent(this.Content);
-                                        car.setPosition((int)position_x, (int)position_y);
-                                        car.setRotation((float)angle);
-                                        MovableObjects.Add(car);
-                                        DrawableObjects.Add(car);
+                                        if (CarColor != Car.CColor.None)
+                                        {
+                                            car = new Car(pseudo, CarColor);
+                                            car.LoadContent(this.Content);
+                                            car.setPosition((int)position_x, (int)position_y);
+                                            car.setRotation((float)angle);
+                                            MovableObjects.Add(car);
+                                            DrawableObjects.Add(car);
+                                        }
                                     }
 
                                     reader.Read();

@@ -7,7 +7,7 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\bastien\Documents\My Dropbox\M2\Evolution des interfaces\Projet\DriveOnSurface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\SpriteFont1.xnb</Output>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\SpriteFont1.xnb</Output>
       <Time>2013-01-18T16:03:54+01:00</Time>
     </Item>
     <Item>
@@ -16,7 +16,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\bastien\Documents\My Dropbox\M2\Evolution des interfaces\Projet\DriveOnSurface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\blue-car.xnb</Output>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\blue-car.xnb</Output>
       <Time>2013-01-25T09:41:50.975+01:00</Time>
     </Item>
     <Item>
@@ -25,7 +25,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\bastien\Documents\My Dropbox\M2\Evolution des interfaces\Projet\DriveOnSurface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\green-car.xnb</Output>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\green-car.xnb</Output>
       <Time>2013-01-25T09:42:09.381+01:00</Time>
     </Item>
     <Item>
@@ -34,7 +34,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\bastien\Documents\My Dropbox\M2\Evolution des interfaces\Projet\DriveOnSurface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\red-car.xnb</Output>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\red-car.xnb</Output>
       <Time>2013-01-25T09:42:33.531+01:00</Time>
     </Item>
     <Item>
@@ -43,7 +43,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\bastien\Documents\My Dropbox\M2\Evolution des interfaces\Projet\DriveOnSurface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\yellow-car.xnb</Output>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\yellow-car.xnb</Output>
       <Time>2013-01-25T09:40:17.512+01:00</Time>
     </Item>
     <Item>
@@ -52,7 +52,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\bastien\Documents\My Dropbox\M2\Evolution des interfaces\Projet\DriveOnSurface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\background.xnb</Output>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\background.xnb</Output>
       <Time>2013-01-25T08:37:46.752+01:00</Time>
     </Item>
     <Item>
@@ -61,7 +61,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\bastien\Documents\My Dropbox\M2\Evolution des interfaces\Projet\DriveOnSurface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\trees.xnb</Output>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\trees.xnb</Output>
       <Time>2013-01-25T08:37:46.758+01:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
@@ -71,10 +71,10 @@
       <TargetProfile>Reach</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\bastien\Documents\My Dropbox\M2\Evolution des interfaces\Projet\DriveOnSurface\DriveOnSurface\DriveOnSurfaceContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\bastien\Documents\My Dropbox\M2\Evolution des interfaces\Projet\DriveOnSurface\DriveOnSurface\DriveOnSurface\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\bastien\Documents\My Dropbox\M2\Evolution des interfaces\Projet\DriveOnSurface\DriveOnSurface\DriveOnSurface\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\bastien\Documents\My Dropbox\M2\Evolution des interfaces\Projet\DriveOnSurface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurfaceContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
