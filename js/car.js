@@ -1,5 +1,6 @@
 var box2d = require('./vendor/Box2dWeb-2.1.a.3'),
 	math = require('./vendor/gamejs/math'),
+	vectors = require('./vendor/gamejs/vectors');
 	Wheel = require('./wheel');
 
 var STEER_NONE=0;
@@ -31,6 +32,8 @@ function Car(pars){
     //state of car controls
     this.steer=STEER_NONE;
     this.accelerate=ACC_NONE;
+    // this.steer=STEER_LEFT;
+    // this.accelerate=ACC_ACCELERATE;
     
     this.max_steer_angle=pars.max_steer_angle;
     this.max_speed=pars.max_speed;
@@ -42,7 +45,7 @@ function Car(pars){
     var def=new box2d.b2BodyDef();
     def.type = box2d.b2Body.b2_dynamicBody;
     def.position=new box2d.b2Vec2(pars.position[0], pars.position[1]);
-    def.angle=math.radians(pars.angle); 
+    def.angle=math.radians(pars.angle);
     def.linearDamping=0.15;  //gradually reduces velocity, makes the car reduce speed slowly if neither accelerator nor brake is pressed
     def.bullet=true; //dedicates more time to collision detection - car travelling at high speeds at low framerates otherwise might teleport through obstacles.
     def.angularDamping=0.3;
@@ -53,12 +56,12 @@ function Car(pars){
     fixdef.density = 1.0;
     fixdef.friction = 0.3; //friction when rubbing agaisnt other shapes
     fixdef.restitution = 0.4;  //amount of force feedback when hitting something. >0 makes the car bounce off, it's fun!
-    fixdef.shape=new box2d.b2PolygonShape;
+    fixdef.shape=new box2d.b2PolygonShape();
     fixdef.shape.SetAsBox(pars.width/2, pars.length/2);
     this.body.CreateFixture(fixdef);
     
     //initialize wheels
-    this.wheels=[]
+    this.wheels=[];
     var wheeldef, i;
     for(i=0;i<pars.wheels.length;i++){
         wheeldef=pars.wheels[i];
@@ -131,11 +134,11 @@ Car.prototype.update=function(msDuration){
         var incr=(this.max_steer_angle/1000) * msDuration;
         
         if(this.steer==STEER_RIGHT){
-            this.wheel_angle=Math.min(Math.max(this.wheel_angle, 0)+incr, this.max_steer_angle) //increment angle without going over max steer
+            this.wheel_angle=Math.min(Math.max(this.wheel_angle, 0)+incr, this.max_steer_angle); //increment angle without going over max steer
         }else if(this.steer==STEER_LEFT){
-            this.wheel_angle=Math.max(Math.min(this.wheel_angle, 0)-incr, -this.max_steer_angle) //decrement angle without going over max steer
+            this.wheel_angle=Math.max(Math.min(this.wheel_angle, 0)-incr, -this.max_steer_angle); //decrement angle without going over max steer
         }else{
-            this.wheel_angle=0;        
+            this.wheel_angle=0;
         }
 
         //update revolving wheels

@@ -1,4 +1,6 @@
-var box2d = require('./vendor/Box2dWeb-2.1.a.3');
+var box2d = require('./vendor/Box2dWeb-2.1.a.3'),
+	math = require('./vendor/gamejs/math'),
+	vectors = require('./vendor/gamejs/vectors');
 
 function Wheel(pars){
     /*
