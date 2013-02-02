@@ -50,6 +50,8 @@ namespace DriveOnSurface
 
         GameState CurrentState = GameState.menu;
 
+        Background.Track selectedTrack = Background.Track.Menu;
+
         /// <summary>
         /// The target receiving all surface input for the application.
         /// </summary>
@@ -233,6 +235,62 @@ namespace DriveOnSurface
             if (CurrentState == GameState.play)
             {
                 refreshGameState();
+
+                List<String> detectedTags = new List<string>();
+
+                foreach (var t in touches) // création de la liste des tags posés
+                {
+                    if (t.Tag != TagData.None)
+                    {
+                        detectedTags.Add(t.Tag.Value.ToString());
+                        if (!TagValues.ContainsKey(t.Tag.Value.ToString()))
+                        {
+                            TagValues.Add(t.Tag.Value.ToString(), t);
+                            WebRequest wrGETURL = WebRequest.Create(serverURL + "put_tag/"
+                                + t.Tag.Value.ToString() + "/" + t.X / 16 + "/" + t.Y / 16);
+                        }
+                    }
+                }
+
+                foreach (String tagV in TagValues.Keys) // et on supprime ceux qui ont été enlevés
+                {
+                    if (!detectedTags.Contains(tagV))
+                    {
+                        TagValues.Remove(tagV);
+                        WebRequest wrGETURL = WebRequest.Create(serverURL + "removed_tag/"
+                            + tagV);
+                    }
+                }
+            }
+            else if (CurrentState == GameState.menu)
+            {
+                bool isTrackSelected = false;
+                foreach (var t in touches)
+                {                    
+                    //spriteBatch.DrawString(spriteFont, "x : " + t.X + " y : " + t.Y, new Vector2(t.X, t.Y), Color.Black);
+                    if (t.Y > 200 && t.Y < 400) //Première ligne
+                    {
+                        if(t.X > 100 && t.X < 600) // 1ere colonne
+                        {
+                            selectedTrack = Background.Track.Classic;
+                            isTrackSelected = true;
+                        } else if(t.X > 700 && t.X < 1200) {
+                        } else if(t.X > 1300 && t.X < 1850) {
+                        }
+                    } 
+                    else if(t.Y > 600 && t.Y < 875) //deuxième ligne
+                    {
+                    }
+                }
+
+                if (isTrackSelected)
+                {
+                    CurrentState = GameState.play;
+                    Background trackBackground = new Background(new Vector2(0,0), selectedTrack);
+                    trackBackground.LoadContent(this.Content);
+                    DrawableObjects["background"] = trackBackground;
+                    //TODO envoyer circuit choisi au serveur.
+                }
             }
 
             foreach (IDrawableObject DObj in DrawableObjects.Values) 
@@ -240,30 +298,6 @@ namespace DriveOnSurface
                 DObj.Draw(this.spriteBatch);
                 if(DObj is IMovableObject) {
                     //Console.WriteLine("==========================\nDraw object at " + ((IMovableObject)DObj).getPosition().Y);
-                }
-            }
-
-            List<String> detectedTags = new List<string>();
-
-            foreach (var t in touches) // création de la liste des tags posés
-            {
-                if (t.Tag != TagData.None)
-                {
-                    detectedTags.Add(t.Tag.Value.ToString());
-                    if(!TagValues.ContainsKey(t.Tag.Value.ToString())) {
-                        TagValues.Add(t.Tag.Value.ToString(), t);
-                        WebRequest wrGETURL = WebRequest.Create(serverURL + "put_tag/"
-                            + t.Tag.Value.ToString() + "/" + t.X / 16 + "/" + t.Y / 16);
-                    }
-                }
-            }
-
-            foreach (String tagV in TagValues.Keys) // et on supprime ceux qui ont été enlevés
-            {
-                if(! detectedTags.Contains(tagV)) {
-                    TagValues.Remove(tagV);
-                    WebRequest wrGETURL = WebRequest.Create(serverURL + "removed_tag/"
-                        + tagV);
                 }
             }
 
