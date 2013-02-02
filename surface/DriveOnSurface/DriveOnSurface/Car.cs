@@ -21,7 +21,7 @@ namespace DriveOnSurface
         {
             CarSprite = new Sprite();
 
-            CarSprite.depth = 0.5f;
+            CarSprite.depth = 0.80f;
 
             CarColor = color;
 

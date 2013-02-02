@@ -28,7 +28,7 @@ namespace DriveOnSurface
         private SpriteBatch spriteBatch;
 
         private TouchTarget touchTarget;
-        private Color backgroundColor = new Color(81, 81, 81);
+        private Color backgroundColor = new Color(0, 0, 0);
         private bool applicationLoadCompleteSignalled;
 
         private UserOrientation currentOrientation = UserOrientation.Bottom;
@@ -45,6 +45,10 @@ namespace DriveOnSurface
         String serverURL;
 
         Dictionary<String, TouchPoint> TagValues = new Dictionary<string, TouchPoint>();
+
+        enum GameState { menu, play }
+
+        GameState CurrentState = GameState.menu;
 
         /// <summary>
         /// The target receiving all surface input for the application.
@@ -122,7 +126,7 @@ namespace DriveOnSurface
 
             loadConfig();
 
-            Background bBackground = new Background(new Vector2(0,0));
+            Background bBackground = new Background(new Vector2(0,0), Background.Track.Menu);
             DrawableObjects.Add("background", bBackground);
 
             IsMouseVisible = true; // easier for debugging not to "lose" mouse
@@ -226,7 +230,10 @@ namespace DriveOnSurface
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
             //Console.WriteLine(gameTime.ElapsedGameTime);
-            refreshGameState();
+            if (CurrentState == GameState.play)
+            {
+                refreshGameState();
+            }
 
             foreach (IDrawableObject DObj in DrawableObjects.Values) 
             {
