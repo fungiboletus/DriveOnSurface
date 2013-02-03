@@ -42,7 +42,7 @@ namespace DriveOnSurface
             BackgroundImg.Draw(sb);
             if (BackgroundSkyImg != null)
             {
-                BackgroundSkyImg.Draw(sb);
+                //BackgroundSkyImg.Draw(sb);
             }
         }
 

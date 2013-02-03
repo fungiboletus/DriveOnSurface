@@ -280,6 +280,15 @@ namespace DriveOnSurface
                     } 
                     else if(t.Y > 600 && t.Y < 875) //deuxième ligne
                     {
+                        if (t.X > 100 && t.X < 600) // 1ere colonne
+                        {
+                        }
+                        else if (t.X > 700 && t.X < 1200)
+                        {
+                        }
+                        else if (t.X > 1300 && t.X < 1850)
+                        {
+                        }
                     }
                 }
 
@@ -382,6 +391,8 @@ namespace DriveOnSurface
 
         public void refreshGameState()
         {
+            int scale = 16; // echelle mètres * scale -> pixels
+
             using (var w = new WebClient())
             {
                 var json_data = string.Empty;
@@ -404,7 +415,7 @@ namespace DriveOnSurface
                         {
                             Console.WriteLine("Updating car position : " + player["pseudo"] + "( " + (int)player["position_x"] + ", " + (int)player["position_y"] + ")");
                             Car car = (Car) DrawableObjects[(string)player["pseudo"]];
-                            car.setPosition((int)player["position_x"] * 16, (int) player["position_y"] * 16);
+                            car.setPosition((int)player["position_x"] * scale, (int) player["position_y"] * scale);
                             car.setRotation((float)player["angle"]);
                         }
                         else
@@ -433,7 +444,7 @@ namespace DriveOnSurface
                             {
                                 Car car = new Car((string) player["pseudo"], CarColor);
                                 car.LoadContent(this.Content);
-                                car.setPosition(((int)player["position_x"]) * 16, ((int)player["position_y"]) * 16);
+                                car.setPosition(((int)player["position_x"]) * scale, ((int)player["position_y"]) * scale);
                                 car.setRotation((float)player["angle"]);
                                 DrawableObjects.Add((string) player["pseudo"], car);
                                 Console.WriteLine("new Car : " + car.getPosition());

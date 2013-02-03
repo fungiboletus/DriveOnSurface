@@ -46,8 +46,8 @@ namespace DriveOnSurface
 
         public void setPosition(int X, int Y)
         {
-            CarSprite.Position.X = X;
-            CarSprite.Position.Y = Y;
+            CarSprite.Position.X = X - 11;
+            CarSprite.Position.Y = Y - 32;
         }
 
         public float getRotation()
