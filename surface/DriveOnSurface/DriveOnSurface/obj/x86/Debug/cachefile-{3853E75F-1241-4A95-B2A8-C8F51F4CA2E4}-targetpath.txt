@@ -6,3 +6,5 @@ Content\yellow-car.xnb
 Content\classic-background.xnb
 Content\classic-trees.xnb
 Content\damier.xnb
+Content\green_light.xnb
+Content\red_light.xnb

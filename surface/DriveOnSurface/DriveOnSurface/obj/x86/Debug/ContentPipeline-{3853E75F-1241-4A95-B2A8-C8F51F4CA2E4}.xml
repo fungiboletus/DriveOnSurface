@@ -73,6 +73,24 @@
       <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\damier.xnb</Output>
       <Time>2013-02-02T19:29:56.6052216+01:00</Time>
     </Item>
+    <Item>
+      <Source>green_light.png</Source>
+      <Name>green_light</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\green_light.xnb</Output>
+      <Time>2013-02-03T14:44:33.3945126+01:00</Time>
+    </Item>
+    <Item>
+      <Source>red_light.png</Source>
+      <Name>red_light</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\red_light.xnb</Output>
+      <Time>2013-02-03T14:44:33.3955126+01:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{3853E75F-1241-4A95-B2A8-C8F51F4CA2E4}</ContentProjectGUID>

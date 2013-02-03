@@ -406,6 +406,7 @@ namespace DriveOnSurface
                     List<string> objectsIdToKeep = new List<string>();
                     objectsIdToKeep.Add("background");
 
+                    // recuperation des joueurs
                     foreach (JObject player in o["joueurs"])
                     {
 
@@ -449,6 +450,37 @@ namespace DriveOnSurface
                                 DrawableObjects.Add((string) player["pseudo"], car);
                                 Console.WriteLine("new Car : " + car.getPosition());
                             }
+                        }
+                    }
+
+                    //recuperation des feux de départ                    
+                    foreach (JObject greenlights in o["starting_lights"])
+                    {
+                        objectsIdToKeep.Add("greenlights");
+
+                        GreenLights gl;
+
+                        if (DrawableObjects.Keys.Contains("greenlights")) {
+                            gl = (GreenLights) DrawableObjects["greenlights"];                            
+                        } else {
+                            gl = new GreenLights();
+                            gl.LoadContent(this.Content);
+                            DrawableObjects.Add("greenlights", gl);
+                        }
+
+                        switch((string)greenlights["state"]) {
+                            case "3" :
+                                gl.currentState = GreenLights.GLState.R3;
+                                break;
+                            case "2" : 
+                                gl.currentState = GreenLights.GLState.R2;
+                                break;
+                            case "1" :
+                                gl.currentState = GreenLights.GLState.R1;
+                                break;
+                            default :
+                                gl.currentState = GreenLights.GLState.GO;
+                                break;
                         }
                     }
 

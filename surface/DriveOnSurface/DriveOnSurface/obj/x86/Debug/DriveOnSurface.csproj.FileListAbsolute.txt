@@ -86,3 +86,5 @@ C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnS
 C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\classic-background.xnb
 C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\classic-trees.xnb
 C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\damier.xnb
+C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\green_light.xnb
+C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\red_light.xnb

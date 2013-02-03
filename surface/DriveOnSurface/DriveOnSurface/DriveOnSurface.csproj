@@ -102,6 +102,7 @@
     <Compile Include="Background.cs" />
     <Compile Include="Bonus.cs" />
     <Compile Include="Car.cs" />
+    <Compile Include="GreenLights.cs" />
     <Compile Include="IDrawableObject.cs" />
     <Compile Include="IMovableObject.cs" />
     <Compile Include="Part.cs" />
