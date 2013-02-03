@@ -80,7 +80,7 @@ namespace DriveOnSurface
                 "Window initialization must be complete before SetWindowOnSurface is called");
             if (Window == null || Window.Handle == IntPtr.Zero)
                 return;
-            
+
             // Get the window sized right.
             Program.InitializeWindow(Window);
             // Set the graphics device buffers.
@@ -128,7 +128,7 @@ namespace DriveOnSurface
 
             loadConfig();
 
-            Background bBackground = new Background(new Vector2(0,0), Background.Track.Menu);
+            Background bBackground = new Background(new Vector2(0, 0), Background.Track.Menu);
             DrawableObjects.Add("background", bBackground);
 
             IsMouseVisible = true; // easier for debugging not to "lose" mouse
@@ -201,9 +201,90 @@ namespace DriveOnSurface
                     // TODO: Process touches, 
                     // use the following code to get the state of all current touch points.
                     // ReadOnlyTouchPointCollection touches = touchTarget.GetState();
+
+                    ReadOnlyTouchPointCollection touches = touchTarget.GetState();
+                    if (CurrentState == GameState.play)
+                    {
+                        refreshGameState();
+
+                        List<String> detectedTags = new List<string>();
+
+                        foreach (var t in touches) // création de la liste des tags posés
+                        {
+                            if (t.IsTagRecognized)
+                            {
+                                detectedTags.Add(t.Tag.Value.ToString());
+                                if (!TagValues.ContainsKey(t.Tag.Value.ToString()))
+                                {
+                                    TagValues.Add(t.Tag.Value.ToString(), t);
+                                    WebRequest wrGETURL = WebRequest.Create(serverURL + "put_tag/"
+                                        + t.Tag.Value.ToString() + "/" + t.CenterX / 16 + "/" + t.CenterY / 16);
+                                }
+                            }
+                            else if (! t.IsFingerRecognized) // ni un doigt, ni un tag : c'est donc un blob
+                            {
+                                //TODO envoyer coordonnées du blob au serveur
+                            }
+                        }
+
+                        foreach (String tagV in TagValues.Keys) // et on supprime ceux qui ont été enlevés
+                        {
+                            if (!detectedTags.Contains(tagV))
+                            {
+                                TagValues.Remove(tagV);
+                                WebRequest wrGETURL = WebRequest.Create(serverURL + "removed_tag/"
+                                    + tagV);
+                            }
+                        }
+                    }
+                    else if (CurrentState == GameState.menu)
+                    {
+                        bool isTrackSelected = false;
+                        foreach (var t in touches)
+                        {
+                            //spriteBatch.DrawString(spriteFont, "x : " + t.X + " y : " + t.Y, new Vector2(t.X, t.Y), Color.Black);
+                            if (t.Y > 200 && t.Y < 400) //Première ligne
+                            {
+                                if (t.X > 100 && t.X < 600) // 1ere colonne
+                                {
+                                    selectedTrack = Background.Track.Classic;
+                                    isTrackSelected = true;
+                                }
+                                else if (t.X > 700 && t.X < 1200)
+                                {
+                                }
+                                else if (t.X > 1300 && t.X < 1850)
+                                {
+                                }
+                            }
+                            else if (t.Y > 600 && t.Y < 875) //deuxième ligne
+                            {
+                                if (t.X > 100 && t.X < 600) // 1ere colonne
+                                {
+                                }
+                                else if (t.X > 700 && t.X < 1200)
+                                {
+                                }
+                                else if (t.X > 1300 && t.X < 1850)
+                                {
+                                }
+                            }
+                        }
+
+                        if (isTrackSelected)
+                        {
+                            CurrentState = GameState.play;
+                            Background trackBackground = new Background(new Vector2(0, 0), selectedTrack);
+                            trackBackground.LoadContent(this.Content);
+                            DrawableObjects["background"] = trackBackground;
+                            //TODO envoyer circuit choisi au serveur.
+                        }
+                    }
+
                 }
 
                 // TODO: Add your update logic here
+
             }
 
             base.Update(gameTime);
@@ -226,86 +307,18 @@ namespace DriveOnSurface
 
             GraphicsDevice.Clear(backgroundColor);
 
-            //TODO: Add your drawing code here
-            ReadOnlyTouchPointCollection touches = touchTarget.GetState();
+            //TODO: Add your drawing code here            
 
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
             //Console.WriteLine(gameTime.ElapsedGameTime);
-            if (CurrentState == GameState.play)
-            {
-                refreshGameState();
 
-                List<String> detectedTags = new List<string>();
 
-                foreach (var t in touches) // création de la liste des tags posés
-                {
-                    if (t.Tag != TagData.None)
-                    {
-                        detectedTags.Add(t.Tag.Value.ToString());
-                        if (!TagValues.ContainsKey(t.Tag.Value.ToString()))
-                        {
-                            TagValues.Add(t.Tag.Value.ToString(), t);
-                            WebRequest wrGETURL = WebRequest.Create(serverURL + "put_tag/"
-                                + t.Tag.Value.ToString() + "/" + t.X / 16 + "/" + t.Y / 16);
-                        }
-                    }
-                }
-
-                foreach (String tagV in TagValues.Keys) // et on supprime ceux qui ont été enlevés
-                {
-                    if (!detectedTags.Contains(tagV))
-                    {
-                        TagValues.Remove(tagV);
-                        WebRequest wrGETURL = WebRequest.Create(serverURL + "removed_tag/"
-                            + tagV);
-                    }
-                }
-            }
-            else if (CurrentState == GameState.menu)
-            {
-                bool isTrackSelected = false;
-                foreach (var t in touches)
-                {                    
-                    //spriteBatch.DrawString(spriteFont, "x : " + t.X + " y : " + t.Y, new Vector2(t.X, t.Y), Color.Black);
-                    if (t.Y > 200 && t.Y < 400) //Première ligne
-                    {
-                        if(t.X > 100 && t.X < 600) // 1ere colonne
-                        {
-                            selectedTrack = Background.Track.Classic;
-                            isTrackSelected = true;
-                        } else if(t.X > 700 && t.X < 1200) {
-                        } else if(t.X > 1300 && t.X < 1850) {
-                        }
-                    } 
-                    else if(t.Y > 600 && t.Y < 875) //deuxième ligne
-                    {
-                        if (t.X > 100 && t.X < 600) // 1ere colonne
-                        {
-                        }
-                        else if (t.X > 700 && t.X < 1200)
-                        {
-                        }
-                        else if (t.X > 1300 && t.X < 1850)
-                        {
-                        }
-                    }
-                }
-
-                if (isTrackSelected)
-                {
-                    CurrentState = GameState.play;
-                    Background trackBackground = new Background(new Vector2(0,0), selectedTrack);
-                    trackBackground.LoadContent(this.Content);
-                    DrawableObjects["background"] = trackBackground;
-                    //TODO envoyer circuit choisi au serveur.
-                }
-            }
-
-            foreach (IDrawableObject DObj in DrawableObjects.Values) 
+            foreach (IDrawableObject DObj in DrawableObjects.Values)
             {
                 DObj.Draw(this.spriteBatch);
-                if(DObj is IMovableObject) {
+                if (DObj is IMovableObject)
+                {
                     //Console.WriteLine("==========================\nDraw object at " + ((IMovableObject)DObj).getPosition().Y);
                 }
             }
@@ -410,13 +423,13 @@ namespace DriveOnSurface
                     foreach (JObject player in o["joueurs"])
                     {
 
-                        objectsIdToKeep.Add((string) player["pseudo"]);
+                        objectsIdToKeep.Add((string)player["pseudo"]);
 
                         if (DrawableObjects.Keys.Contains((string)player["pseudo"]))
                         {
                             Console.WriteLine("Updating car position : " + player["pseudo"] + "( " + (int)player["position_x"] + ", " + (int)player["position_y"] + ")");
-                            Car car = (Car) DrawableObjects[(string)player["pseudo"]];
-                            car.setPosition((int)player["position_x"] * scale, (int) player["position_y"] * scale);
+                            Car car = (Car)DrawableObjects[(string)player["pseudo"]];
+                            car.setPosition((int)player["position_x"] * scale, (int)player["position_y"] * scale);
                             car.setRotation((float)player["angle"]);
                         }
                         else
@@ -443,11 +456,11 @@ namespace DriveOnSurface
                             }
                             if (CarColor != Car.CColor.None)
                             {
-                                Car car = new Car((string) player["pseudo"], CarColor);
+                                Car car = new Car((string)player["pseudo"], CarColor);
                                 car.LoadContent(this.Content);
                                 car.setPosition(((int)player["position_x"]) * scale, ((int)player["position_y"]) * scale);
                                 car.setRotation((float)player["angle"]);
-                                DrawableObjects.Add((string) player["pseudo"], car);
+                                DrawableObjects.Add((string)player["pseudo"], car);
                                 Console.WriteLine("new Car : " + car.getPosition());
                             }
                         }
@@ -460,25 +473,29 @@ namespace DriveOnSurface
 
                         GreenLights gl;
 
-                        if (DrawableObjects.Keys.Contains("greenlights")) {
-                            gl = (GreenLights) DrawableObjects["greenlights"];                            
-                        } else {
+                        if (DrawableObjects.Keys.Contains("greenlights"))
+                        {
+                            gl = (GreenLights)DrawableObjects["greenlights"];
+                        }
+                        else
+                        {
                             gl = new GreenLights();
                             gl.LoadContent(this.Content);
                             DrawableObjects.Add("greenlights", gl);
                         }
 
-                        switch((string)greenlights["state"]) {
-                            case "3" :
+                        switch ((string)greenlights["state"])
+                        {
+                            case "3":
                                 gl.currentState = GreenLights.GLState.R3;
                                 break;
-                            case "2" : 
+                            case "2":
                                 gl.currentState = GreenLights.GLState.R2;
                                 break;
-                            case "1" :
+                            case "1":
                                 gl.currentState = GreenLights.GLState.R1;
                                 break;
-                            default :
+                            default:
                                 gl.currentState = GreenLights.GLState.GO;
                                 break;
                         }
@@ -495,7 +512,8 @@ namespace DriveOnSurface
                         }
                     }
 
-                    foreach(string id in objectsToRemove) {
+                    foreach (string id in objectsToRemove)
+                    {
                         DrawableObjects.Remove(id);
                     }
 
