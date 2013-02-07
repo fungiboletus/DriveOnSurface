@@ -1,0 +1,77 @@
+// Let's start with the basics
+$base-color: #333;
+$active-color: #ff8100;
+$base-gradient: 'flat';
+
+// Buttons
+$button-gradient: 'bevel';
+
+// Lists
+$list-bg-color: #eee;
+$list-color: #333;
+$list-pressed-color: #ddd;
+$list-active-gradient: 'recessed';
+$list-header-bg-color: #999;
+$list-header-gradient: 'bevel';
+
+// Tabs
+$tabs_dark_color: #000;
+
+@import 'sencha-touch/default/all';
+
+@include sencha-panel;
+@include sencha-buttons;
+@include sencha-sheet;
+@include sencha-picker;
+@include sencha-tabs;
+@include sencha-toolbar;
+@include sencha-toolbar-forms;
+@include sencha-carousel;
+@include sencha-indexbar;
+@include sencha-list;
+@include sencha-list-paging;
+@include sencha-list-pullrefresh;
+@include sencha-layout;
+@include sencha-form;
+@include sencha-msgbox;
+@include sencha-loading-spinner;
+
+
+.x-tab .x-button-icon.presence,
+.x-button .x-button-icon.x-icon-mask.presence {
+-webkit-mask-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
+bWFnZVJlYWR5ccllPAAABSZJREFUeNrEV1tsFFUY/s5cdrvdpWVbK7SCl1p7ISYaNT4U01owKPjg
+gw8YMcbEJ4OJLxrAF0STWh5M9Mn4ZjRqIDFYY4sXwEAJlljwklRcsBdge2/30r20szN7jv+ZGdqa
+bMsObOJuTmbmzPn/7zv/9QwTQuD//GmFJhlja8mouw7jYzC8TNT9kj6zZWAwjs969uE1esyvpWDl
+plkhC6xCgHXsQ0OgBpfD6xia6hjqqhnynNAIbizGMTIlMJ8GMjNo/Pkw/pFYNyOgebCWT4LfRaBb
+W1SAE7jUQwQsLiBJBcuBkUmBCYbL9KaMhnEzpUqR4OqOd9EZCgCtzSo4gVuwOdi25rQj7lqiaj0Q
+8ANPv4dOKVcqAmVaAHsfqFNsVO763baknFIcIvagl1WV0lzY61qhNARkwNVUSLMLG1zuXjDpAWG7
+QbpDOLdYF7Sd7y8lAduUwYATVYL+EliafibBcWWcY3yOIzojsGgsR94jL6LRNZa3NCycmsA1ivKJ
+OIdfIzcQSsYQFHgCzfcA4RBgmsC5QYoBnyNz8UuM3vDWbROgLRvZReHf0iCQzpJJFIHaKvI1abDI
++bmcs0zOpYylfYu1wL24gOfSOJsk4ApKtZZ7Be6rI/YEbhK4aTkkZBaEyOtJqgULcZwgOatUBHLx
+EXwzOy+QIhKWtTwkqExBOwC5Q2QxZxej0yRnlioIjQuf43g2i9nswjJYoSHB4zHM9H+CI6UsRNLD
+yat9eHNybrkGrAS+YejpODDah7foNuHKlYSAVJ+KfI++C+dxdGhsObeEm/9yweQsMPgnjkaOo48e
+551CfQvdcA0rxH1BlI1GKfpJta/MDXO6n88A0UmaC9rFJ17M7r10Q7b9IB5jOrryCrZ1PKhD101k
+Mk7u3/CA4DouXjWhcpwSJvafPISBQlngpR2zpw5hF/Ph63DI53/m4TbsfvQFfDXwDqYWo0sWyJlO
+Hwjw9Xh96wfoHezBkf7vkEjnDJHD8ycOonclkWIJaDvex8m66oq2PW070Vx7P6KJKwhr9bbJf5/o
+QVbEsIBpVATvREWgGg3rnoRmBhE3R7EpXI+/J4bwxZnjVKbnz/x4ANvdulAUAQl++vGm+tZXtj2L
+yeQ1/DV+FjPpOVAVxnPN+1EZqCUi+aVtKUxFcmEC3ZEuWDRZE6rGlronsLHybnx6qgfnI8PnfjqA
+dkliJeZqWVDu86H1pW3tiEz/ir6RbiRyc/DJ/qYD3w51UR+IUQe06DCySH3BhEnX7uEu+71cJ9dL
+ucj0APZ0tNOBRW+VeotNQ38tNfWMlcLgVD98pFTXndIrr7RZnLj+IQFzqMxvd8XekU4o6n/XSbnB
+qV8wb8ZQGbSx/cUSYFzkYfAUNFKi0lA0Z6hSOXW7jEjihyiZmxv2VT7LeVVbsVaSobnE4hikvkKt
+WVu98uSRE2kHnBWuYFmRwLHo23arluCFGj+zG8ICBR73VoiSaQOGJKCtfqJQiyk0cjMK5akivBFI
+ZTgslrZNyDlu+aeSqRQ9j+jEgjcCJBcbGJyqam4MI22k6bBpwss3FLPBdYT8IZAe6caYFwK5S914
+lSnpYzNzGjZvVrFhQxl8PoaiWDB5QhKYoiPcb9dTGBq2IPUV6g+rFSJ5qttYuQktD+3GG3oQTXo5
+6r18RsrANLMYNjOI/HEEHyWjuCQbpiRRTCVkbs6GadwhT9rus+LBC9w9kKRozLod0nAqcfHNSHOB
+/W7QMw8EhPutYrjDut2P05L9VmL+K8AAL6N62RJa908AAAAASUVORK5CYII=')}
+
+.mypresence {
+	background-image: url('../images/online.png')
+}
+
+.alignleft {
+	float: left;
+}
+.alignright {
+	float: right;
+}

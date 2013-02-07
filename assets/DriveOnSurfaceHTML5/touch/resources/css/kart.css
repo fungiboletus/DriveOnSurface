@@ -1,0 +1,9 @@
+html,
+.painting{
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+}
+.kart1 {background-image: url('http://www.insolite.ca/wp-content/uploads/2011/02/mariokart.jpg');}
+.kart2 {background-image: url('http://dsmedia.ign.com/ds/image/article/614/614266/mario-kart-ds-20050515002459596.jpg');}
+.kart3 {background-image: url('http://image.jeuxvideo.com/images/wi/m/a/mario-kart-wii-wii-360.jpg');}
+.kart4 {background-image: url('http://image.jeuxvideo.com/images/ds/m/a/mario-kart-ds-nintendo-ds-191.jpg');}
