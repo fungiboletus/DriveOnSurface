@@ -1,6 +1,6 @@
 var box2d = require('./vendor/Box2dWeb-2.1.a.3');
 
-var BoxProp = function(size, position, angle, dynamic){
+var BoxProp = function(size, position, angle, type){
     /*
    static rectangle shaped prop
      
@@ -13,7 +13,7 @@ var BoxProp = function(size, position, angle, dynamic){
     //initialize body
     var bdef=new box2d.b2BodyDef();
 
-    if (dynamic)
+    if (type === 'dynamic')
         bdef.type = box2d.b2Body.b2_dynamicBody;
 
     bdef.position=new box2d.b2Vec2(position[0], position[1]);
@@ -41,6 +41,9 @@ var BoxProp = function(size, position, angle, dynamic){
     // fixdef.shape.m_centroid.SetZero();
     fixdef.shape.SetAsBox(this.size[0]/2, this.size[1]/2);
     fixdef.restitution=0.4; //positively bouncy!
+    if (type === 'sensor')
+        fixdef.isSensor = true;
+    
     this.body.CreateFixture(fixdef);
     return this;
 };

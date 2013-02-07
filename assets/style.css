@@ -1,0 +1,78 @@
+html {
+	background:#222 url(tire2.jpeg) no-repeat center center;
+    -webkit-background-size: cover; 
+    -moz-background-size: cover; 
+    -o-background-size: cover; 
+    background-size: cover;
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	color:white;
+	font-family: 'Roboto', sans-serif;
+	text-align:center;
+	margin:0;
+	padding:0;
+}
+body {
+	margin:0;
+	padding:0;
+}
+
+h1 {
+	font-family: 'Racing Sans One', cursive;
+	text-align:center;
+	margin-top:8%;
+	margin-bottom:4%;
+	text-shadow: 0px 0px 15px black;
+}
+
+a.block {
+	display:inline-block;
+	width:40%;
+	padding:0.8em 0.5em;
+	margin:0.8em 0.5em 0em 0.5em;
+	background:rgba(255,255,255,0.9);
+	color:#333;
+	text-decoration:none;
+}
+
+a.block:hover {
+	background:#eee;
+}
+
+a.block:active {
+	background:#ddd;
+}
+
+p {
+	background:#222;
+	margin:6em auto 2em auto;
+	padding:1.5em;
+}
+
+::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+	background:black;
+}
+::-webkit-scrollbar-thumb {
+	overflow:visible;
+	background:#333;
+}
+::-webkit-scrollbar-thumb:vertical {
+	background: -webkit-linear-gradient(left, rgba(33,33,33,1) 0%,rgba(51,51,51,1) 50%);
+}
+::-webkit-scrollbar-thumb:horizontal {
+	background: -webkit-linear-gradient(top, rgba(33,33,33,1) 0%,rgba(51,51,51,1) 50%);
+}
+::-webkit-scrollbar-thumb:vertical:hover {
+	background: -webkit-linear-gradient(left, rgba(42,42,42,1) 0%,rgba(72,72,72,1) 50%);
+}
+::-webkit-scrollbar-thumb:horizontal:hover {
+	background: -webkit-linear-gradient(top, rgba(42,42,42,1) 0%,rgba(72,72,72,1) 50%);
+}
+::-webkit-scrollbar-corner {
+	background:transparent;
+}

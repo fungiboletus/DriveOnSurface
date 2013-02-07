@@ -2,8 +2,18 @@ var express = require('express'),
 	io = require('socket.io'),
 	http = require('http'),
 	game = require('./js/game'),
-	Canvas = require('canvas');
+	Gamer = require('./js/Gamer');
 
+// For some reasons, it's difficult to use the canvas library on windows
+// The library is only used for develpment, so let's be an option
+try {
+
+	var Canvas = require('canvas'),
+		canvas = new Canvas(960, 540);
+}
+catch (e) {}
+
+// Création of the server
 var app = express(),
 	server = http.createServer(app),
 	io = io.listen(server);
@@ -11,12 +21,17 @@ var app = express(),
 // app.use(express.logger());
 // app.use(express.compress());
 
+app.use('/', express.static(__dirname+'/assets'));
+app.use('/js', express.static(__dirname+'/js'));
+app.use('/circuits', express.static(__dirname+'/circuits'));
+
 server.listen(3333);
 
-var canvas = new Canvas(960, 540),
-	toolsGame = game(canvas);
-
-var currentDate = +new Date();
+var gameInstance = game(canvas),
+	gamers = {},
+	nbGamers = 0,
+	currentDate = +new Date(),
+	positionDate = 0;
 	// gameInterval = 0;
 
 // app.get('/start', function(req, res) {
@@ -26,111 +41,257 @@ var currentDate = +new Date();
 // 	res.send({ok: true});
 // });*/
 
-var joueurs = [],
-	nbJoueurs = 0;
+// Object representings the gamers
 
-app.get('/', function(req, res) {
-	// game.tick(250);
-	toolsGame.debugDraw();
-	res.type('png');
-	// res.setHeader('pragma', 'no-cache');
-	res.send(canvas.toBuffer());
-});
 
+// Send a png image of the current game state
+if (canvas)
+{
+	app.get('/canvas', function(req, res) {
+		var newDate = +new Date(),
+			diff = newDate - currentDate;
+
+		currentDate = newDate;
+		gameInstance.tick(diff);
+		gameInstance.debugDraw();
+
+		// res.setHeader('pragma', 'no-cache');
+		res.type('png');
+		res.send(canvas.toBuffer());
+	});
+}
+
+app.get('/track/:name');
+app.get('/start');
+//put_tag/:code/centreX(m)/centreY(m)/rotation?
+//remove_tag/:code
+//blob/centreX/centreY/larger/longueur
+
+// Send a Json object representing the game state
 app.get('/state', function(req, res) {
+
+	// Calculating the games changes
 	var newDate = +new Date(),
-		diff = newDate - currentDate;
+		diff = newDate - currentDate,
+		sendPosition = false,
+		positionsGamers = [];
 
 	currentDate = newDate;
-	toolsGame.tick(diff);
+	gameInstance.tick(diff);
 
-	var state = {},
+	if (currentDate - positionDate > 1000) {
+		positionDate = currentDate;
+		sendPosition = true;
+	}
+
+	var state = {
+		bonus: [
+			{
+				type: "random",
+				id: "canard",
+				position_x: 30.0,
+				position_y: 30.0,
+				angle: 0.0
+			}
+		]
+	},
 		state_joueurs = [];
 
-	for (var i = 0; i < nbJoueurs; ++i) {
-		var joueur = joueurs[i],
-			car = joueur.car;
-		if (car && car.couleur) {
-			var	body = car.body,
-				pos = body.GetPosition();
+	for (var pseudo in gamers) {
+
+		var gamer = gamers[pseudo];
+
+		// The gamer color is a sort of a registration
+		if (gamer && gamer.color) {
+			var	car = gamer.car,
+				body = car.body,
+				pos = body.GetPosition(),
+				angle = body.GetAngle(),
+				speed = car.getSpeedKMH();
 
 			state_joueurs.push({
-				pseudo: joueur.pseudo,
-				color: car.couleur,
-				speed: car.getSpeedKMH(),
-				position_x: pos.x * 8,
-				position_y: pos.y * 8,
-				angle: body.GetAngle()
+				pseudo: pseudo,
+				color: gamer.color,
+				speed: speed,
+				position_x: pos.x,
+				position_y: pos.y,
+				angle: angle
 			});
+
+			if (sendPosition) {
+				positionsGamers.push(gamer);
+				gamer.socket.emit('speed', speed);
+			}
 		}
 	}
 
+	if (sendPosition) {
+		positionsGamers.sort(function(a, b) {
+			var rankA = a.rank,
+				rankB = b.rank;
+				
+			console.log(rankA, rankB);
+
+			if (rankA.turn > rankB.turn)
+				return -1;
+
+			if (rankA.turn < rankB.turn)
+				return 1;
+
+			if (rankA.line > rankB.line)
+				return -1;
+
+			if (rankA.line < rankB.line)
+				return 1;
+
+			if (rankA.pos < rankB.pos)
+				return -1;
+
+			if (rankA.pos > rankB.pos)
+				return 1;
+
+			return 0;
+		});
+
+		// Building a string in order to prevent mixed output with socket.io debug
+		var logPositions = "Positions : \n";
+		for (var i = 0, len = positionsGamers.length; i < len;) {
+			var gamer = positionsGamers[i];
+			logPositions += "\t" + gamer.name + " : " + ++i;
+			gamer.socket.emit('rank', i);
+		}
+		console.log(logPositions);
+	}
+
+
 	state.joueurs = state_joueurs;
 
+	res.header("Access-Control-Allow-Origin", "*");
 	res.send(state);
-
-	// res.send({ok: true});
 });
 
-io.sockets.on('data', function(data) {
-	console.log(data);
+// REST API for add boxes and plot on the ground
+app.get('/box/:width/:height/:left/:top/:angle/:type', function(req, res) {
+	gameInstance.newBox(req.params, req.params.type);
+	res.header("Access-Control-Allow-Origin", "*");
+	res.send('ok');
 });
-io.sockets.on('truc', function(data)	{
-	console.log("truc");
-	console.log(data);
+app.get('/plot/:radius/:left/:top/:type', function(req, res) {
+	gameInstance.newPlot(req.params, req.params.type);
+	res.header("Access-Control-Allow-Origin", "*");
+	res.send('ok');
 });
 
 
 io.sockets.on('connection', function (socket) {
-	console.log("connexion");
-	joueurs.push(socket);
-	++nbJoueurs;
+	console.log("Connection of a new gamer");
 
-	var car = null;
-
-	socket.pseudo = "joueur " + nbJoueurs;
+	var pseudo = null,
+		gamer = null,
+		car = null;
 
 	socket.on('pseudo', function (data) {
-		for (var i = 0; i < nbJoueurs; ++i)
-			if (joueurs[i].pseudo == data)
-				data += ' ' + nbJoueurs;
-			
-		console.log(socket.pseudo, "pseudo", data);
-		socket.pseudo = data;
+		console.log(pseudo, "pseudo", data);
+		pseudo = data;
+
+		if (gamers.hasOwnProperty(pseudo))
+			gamer = gamers[pseudo];
+		else {
+			gamer = new Gamer(pseudo, gameInstance);
+			gamer.rank.pos = ++nbGamers;
+			gamers[pseudo] = gamer;
+		}
+
+		// Save the socket on the gamer object
+		// it could be used for sending informations
+		// to the gamer in other parts of this program
+		gamer.socket = socket;
+
+		socket.on('kart', function(data) {
+			console.log(pseudo, "kart", data);
+
+			if (gamer.car === null)
+				gamer.createCar();
+			else
+				console.log("A car is already associated with the gamer");
+
+			gamer.color = data;
+			car = gamer.car;
+
+			socket.on('direction', function(data) {
+				console.log(pseudo, "direction", data);
+
+				if (data < 0)
+					car.steer = 2;
+				else if (data > 0)
+					car.steer = 1;
+				else
+					car.steer = 0;
+			});
+
+			socket.on('acceleration', function(data) {
+				console.log(pseudo, "acceleration", data);
+
+				if (data < 0)
+					car.accelerate = 2;
+				else if (data > 0)
+					car.accelerate = 1;
+				else
+					car.accelerate = 0;
+			});
+
+			/**
+			 * cmds : tableau de commandes pour contrôler la voiture
+			 *  cmds[0] : état du jeu actif ou pas
+			 *            0 : STOP , 1 : GO
+			 *  cmds[1] : position : avancer ou reculer
+			 *           0 : UP, 1 :DOWN
+			 *  cmds[2] : vitesse : entre 0 et 10
+			 *  cmds[3] : direction pour tourner
+			 *          0 : LEFT, 1 : RIGHT
+			 *  cmds[4] : vitesse de rotation : entre 0 et 5
+			 * */
+			socket.on('commande', function(data) {
+				console.log(pseudo, "commande", data);
+
+				// The data is a array stored in a string
+				var cmd = data.substr(1, data.length-2).split(', ');
+
+				// Parsing the array
+				for (var i = 0; i < 5;++i)
+					cmd[i] = parseInt(cmd[i], 10);
+
+				if (cmd[2] > 5)
+					car.accelerate = cmd[1]  === 0 ? 2 : 1;
+				else
+					car.accelerate = 0;
+
+				if (cmd[4] > 2)
+					car.steer = cmd[3] === 0 ? 2 : 1;
+				else
+					car.steer = 0;
+
+			});
+		});
 	});
 
-	socket.on('kart', function(data) {
-		console.log(socket.pseudo, "kart", data);
+	socket.on('disconnect', function() {
+		console.log(pseudo, "user is disconnected");
+		if (car) {
+			car.accelerate = 0;
+			car.steer = 0;
+		}
+	});
 
-		car = toolsGame.newCar();
-		car.couleur = data;
-		socket.car = car;
+	socket.on('exit', function() {
+		console.log(pseudo, "exit");
 
-		socket.on('direction', function(data) {
-			console.log(socket.pseudo, "direction", data);
-
-			if (data < 0)
-				car.steer = 2;
-			else if (data > 0)
-				car.steer = 1;
-			else
-				car.steer = 0;
-		});
-
-		socket.on('acceleration', function(data) {
-			console.log(socket.pseudo, "acceleration", data);
-
-			if (data < 0)
-				car.accelerate = 2;
-			else if (data > 0)
-				car.accelerate = 1;
-			else
-				car.accelerate = 0;
-		});
-
-		socket.on('commande', function(data) {
-			console.log(socket.pseudo, "commande", data);
-		});
+		if (pseudo !== null) {
+			delete gamers[pseudo];
+			if (car !== null) {
+				car.removeFromTheWorld();
+			}
+		}
 	});
 
 });

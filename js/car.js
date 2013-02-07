@@ -47,14 +47,19 @@ function Car(pars){
     def.position=new box2d.b2Vec2(pars.position[0], pars.position[1]);
     def.angle=math.radians(pars.angle);
     def.linearDamping=0.15;  //gradually reduces velocity, makes the car reduce speed slowly if neither accelerator nor brake is pressed
+    // def.linearDamping=0.25;  //gradually reduces velocity, makes the car reduce speed slowly if neither accelerator nor brake is pressed
     def.bullet=true; //dedicates more time to collision detection - car travelling at high speeds at low framerates otherwise might teleport through obstacles.
     def.angularDamping=0.3;
+    // def.angularDamping=0.35;
     this.body=b2world.CreateBody(def);
+    this.body.associatedCar = this;
     
     //initialize shape
     var fixdef= new box2d.b2FixtureDef();
     fixdef.density = 1.0;
+    // fixdef.density = 2.5;
     fixdef.friction = 0.3; //friction when rubbing agaisnt other shapes
+    // fixdef.friction = 0.5; //friction when rubbing agaisnt other shapes
     fixdef.restitution = 0.4;  //amount of force feedback when hitting something. >0 makes the car bounce off, it's fun!
     fixdef.shape=new box2d.b2PolygonShape();
     fixdef.shape.SetAsBox(pars.width/2, pars.length/2);
@@ -69,6 +74,13 @@ function Car(pars){
         this.wheels.push(new Wheel(wheeldef));
     }
 }
+
+Car.prototype.removeFromTheWorld = function() {
+    for(var i=0;i<this.wheels.length;i++)
+        this.wheels[i].removeFromTheWorld();
+
+    b2world.DestroyBody(this.body);
+};
 
 Car.prototype.getPoweredWheels=function(){
     //return array of powered wheels

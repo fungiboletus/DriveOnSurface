@@ -6019,6 +6019,11 @@ Box2D.postDefs = [];
                   color.Set(0.5, 0.5, 0.3);
                   this.DrawShape(s, xf, color);
                }
+               // TODO make a better hack
+               else if (b.GetFixtureList().IsSensor()) {
+                  color.Set(0.5, 0.5, 1.0);
+                  this.DrawShape(s, xf, color);
+               }
                else if (b.GetType() == b2Body.b2_staticBody) {
                   color.Set(0.5, 0.9, 0.5);
                   this.DrawShape(s, xf, color);

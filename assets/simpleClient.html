@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+	<title>DriveOnSurface</title>
+</head>
+<body>
+
+<script type="text/javascript" src="js/vendor/jquery-1.9.0.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+$(document).load(function() {
+
+
+  var socket = io.connect();
+  socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('my other event', { my: 'data' });
+  });
+});
+</script>
+</body>
+</html>
