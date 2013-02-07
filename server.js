@@ -30,7 +30,8 @@ server.listen(3333);
 var gameInstance = game(canvas),
 	gamers = {},
 	nbGamers = 0,
-	currentDate = +new Date();
+	currentDate = +new Date(),
+	positionDate = 0;
 	// gameInterval = 0;
 
 // app.get('/start', function(req, res) {
@@ -65,10 +66,16 @@ app.get('/state', function(req, res) {
 
 	// Calculating the games changes
 	var newDate = +new Date(),
-		diff = newDate - currentDate;
+		diff = newDate - currentDate,
+		sendPosition = false;
 
 	currentDate = newDate;
 	gameInstance.tick(diff);
+
+	if (currentDate - positionDate > 1000) {
+		positionDate = currentDate;
+		// sendPosition = true;
+	}
 
 	var state = {},
 		state_joueurs = [];
@@ -94,9 +101,10 @@ app.get('/state', function(req, res) {
 				angle: angle
 			});
 
-			// Send the speed of the car and the gamer rank
-			gamer.socket.emit('speed', speed)
-				.emit('rank', gamer.rank);
+			if (sendPosition)
+				// Send the speed of the car and the gamer rank
+				gamer.socket.emit('speed', speed)
+					.emit('rank', gamer.rank);
 		}
 	}
 
