@@ -10,7 +10,7 @@ namespace DriveOnSurface
 {
     class Background : IDrawableObject
     {
-        public enum Track { Menu, Classic, RainbowRoad };
+        public enum Track { Menu, Classic, RainbowRoad, City };
 
         public Sprite BackgroundImg;
 
@@ -53,6 +53,14 @@ namespace DriveOnSurface
                 case Track.Classic :
                     BackgroundImg.LoadContent(theContentManager, "classic-background");
                     BackgroundSkyImg.LoadContent(theContentManager, "classic-trees");
+                    break;
+                case Track.RainbowRoad :
+                    BackgroundImg.LoadContent(theContentManager, "rainbow-bottom");
+                    BackgroundSkyImg.LoadContent(theContentManager, "rainbow-top");
+                    break;
+                case Track.City:
+                    BackgroundImg.LoadContent(theContentManager, "city-bottom");
+                    BackgroundSkyImg.LoadContent(theContentManager, "city-top");
                     break;
                 case Track.Menu :
                     BackgroundImg.LoadContent(theContentManager, "damier");

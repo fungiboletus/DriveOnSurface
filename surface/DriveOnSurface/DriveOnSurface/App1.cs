@@ -52,7 +52,7 @@ namespace DriveOnSurface
 
         Background.Track selectedTrack = Background.Track.Menu;
 
-        bool debug = true;
+        bool debug = false;
 
         List<RectangleOverlay> rects = new List<RectangleOverlay>();
 
@@ -264,9 +264,13 @@ namespace DriveOnSurface
                                 }
                                 else if (t.X > 700 && t.X < 1200)
                                 {
+                                    selectedTrack = Background.Track.RainbowRoad;
+                                    isTrackSelected = true;
                                 }
                                 else if (t.X > 1300 && t.X < 1850)
                                 {
+                                    selectedTrack = Background.Track.City;
+                                    isTrackSelected = true;
                                 }
                             }
                             else if (t.Y > 600 && t.Y < 875) //deuxième ligne

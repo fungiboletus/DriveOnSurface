@@ -91,3 +91,7 @@ C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnS
 C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\clous.xnb
 C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\glue.xnb
 C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\train.xnb
+C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\rainbow-bottom.xnb
+C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\rainbow-top.xnb
+C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\city-bottom.xnb
+C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\city-top.xnb

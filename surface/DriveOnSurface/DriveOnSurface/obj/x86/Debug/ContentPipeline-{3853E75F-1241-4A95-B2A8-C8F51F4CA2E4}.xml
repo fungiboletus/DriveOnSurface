@@ -71,7 +71,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\damier.xnb</Output>
-      <Time>2013-02-06T18:36:30.9188+01:00</Time>
+      <Time>2013-02-07T21:19:57.7574+01:00</Time>
     </Item>
     <Item>
       <Source>green_light.png</Source>
@@ -117,6 +117,42 @@
       <Options>None</Options>
       <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\train.xnb</Output>
       <Time>2013-02-06T18:38:46.2428+01:00</Time>
+    </Item>
+    <Item>
+      <Source>rainbow-bottom.png</Source>
+      <Name>rainbow-bottom</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\rainbow-bottom.xnb</Output>
+      <Time>2013-02-07T21:27:12.1854+01:00</Time>
+    </Item>
+    <Item>
+      <Source>rainbow-top.png</Source>
+      <Name>rainbow-top</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\rainbow-top.xnb</Output>
+      <Time>2013-02-07T21:27:12.1884+01:00</Time>
+    </Item>
+    <Item>
+      <Source>city-bottom.png</Source>
+      <Name>city-bottom</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\city-bottom.xnb</Output>
+      <Time>2013-02-07T21:27:45.6564+01:00</Time>
+    </Item>
+    <Item>
+      <Source>city-top.png</Source>
+      <Name>city-top</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\city-top.xnb</Output>
+      <Time>2013-02-07T21:27:45.6584+01:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
