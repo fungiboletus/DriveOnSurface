@@ -46,8 +46,8 @@ namespace DriveOnSurface
 
         public void setPosition(int X, int Y)
         {
-            CarSprite.Position.X = X - 15;
-            CarSprite.Position.Y = Y - 20;
+            CarSprite.Position.X = X;
+            CarSprite.Position.Y = Y;
         }
 
         public float getRotation()
@@ -78,6 +78,8 @@ namespace DriveOnSurface
                     CarSprite.LoadContent(theContentManager, "yellow-car");
                     break;
             }
+
+            CarSprite.origin = new Vector2(11,22);
         }
 
 

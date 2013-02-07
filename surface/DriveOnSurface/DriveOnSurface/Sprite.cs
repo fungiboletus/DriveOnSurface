@@ -26,6 +26,8 @@ namespace DriveOnSurface
 
         public float depth = 0;
 
+        public Vector2 origin = Vector2.Zero;
+
         //Load the texture for the sprite using the Content Pipeline
         public void LoadContent(ContentManager theContentManager, string theAssetName)
         {
@@ -38,7 +40,7 @@ namespace DriveOnSurface
         {
             theSpriteBatch.Draw(mSpriteTexture, Position,
                 new Rectangle(0, 0, mSpriteTexture.Width, mSpriteTexture.Height), Color.White,
-                rotation, Vector2.Zero, Scale, SpriteEffects.None, depth );
+                rotation, origin, Scale, SpriteEffects.None, depth );
         }
     }
 }

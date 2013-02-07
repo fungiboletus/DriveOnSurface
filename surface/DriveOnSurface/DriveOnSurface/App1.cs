@@ -448,13 +448,23 @@ namespace DriveOnSurface
                         {
 
                             objectsIdToKeep.Add((string)player["pseudo"]);
+                            double xCenter = (double)player["position_x"] * scale;
+                            double yCenter = (double)player["position_y"] * scale;
+                            double angle = (double)player["angle"];
+                            double width = 1.8 * scale;
+                            double height = 2.5 * scale;
+                            //double xUL = xCenter + ( width / 2 ) * Math.Cos(angle) - ( height / 2 ) * Math.Sin(angle);
+                            //double yUL = yCenter + ( height / 2 ) * Math.Cos(angle)  + ( width / 2 ) * Math.Sin(angle);
+                            double xUL = xCenter;
+                            double yUL = yCenter;
+
 
                             if (DrawableObjects.Keys.Contains((string)player["pseudo"]))
                             {
                                 //Console.WriteLine("Updating car position : " + player["pseudo"] + "( " + (int)player["position_x"] + ", " + (int)player["position_y"] + ")");
                                 Car car = (Car)DrawableObjects[(string)player["pseudo"]];
-                                car.setPosition((int)((float)player["position_x"] * scale), (int)((float)player["position_y"] * scale));
-                                car.setRotation((float)player["angle"]);
+                                car.setPosition((int)xUL, (int)yUL);
+                                car.setRotation((float)angle);
                             }
                             else
                             {
@@ -482,8 +492,8 @@ namespace DriveOnSurface
                                 {
                                     Car car = new Car((string)player["pseudo"], CarColor);
                                     car.LoadContent(this.Content);
-                                    car.setPosition((int)(((float)player["position_x"]) * scale), (int)(((float)player["position_y"]) * scale));
-                                    car.setRotation((float)player["angle"]);
+                                    car.setPosition((int)xUL, (int)yUL);
+                                    car.setRotation((float)angle);
                                     DrawableObjects.Add((string)player["pseudo"], car);
                                     //Console.WriteLine("new Car : " + car.getPosition());
                                 }
