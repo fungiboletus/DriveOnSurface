@@ -15,7 +15,8 @@ var b2world;
 
 module.exports = function(canvas) {
     //SET UP B2WORLD
-    b2world=new box2d.b2World(new box2d.b2Vec2(0, 0), true);
+    // b2world=new box2d.b2World(new box2d.b2Vec2(0, 0), true);
+    b2world=new box2d.b2World(new box2d.b2Vec2(0, 0));
     global.b2world = b2world;
 
     //set up box2d debug draw to draw the bodies for us.
@@ -30,16 +31,30 @@ module.exports = function(canvas) {
         b2world.SetDebugDraw(debugDraw);
     }
 
-    //initialize some props to bounce against
-    var props=[];
+
+    // Create a new and wonderfull listener
+    var listener = new box2d.Box2D.Dynamics.b2ContactListener;
+    listener.PostSolve = function(a, b){
+
+        var c = b.normalImpulses,
+            marge = 42;
+
+        if (c[0] > marge)
+            console.log(a, b, c);
+        // console.log(a, b, c);
+    };
+    b2world.SetContactListener(listener);
     
     //outer walls
-    // props.push(new BoxProp([WIDTH_M, 1],[WIDTH_M/2, 0.5]));
-    // props.push(new BoxProp([1, HEIGHT_M-2],[0.5, HEIGHT_M/2]));
-    // props.push(new BoxProp([WIDTH_M, 1],[WIDTH_M/2, HEIGHT_M-0.5]));
-    // props.push(new BoxProp([1, HEIGHT_M-2],[WIDTH_M-0.5, HEIGHT_M/2]));
+    var wallWidth = 0.3,
+        semiWallWidth = wallWidth / 2,
+        dblWallWidth = wallWidth * 2;
+    new BoxProp([WIDTH_M, wallWidth],[WIDTH_M/2, semiWallWidth]);
+    new BoxProp([wallWidth, HEIGHT_M-dblWallWidth],[semiWallWidth, HEIGHT_M/2]);
+    new BoxProp([WIDTH_M, wallWidth],[WIDTH_M/2, HEIGHT_M-semiWallWidth]);
+    new BoxProp([wallWidth, HEIGHT_M-dblWallWidth],[WIDTH_M-semiWallWidth, HEIGHT_M/2]);
 
-new Plot(3.35416666418314, [70.75, 28.375]);
+/*new Plot(3.35416666418314, [70.75, 28.375]);
 new Plot(4.66666666418314, [104.875, 23.75]);
 new Plot(5.22916666418314, [101.625, 45]);
 new Plot(8.22916666418314, [96.125, 46.5]);
@@ -155,7 +170,91 @@ new BoxProp([6.83333332836628, 1.0833333283662796], [15.375, 42.75], 0.925024503
 new BoxProp([6.83333332836628, 1.0833333283662796], [18.625, 45.875], 0.6806784082777885);
 new BoxProp([6.70833332836628, 1.0833333283662796], [23.5, 49.25], 0.5061454830783556);
 new BoxProp([6.83333332836628, 1.0833333283662796], [28.875, 51.75], 0.3490658503988659);
-new BoxProp([6.83333332836628, 1.0833333283662796], [33.625, 53.125], 0.15707963267948966);
+new BoxProp([6.83333332836628, 1.0833333283662796], [33.625, 53.125], 0.15707963267948966);*/
+
+new BoxProp([10.875, 1], [63.75, 29.5], 0.20943951023931956);
+new BoxProp([8.5, 1], [58.125, 32.375], 1.7802358370342162);
+new BoxProp([9.5, 1], [62, 37], 0.22689280275926285);
+new BoxProp([13.25, 1], [65, 43.75], 1.7976891295541595);
+new BoxProp([5.375, 1], [68, 33], 1.7627825445142729);
+new BoxProp([10.375, 1], [72.625, 37.25], 0.22689280275926285);
+new BoxProp([14.625, 1], [75.625, 45.25], 1.7802358370342162);
+new BoxProp([10.875, 1], [69.125, 50.875], 0.20943951023931956);
+new BoxProp([8.375, 1], [57.625, 41.375], 0.20943951023931956);
+new BoxProp([9.25, 1], [56.25, 49.25], 0.22689280275926285);
+new BoxProp([9.25, 1], [61, 46.25], 1.7802358370342162);
+new BoxProp([8.125, 1], [53.125, 44.375], 1.7976891295541595);
+new BoxProp([7.125, 1], [51.375, 29.625], 1.7802358370342162);
+new BoxProp([3.75, 1], [48.75, 32.125], 0.22689280275926285);
+new BoxProp([2.875, 1], [47, 33.25], 1.7802358370342162);
+new BoxProp([2.875, 1], [38.875, 34.75], 1.7802358370342162);
+new BoxProp([7.25, 1], [42.75, 33.375], 0.17453292519943295);
+new BoxProp([11.375, 1], [46.375, 25.5], 0.20943951023931956);
+new BoxProp([7.75, 1], [39.5, 27.5], 1.7802358370342162);
+new BoxProp([12.25, 1], [33.25, 30.5], 0.20943951023931956);
+new BoxProp([11.125, 1], [44, 37.625], 0.20943951023931956);
+new BoxProp([10.125, 1], [48, 43.375], 1.7802358370342162);
+new BoxProp([2.5, 1], [27.375, 30.25], 1.8151424220741028);
+new BoxProp([8.625, 1], [9.75, 2.75], 1.7976891295541595);
+new BoxProp([18.625, 1], [3.875, 23.875], 1.7976891295541595);
+new BoxProp([9.25, 1], [4.125, 5.375], 0.20943951023931956);
+new BoxProp([9.25, 1], [2.125, 13.125], 0.2617993877991494);
+new BoxProp([2.875, 1], [0.875, 33], 0.20943951023931956);
+new BoxProp([1.75, 1], [0.125, 38.25], 0.20943951023931956);
+new BoxProp([6.625, 1], [0, 41.125], 1.7976891295541595);
+new BoxProp([5.875, 1], [1.75, 55.25], 0.20943951023931956);
+new BoxProp([5.875, 1], [10.875, 57.125], 0.20943951023931956);
+new BoxProp([8.25, 1], [17.375, 60.75], 0.20943951023931956);
+new BoxProp([8.125, 1], [27.375, 60.875], 0.20943951023931956);
+new BoxProp([15.75, 1], [45.125, 66], 0.20943951023931956);
+new BoxProp([3.625, 1], [3.75, 57.375], 1.7627825445142729);
+new BoxProp([3.625, 1], [8.125, 57.75], 1.7627825445142729);
+new BoxProp([3.625, 1], [5.5, 59.125], 0.17453292519943295);
+new BoxProp([2.5, 1], [13, 59], 1.7802358370342162);
+new BoxProp([2.5, 1], [23.5, 61.25], 1.7802358370342162);
+new BoxProp([2.5, 1], [22.25, 61.75], 0.19198621771937624);
+new BoxProp([6.875, 1], [31, 64.625], 1.7802358370342162);
+new BoxProp([3.25, 1], [37.625, 66], 1.7627825445142729);
+new BoxProp([4.5, 1], [33, 1.875], 1.7802358370342162);
+new BoxProp([5, 1], [39.25, 6.875], 1.7802358370342162);
+new BoxProp([2.625, 1], [50.375, 10.625], 1.7802358370342162);
+new BoxProp([7.375, 1], [64.75, 12.625], 1.7802358370342162);
+new BoxProp([7.375, 1], [60, 9], 1.7802358370342162);
+new BoxProp([10.375, 1], [75.75, 14.125], 1.7802358370342162);
+new BoxProp([2, 1], [89.25, 21.75], 1.7802358370342162);
+new BoxProp([2, 1], [92.75, 21.5], 1.7802358370342162);
+new BoxProp([3.5, 1], [106.375, 22.375], 1.7802358370342162);
+new BoxProp([3.875, 1], [100.375, 22.375], 1.7802358370342162);
+new BoxProp([7.625, 1], [36.125, 4.25], 0.19198621771937624);
+new BoxProp([10.75, 1], [44.375, 10.125], 0.22689280275926285);
+new BoxProp([9, 1], [54.75, 11.125], 0.22689280275926285);
+new BoxProp([21.75, 1], [50.625, 3], 0.22689280275926285);
+new BoxProp([11.25, 1], [70.375, 10.375], 0.20943951023931956);
+new BoxProp([8.125, 1], [67.5, 16.625], 0.22689280275926285);
+new BoxProp([6.5, 1], [71.625, 14.375], 1.8151424220741028);
+new BoxProp([7.875, 1], [96.375, 22.875], 0.24434609527920614);
+new BoxProp([15.5, 1], [82, 20.375], 0.22689280275926285);
+new BoxProp([3.375, 1], [90.875, 20.375], 0.22689280275926285);
+new BoxProp([5.875, 1], [103.125, 20.5], 0.22689280275926285);
+new BoxProp([14.375, 1], [112.625, 25.125], 0.22689280275926285);
+new BoxProp([5.125, 1], [78.75, 10], 0.22689280275926285);
+new BoxProp([3.875, 1], [65.75, 7.625], 1.7802358370342162);
+new BoxProp([10.75, 1], [71, 7.25], 0.20943951023931956);
+new BoxProp([3, 1], [80.875, 4.5], 0.24434609527920614);
+new BoxProp([5.25, 1], [81.25, 7.75], 1.7976891295541595);
+new BoxProp([4.625, 1], [80.25, 2], 1.7627825445142729);
+new BoxProp([13.875, 1], [98.125, 42.625], 1.7802358370342162);
+new BoxProp([13.875, 1], [101.75, 59.125], 1.7802358370342162);
+new BoxProp([8.125, 1], [100, 51], 0.29670597283903605);
+new BoxProp([22.625, 1], [110.25, 37.75], 0.13962634015954636);
+new BoxProp([6.25, 1], [103, 66.625], 0.47123889803846897);
+new BoxProp([4, 1], [30.625, 43], 1.7802358370342162);
+new BoxProp([15.125, 1], [40, 46.25], 0.20943951023931956);
+new BoxProp([3.75, 1], [33.375, 43.25], 1.7627825445142729);
+new BoxProp([3.75, 1], [32.625, 41], 0.24434609527920614);
+new BoxProp([2.5, 1], [25.375, 31.5], 0.24434609527920614);
+new BoxProp([12.125, 1], [23.25, 37.125], 1.8151424220741028);
+new BoxProp([8, 1], [26.125, 43.5], 0.22689280275926285);
     /*for (var i = 0; i < 150; ++i)
         new Plot(0.5 + Math.random() * 1.5, [Math.random() * 80, Math.random() *    60]);*/
 
@@ -261,17 +360,17 @@ fs.readFile(__dirname + '/../circuit.svg', function(err, data) {
     //let box2d draw it's bodies
 	return {
         newCar: function() {
-            var car = new Car({'width':2,
-                    'length':4,
-                    'position':[randInt(10, 20), randInt(10, 20)],
+            var car = new Car({'width':1.8,
+                    'length':2.5,
+                    'position':[parseFloat(randInt(10, 20)), parseFloat(randInt(10, 20))],
                     'angle':190,
-                    'power':60,
-                    'max_steer_angle':42,
+                    'power':2,
+                    'max_steer_angle':30,
                     'max_speed':60,
-                    'wheels':[{'x':-1, 'y':-1.2, 'width':0.4, 'length':0.8, 'revolving':true, 'powered':false}, //top left
-                                {'x':1, 'y':-1.2, 'width':0.4, 'length':0.8, 'revolving':true, 'powered':false}, //top right
-                                {'x':-1, 'y':1.2, 'width':0.4, 'length':0.8, 'revolving':false, 'powered':true}, //back left
-                                {'x':1, 'y':1.2, 'width':0.4, 'length':0.8, 'revolving':false, 'powered':true}]}); //back right
+                    'wheels':[{'x':-0.65, 'y':-0.9, 'width':0.33, 'length':0.8, 'revolving':true, 'powered':true}, //top left
+                                {'x':0.65, 'y':-0.9, 'width':0.33, 'length':0.8, 'revolving':true, 'powered':true}, //top right
+                                {'x':-0.65, 'y':0.9, 'width':0.33, 'length':0.8, 'revolving':false, 'powered':false}, //back left
+                                {'x':0.65, 'y':0.9, 'width':0.33, 'length':0.8, 'revolving':false, 'powered':false}]}); //back right
             cars.push(car);
             return car;
         },
@@ -286,8 +385,8 @@ fs.readFile(__dirname + '/../circuit.svg', function(err, data) {
         debugDraw: function() {
             b2world.DrawDebugData();
         },
-        newBox: function(p) {
-            new BoxProp([parseFloat(p.width), parseFloat(p.height)], [parseFloat(p.left), parseFloat(p.top)], parseFloat(p.angle));
+        newBox: function(p, dynamic) {
+            new BoxProp([parseFloat(p.width), parseFloat(p.height)], [parseFloat(p.left), parseFloat(p.top)], parseFloat(p.angle), dynamic);
         },
         newPlot: function(p) {
             new Plot(parseFloat(p.radius), [parseFloat(p.left), parseFloat(p.top)]);

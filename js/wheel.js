@@ -54,6 +54,10 @@ function Wheel(pars){
 
 }
 
+Wheel.prototype.removeFromTheWorld = function() {
+    b2world.DestroyBody(this.body);
+};
+
 Wheel.prototype.setAngle=function(angle){
     /*
     angle - wheel angle relative to car, in degrees
