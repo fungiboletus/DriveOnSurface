@@ -37,7 +37,25 @@ namespace DriveOnSurface
 
         public void LoadContent(ContentManager theContentManager)
         {
-            //BSprite.LoadContent(theContentManager, "");
+            switch (BonusType)
+            {
+                case BType.Clous :
+                    BSprite.LoadContent(theContentManager, "clous");
+                    break;
+                case BType.Glue :
+                    BSprite.LoadContent(theContentManager, "glue");
+                    break;
+                case BType.Train :
+                    BSprite.LoadContent(theContentManager, "train");
+                    break;
+                case BType.Granny :
+                    //BSprite.LoadContent(theContentManager, "");
+                    break;
+                default :
+                //BSprite.LoadContent(theContentManager, "unknown");
+                    break;
+
+            }
         }
 
         public Vector2 getPosition()

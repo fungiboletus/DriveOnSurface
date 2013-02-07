@@ -109,6 +109,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="App1.cs" />
+    <Compile Include="RectangleOverlay.cs" />
     <Compile Include="RedirectIO.cs" />
     <Compile Include="Sprite.cs" />
   </ItemGroup>

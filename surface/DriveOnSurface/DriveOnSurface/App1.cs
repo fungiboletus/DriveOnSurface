@@ -52,6 +52,10 @@ namespace DriveOnSurface
 
         Background.Track selectedTrack = Background.Track.Menu;
 
+        bool debug = true;
+
+        List<RectangleOverlay> rects = new List<RectangleOverlay>();
+
         /// <summary>
         /// The target receiving all surface input for the application.
         /// </summary>
@@ -323,6 +327,12 @@ namespace DriveOnSurface
                 }
             }
 
+            foreach (RectangleOverlay r in rects)
+            {
+                r.Draw(this.spriteBatch);
+                //Console.WriteLine("drawing rect at : " + r.dummyRectangle.Center);
+            }
+
             spriteBatch.End();
 
             //TODO: Avoid any expensive logic if application is neither active nor previewed
@@ -419,86 +429,119 @@ namespace DriveOnSurface
                     List<string> objectsIdToKeep = new List<string>();
                     objectsIdToKeep.Add("background");
 
-                    // recuperation des joueurs
-                    foreach (JObject player in o["joueurs"])
+                    try
                     {
-
-                        objectsIdToKeep.Add((string)player["pseudo"]);
-
-                        if (DrawableObjects.Keys.Contains((string)player["pseudo"]))
+                        // recuperation des joueurs
+                        foreach (JObject player in o["joueurs"])
                         {
-                            Console.WriteLine("Updating car position : " + player["pseudo"] + "( " + (int)player["position_x"] + ", " + (int)player["position_y"] + ")");
-                            Car car = (Car)DrawableObjects[(string)player["pseudo"]];
-                            car.setPosition((int)player["position_x"] * scale, (int)player["position_y"] * scale);
-                            car.setRotation((float)player["angle"]);
-                        }
-                        else
-                        {
-                            //Console.WriteLine("Creating new car : " + pseudo);
-                            Car.CColor CarColor;
-                            switch ((string)player["color"])
+
+                            objectsIdToKeep.Add((string)player["pseudo"]);
+
+                            if (DrawableObjects.Keys.Contains((string)player["pseudo"]))
                             {
-                                case "Blue":
-                                    CarColor = Car.CColor.Blue;
-                                    break;
-                                case "Yellow":
-                                    CarColor = Car.CColor.Yellow;
-                                    break;
-                                case "Green":
-                                    CarColor = Car.CColor.Green;
-                                    break;
-                                case "Red":
-                                    CarColor = Car.CColor.Red;
-                                    break;
-                                default:
-                                    CarColor = Car.CColor.None;
-                                    break;
-                            }
-                            if (CarColor != Car.CColor.None)
-                            {
-                                Car car = new Car((string)player["pseudo"], CarColor);
-                                car.LoadContent(this.Content);
-                                car.setPosition(((int)player["position_x"]) * scale, ((int)player["position_y"]) * scale);
+                                //Console.WriteLine("Updating car position : " + player["pseudo"] + "( " + (int)player["position_x"] + ", " + (int)player["position_y"] + ")");
+                                Car car = (Car)DrawableObjects[(string)player["pseudo"]];
+                                car.setPosition((int)((float)player["position_x"] * scale), (int)((float)player["position_y"] * scale));
                                 car.setRotation((float)player["angle"]);
-                                DrawableObjects.Add((string)player["pseudo"], car);
-                                Console.WriteLine("new Car : " + car.getPosition());
+                            }
+                            else
+                            {
+                                //Console.WriteLine("Creating new car : " + pseudo);
+                                Car.CColor CarColor;
+                                switch ((string)player["color"])
+                                {
+                                    case "Blue":
+                                        CarColor = Car.CColor.Blue;
+                                        break;
+                                    case "Yellow":
+                                        CarColor = Car.CColor.Yellow;
+                                        break;
+                                    case "Green":
+                                        CarColor = Car.CColor.Green;
+                                        break;
+                                    case "Red":
+                                        CarColor = Car.CColor.Red;
+                                        break;
+                                    default:
+                                        CarColor = Car.CColor.None;
+                                        break;
+                                }
+                                if (CarColor != Car.CColor.None)
+                                {
+                                    Car car = new Car((string)player["pseudo"], CarColor);
+                                    car.LoadContent(this.Content);
+                                    car.setPosition((int)(((float)player["position_x"]) * scale), (int)(((float)player["position_y"]) * scale));
+                                    car.setRotation((float)player["angle"]);
+                                    DrawableObjects.Add((string)player["pseudo"], car);
+                                    //Console.WriteLine("new Car : " + car.getPosition());
+                                }
                             }
                         }
                     }
+                    catch (Exception e) { }
 
-                    //recuperation des feux de départ                    
-                    foreach (JObject greenlights in o["starting_lights"])
+                    //recuperation des feux de départ    
+                    try
                     {
-                        objectsIdToKeep.Add("greenlights");
-
-                        GreenLights gl;
-
-                        if (DrawableObjects.Keys.Contains("greenlights"))
+                        foreach (JObject greenlights in o["starting_lights"])
                         {
-                            gl = (GreenLights)DrawableObjects["greenlights"];
-                        }
-                        else
-                        {
-                            gl = new GreenLights();
-                            gl.LoadContent(this.Content);
-                            DrawableObjects.Add("greenlights", gl);
-                        }
+                            objectsIdToKeep.Add("greenlights");
 
-                        switch ((string)greenlights["state"])
-                        {
-                            case "3":
-                                gl.currentState = GreenLights.GLState.R3;
-                                break;
-                            case "2":
-                                gl.currentState = GreenLights.GLState.R2;
-                                break;
-                            case "1":
-                                gl.currentState = GreenLights.GLState.R1;
-                                break;
-                            default:
-                                gl.currentState = GreenLights.GLState.GO;
-                                break;
+                            GreenLights gl;
+
+                            if (DrawableObjects.Keys.Contains("greenlights"))
+                            {
+                                gl = (GreenLights)DrawableObjects["greenlights"];
+                            }
+                            else
+                            {
+                                gl = new GreenLights();
+                                gl.LoadContent(this.Content);
+                                DrawableObjects.Add("greenlights", gl);
+                            }
+
+                            switch ((string)greenlights["state"])
+                            {
+                                case "3":
+                                    gl.currentState = GreenLights.GLState.R3;
+                                    break;
+                                case "2":
+                                    gl.currentState = GreenLights.GLState.R2;
+                                    break;
+                                case "1":
+                                    gl.currentState = GreenLights.GLState.R1;
+                                    break;
+                                default:
+                                    gl.currentState = GreenLights.GLState.GO;
+                                    break;
+                            }
                         }
+                    }
+                    catch { }
+
+                    if (debug)
+                    {
+                        try
+                        {
+                            foreach (JObject prop in o["props"])
+                            {
+                                
+                                int width = ((int)prop["size"][0] * scale);
+                                int h = ((int)prop["size"][1] * scale);
+                                int x = (int)prop["position"][0] * scale - width/2;
+                                int y = (int)prop["position"][1] * scale - h/2;
+                                float angle = (float)prop["angle"];
+
+                                RectangleOverlay r = new RectangleOverlay(new Rectangle(x, y, width, h), Color.White, this, angle);
+                                r.Initialize();
+                                r.LoadContent();
+                                rects.Add(r);
+                                //Console.WriteLine("newRect : " + x + ", " + y);
+                            }
+
+                            debug = false;
+                        }
+                        catch { }
                     }
 
                     // suppression des objets qui n'existent plus

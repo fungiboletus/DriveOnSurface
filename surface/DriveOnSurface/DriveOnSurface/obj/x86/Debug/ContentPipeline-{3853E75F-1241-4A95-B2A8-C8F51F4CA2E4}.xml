@@ -8,7 +8,7 @@
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\SpriteFont1.xnb</Output>
-      <Time>2013-02-02T16:17:19.8422126+01:00</Time>
+      <Time>2013-01-18T16:03:54+01:00</Time>
     </Item>
     <Item>
       <Source>blue-car.png</Source>
@@ -17,7 +17,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\blue-car.xnb</Output>
-      <Time>2013-02-02T16:17:19.8602136+01:00</Time>
+      <Time>2013-01-25T09:41:50.975+01:00</Time>
     </Item>
     <Item>
       <Source>green-car.png</Source>
@@ -26,7 +26,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\green-car.xnb</Output>
-      <Time>2013-02-02T16:17:19.8612137+01:00</Time>
+      <Time>2013-01-25T09:42:09.381+01:00</Time>
     </Item>
     <Item>
       <Source>red-car.png</Source>
@@ -35,7 +35,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\red-car.xnb</Output>
-      <Time>2013-02-02T16:17:19.8712142+01:00</Time>
+      <Time>2013-01-25T09:42:33.531+01:00</Time>
     </Item>
     <Item>
       <Source>yellow-car.png</Source>
@@ -44,7 +44,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\yellow-car.xnb</Output>
-      <Time>2013-02-02T16:17:19.8762145+01:00</Time>
+      <Time>2013-01-25T09:40:17.512+01:00</Time>
     </Item>
     <Item>
       <Source>classic-background.png</Source>
@@ -53,7 +53,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\classic-background.xnb</Output>
-      <Time>2013-02-02T16:17:19.8592136+01:00</Time>
+      <Time>2013-02-06T18:36:30.8718+01:00</Time>
     </Item>
     <Item>
       <Source>classic-trees.png</Source>
@@ -62,7 +62,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\classic-trees.xnb</Output>
-      <Time>2013-02-02T16:17:19.8762145+01:00</Time>
+      <Time>2013-02-06T18:36:30.9048+01:00</Time>
     </Item>
     <Item>
       <Source>damier.png</Source>
@@ -71,7 +71,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\damier.xnb</Output>
-      <Time>2013-02-02T19:29:56.6052216+01:00</Time>
+      <Time>2013-02-06T18:36:30.9188+01:00</Time>
     </Item>
     <Item>
       <Source>green_light.png</Source>
@@ -80,7 +80,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\green_light.xnb</Output>
-      <Time>2013-02-03T14:44:33.3945126+01:00</Time>
+      <Time>2013-02-06T18:36:30.9578+01:00</Time>
     </Item>
     <Item>
       <Source>red_light.png</Source>
@@ -89,7 +89,34 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\red_light.xnb</Output>
-      <Time>2013-02-03T14:44:33.3955126+01:00</Time>
+      <Time>2013-02-06T18:36:30.9598+01:00</Time>
+    </Item>
+    <Item>
+      <Source>clous.png</Source>
+      <Name>clous</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\clous.xnb</Output>
+      <Time>2013-02-06T18:38:46.2368+01:00</Time>
+    </Item>
+    <Item>
+      <Source>glue.png</Source>
+      <Name>glue</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\glue.xnb</Output>
+      <Time>2013-02-06T18:38:46.2398+01:00</Time>
+    </Item>
+    <Item>
+      <Source>train.png</Source>
+      <Name>train</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\train.xnb</Output>
+      <Time>2013-02-06T18:38:46.2428+01:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -130,7 +157,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2013-01-18T21:46:43.8213343+01:00</Value>
+        <Value>2013-01-11T11:09:30.464+01:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>
