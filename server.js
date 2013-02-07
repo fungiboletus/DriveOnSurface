@@ -61,23 +61,40 @@ if (canvas)
 	});
 }
 
+app.get('/track/:name');
+app.get('/start');
+//put_tag/:code/centreX(m)/centreY(m)/rotation?
+//remove_tag/:code
+//blob/centreX/centreY/larger/longueur
+
 // Send a Json object representing the game state
 app.get('/state', function(req, res) {
 
 	// Calculating the games changes
 	var newDate = +new Date(),
 		diff = newDate - currentDate,
-		sendPosition = false;
+		sendPosition = false,
+		positionsGamers = [];
 
 	currentDate = newDate;
 	gameInstance.tick(diff);
 
 	if (currentDate - positionDate > 1000) {
 		positionDate = currentDate;
-		// sendPosition = true;
+		sendPosition = true;
 	}
 
-	var state = {},
+	var state = {
+		bonus: [
+			{
+				type: "random",
+				id: "canard",
+				position_x: 30.0,
+				position_y: 30.0,
+				angle: 0.0
+			}
+		]
+	},
 		state_joueurs = [];
 
 	for (var pseudo in gamers) {
@@ -101,12 +118,51 @@ app.get('/state', function(req, res) {
 				angle: angle
 			});
 
-			if (sendPosition)
-				// Send the speed of the car and the gamer rank
-				gamer.socket.emit('speed', speed)
-					.emit('rank', gamer.rank);
+			if (sendPosition) {
+				positionsGamers.push(gamer);
+				gamer.socket.emit('speed', speed);
+			}
 		}
 	}
+
+	if (sendPosition) {
+		positionsGamers.sort(function(a, b) {
+			var rankA = a.rank,
+				rankB = b.rank;
+				
+			console.log(rankA, rankB);
+
+			if (rankA.turn > rankB.turn)
+				return -1;
+
+			if (rankA.turn < rankB.turn)
+				return 1;
+
+			if (rankA.line > rankB.line)
+				return -1;
+
+			if (rankA.line < rankB.line)
+				return 1;
+
+			if (rankA.pos < rankB.pos)
+				return -1;
+
+			if (rankA.pos > rankB.pos)
+				return 1;
+
+			return 0;
+		});
+
+		// Building a string in order to prevent mixed output with socket.io debug
+		var logPositions = "Positions : \n";
+		for (var i = 0, len = positionsGamers.length; i < len;) {
+			var gamer = positionsGamers[i];
+			logPositions += "\t" + gamer.name + " : " + ++i;
+			gamer.socket.emit('rank', i);
+		}
+		console.log(logPositions);
+	}
+
 
 	state.joueurs = state_joueurs;
 
@@ -142,7 +198,7 @@ io.sockets.on('connection', function (socket) {
 			gamer = gamers[pseudo];
 		else {
 			gamer = new Gamer(pseudo, gameInstance);
-			gamer.rank = ++nbGamers;
+			gamer.rank.pos = ++nbGamers;
 			gamers[pseudo] = gamer;
 		}
 
@@ -157,7 +213,7 @@ io.sockets.on('connection', function (socket) {
 			if (gamer.car === null)
 				gamer.createCar();
 			else
-				console.log("A car is already attached to the gamer");
+				console.log("A car is already associated with the gamer");
 
 			gamer.color = data;
 			car = gamer.car;

@@ -52,6 +52,7 @@ function Car(pars){
     def.angularDamping=0.3;
     // def.angularDamping=0.35;
     this.body=b2world.CreateBody(def);
+    this.body.associatedCar = this;
     
     //initialize shape
     var fixdef= new box2d.b2FixtureDef();

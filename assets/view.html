@@ -205,21 +205,21 @@ function getCode(all) {
 		if (all) {
 
 			if (block.hasClass('round'))
-				code += "new BoxProp(["+width+", "+height+"], ["+
-					left+", "+top+"], "+ angle+");\n";
-			else
 				code += "new Plot("+width/2+", ["+
 					left+", "+top+"]);\n";
+			else
+				code += "new BoxProp(["+width+", "+height+"], ["+
+					left+", "+top+"], "+ angle+");\n";
 		}
 		else
 		{
 			var server = 'http://interstella.local:3333'
 			if (block.hasClass('round'))
 				var url =  server+"/plot/"+width/2+"/"+
-					left+"/"+top;
+					left+"/"+top+"/sensor";
 			else 
 				var url =  server+"/box/"+width+"/"+height+"/"+
-					left+"/"+top+"/"+ angle;	
+					left+"/"+top+"/"+ angle+"/sensor";	
 
 			$.get(url);
 		}

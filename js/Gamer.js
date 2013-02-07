@@ -15,7 +15,7 @@ var Gamer = function(name, game) {
 	this.car = null;
 	this.socket = null;
 	this.currentBonus = null;
-	this.rank = 1;
+	this.rank = {turn:0, line: 0, pos: 0};
 
 	// Create the bonus associated to the gamer
 	this.bonus = {
@@ -37,6 +37,7 @@ Gamer.prototype.createCar = function() {
 		this.car.removeFromTheWorld();
 
 	this.car = this.game.newCar();
+	this.car.associatedGamer = this;
 };
 
 Gamer.prototype.activateRandomBonus = function() {

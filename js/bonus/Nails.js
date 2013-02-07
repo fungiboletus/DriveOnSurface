@@ -14,7 +14,7 @@ Nails.prototype.start = function(postion, angle) {
 
 	var obj = this;
 	this.body.onContact = function(car){
-		obj.onContactAction(car);
+		obj.onContact(car);
 	};
 
 	this._start(position, angle);
@@ -33,7 +33,7 @@ Nails.prototype.stop = function() {
 	this._stop();
 };
 
-Nails.prototype.onContactAction = function(car) {
+Nails.prototype.onContact = function(car) {
 	this.victims.push(car);
 	car.oldLinearDamping = car.linearDamping;
 	// Very important linear damping

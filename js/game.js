@@ -3,7 +3,8 @@
 var	box2d = require('./vendor/Box2dWeb-2.1.a.3'),
 	Car = require('./car'),
 	BoxProp = require('./boxprop'),
-    Plot = require('./plot');
+    Plot = require('./plot'),
+    Line = require('./Line');
 
 
 var WIDTH_PX=960;   //screen width in pixels
@@ -33,15 +34,17 @@ module.exports = function(canvas) {
 
 
     // Create a new and wonderfull listener
-    var listener = new box2d.Box2D.Dynamics.b2ContactListener;
-    listener.PostSolve = function(a, b){
+    var listener = new box2d.Box2D.Dynamics.b2ContactListener();
+    listener.BeginContact = function(contact) {
+        var fa = contact.GetFixtureA(),
+            fb = contact.GetFixtureB(),
+            ba = fa.GetBody(),
+            bb = fb.GetBody();
 
-        var c = b.normalImpulses,
-            marge = 42;
-
-        if (c[0] > marge)
-            console.log(a, b, c);
-        // console.log(a, b, c);
+        if (ba.associatedCar && bb.onContact)
+            bb.onContact(ba.associatedCar);
+        else if (bb.associatedCar && ba.onContact)
+            ba.onContact(bb.associatedCar);
     };
     b2world.SetContactListener(listener);
     
@@ -255,6 +258,33 @@ new BoxProp([3.75, 1], [32.625, 41], 0.24434609527920614);
 new BoxProp([2.5, 1], [25.375, 31.5], 0.24434609527920614);
 new BoxProp([12.125, 1], [23.25, 37.125], 1.8151424220741028);
 new BoxProp([8, 1], [26.125, 43.5], 0.22689280275926285);
+
+new Line([30.5, 1], [23.625, 14.375], 1.2740903539558606, 11, false);
+new Line([15.5, 1], [41.75, 16.75], 1.7627825445142729, 10, true);
+new Line([15.5, 1], [53, 18.625], 1.7627825445142729, 9, false);
+new Line([13.75, 1], [68.75, 23.5], 1.7627825445142729, 8, false);
+new Line([19.25, 1], [81.875, 29.625], 2.1467549799530254, 7, false);
+new Line([23, 1], [86.875, 44.875], 0.08726646259971647, 6, false);
+new Line([25.5, 1], [81.5, 59.625], 0.767944870877505, 5, false);
+new Line([19.5, 1], [51, 56.625], 1.7627825445142729, 4, false);
+new Line([19.5, 1], [31.875, 52.625], 1.8500490071139892, 3, false);
+new Line([19.5, 1], [16.25, 49.375], 2.2689280275926285, 2, false);
+new Line([21.75, 1], [13.375, 31.625], 0.24434609527920614, 1, false);
+
+var startPositions = [
+    [7.875, 28.125],
+    [12.875, 29.125],
+    [14.375, 24.375],
+    [9.25, 23],
+    [10.875, 18.125],
+    [16.125, 19.375],
+    [17.875, 14.75],
+    [12.625, 13.375],
+    [14.25, 9],
+    [19.375, 10]
+];
+
+
     /*for (var i = 0; i < 150; ++i)
         new Plot(0.5 + Math.random() * 1.5, [Math.random() * 80, Math.random() *    60]);*/
 
@@ -362,7 +392,7 @@ fs.readFile(__dirname + '/../circuit.svg', function(err, data) {
         newCar: function() {
             var car = new Car({'width':1.8,
                     'length':2.5,
-                    'position':[parseFloat(randInt(10, 20)), parseFloat(randInt(10, 20))],
+                    'position':startPositions.shift(),
                     'angle':190,
                     'power':2,
                     'max_steer_angle':30,
