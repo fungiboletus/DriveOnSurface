@@ -10,7 +10,7 @@ namespace DriveOnSurface
 {
     class Bonus : IDrawableObject, IMovableObject
     {
-        public enum BType { Clous, Train, Granny, Glue, Unknown };
+        public enum BType { Clous, Train, Granny, Unknown };
 
         public Sprite BSprite;
 
@@ -41,9 +41,6 @@ namespace DriveOnSurface
             {
                 case BType.Clous :
                     BSprite.LoadContent(theContentManager, "clous");
-                    break;
-                case BType.Glue :
-                    BSprite.LoadContent(theContentManager, "glue");
                     break;
                 case BType.Train :
                     BSprite.LoadContent(theContentManager, "train");

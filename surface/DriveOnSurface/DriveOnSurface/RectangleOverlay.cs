@@ -32,7 +32,7 @@ namespace DriveOnSurface
             dummyTexture.SetData(new Color[] { Color.White });
         }
 
-        public new void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch sb)
         {
             
             sb.Draw(dummyTexture, dummyRectangle,dummyRectangle, Colori, orientation, Vector2.Zero, SpriteEffects.None, 0f );

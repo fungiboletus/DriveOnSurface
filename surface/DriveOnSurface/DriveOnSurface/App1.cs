@@ -222,7 +222,7 @@ namespace DriveOnSurface
                                 {
                                     TagValues.Add(t.Tag.Value.ToString(), t);
                                     WebRequest wrGETURL = WebRequest.Create(serverURL + "put_tag/"
-                                        + t.Tag.Value.ToString() + "/" + t.CenterX / 16 + "/" + t.CenterY / 16);
+                                        + t.Tag.Value.ToString() + "/" + t.CenterX / 16 + "/" + t.CenterY / 16 + "/" + t.Orientation);
                                 }
                             }
                             else if (! t.IsFingerRecognized) // ni un doigt, ni un tag : c'est donc un blob
@@ -231,15 +231,23 @@ namespace DriveOnSurface
                             }
                         }
 
+                        List<string> tagsToDelete = new List<string>();
+
                         foreach (String tagV in TagValues.Keys) // et on supprime ceux qui ont été enlevés
                         {
                             if (!detectedTags.Contains(tagV))
                             {
-                                TagValues.Remove(tagV);
+                                tagsToDelete.Add(tagV);
                                 WebRequest wrGETURL = WebRequest.Create(serverURL + "removed_tag/"
                                     + tagV);
                             }
                         }
+
+                        foreach (String tagV in tagsToDelete)
+                        {
+                            TagValues.Remove(tagV);
+                        }
+
                     }
                     else if (CurrentState == GameState.menu)
                     {
@@ -281,7 +289,7 @@ namespace DriveOnSurface
                             Background trackBackground = new Background(new Vector2(0, 0), selectedTrack);
                             trackBackground.LoadContent(this.Content);
                             DrawableObjects["background"] = trackBackground;
-                            //TODO envoyer circuit choisi au serveur.
+                            //TODO envoyer circuit choisi au serveur. (/track/nomDuCircuit)
                         }
                     }
 
@@ -478,7 +486,7 @@ namespace DriveOnSurface
                             }
                         }
                     }
-                    catch (Exception e) { }
+                    catch { }
 
                     //recuperation des feux de départ    
                     try
