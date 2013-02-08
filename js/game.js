@@ -4,7 +4,8 @@ var	box2d = require('./vendor/Box2dWeb-2.1.a.3'),
 	Car = require('./car'),
 	BoxProp = require('./boxprop'),
 	Plot = require('./plot'),
-	Line = require('./Line');
+	Line = require('./Line'),
+	BonusPlot = require('./BonusPlot');
 
 
 var WIDTH_PX=960;   //screen width in pixels
@@ -58,7 +59,6 @@ module.exports = function(canvas) {
 	new BoxProp([wallWidth, HEIGHT_M-dblWallWidth],[WIDTH_M-semiWallWidth, HEIGHT_M/2]);
 
 
-var startPositions = [];
 
 
 	/*for (var i = 0; i < 150; ++i)
@@ -157,7 +157,6 @@ fs.readFile(__dirname + '/../circuit.svg', function(err, data) {
 });
 */
 
-	var cars = [];
 
 	var randInt = function(min, max) {
 		return Math.floor(Math.random()*(max-min))+min;
@@ -169,10 +168,16 @@ fs.readFile(__dirname + '/../circuit.svg', function(err, data) {
 			b2world.DestroyBody(blob.plot.body);
 			b2world.DestroyJoint(blob.mouseJoint);
 			blob = null;
-		};
+		},
+		startPositions = [],
+		cars = [],
+		bonus = [];
 
 	//let box2d draw it's bodies
 	return {
+		getBonus: function() {
+			return bonus;
+		},
 		nbTurns: 2,
 		newCar: function() {
 			var car = new Car({'width':1.8,
@@ -245,6 +250,18 @@ if (name === 'city') {
 	[12.625, 13.375],
 	[14.25, 9],
 	[19.375, 10]
+];
+
+bonus = [
+new BonusPlot([52.375, 36.875]),
+new BonusPlot([18.875, 58.125]),
+new BonusPlot([63.375, 52.625]),
+new BonusPlot([71.125, 33.75]),
+new BonusPlot([102.625, 23.75]),
+new BonusPlot([62.5, 10.75]),
+new BonusPlot([34.25, 7.875]),
+new BonusPlot([5.625, 9.75]),
+new BonusPlot([34.375, 27.75])
 ];
 
 new BoxProp([10.875, 1], [63.75, 29.5], 0.20943951023931956);
@@ -358,6 +375,20 @@ startPositions = [
 	[62, 62.375],
 	[67.375, 58.125],
 	[67.25, 62.5]
+];
+
+bonus = [
+	new BonusPlot([71.625, 19.875]),
+	new BonusPlot([112.25, 14.25]),
+	new BonusPlot([50, 26.25]),
+	new BonusPlot([62.375, 58]),
+	new BonusPlot([4.875, 35.625]),
+	new BonusPlot([30.625, 6.125]),
+	new BonusPlot([95.5, 36.125]),
+	new BonusPlot([24.375, 43.5]),
+	new BonusPlot([14.125, 57.125]),
+	new BonusPlot([70.375, 45.375]),
+	new BonusPlot([106.875, 57.875])
 ];
 
 new Line([9.75, 1], [31.75, 60.125], 1.6231562043547265, 1, true);
