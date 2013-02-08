@@ -154,6 +154,15 @@
       <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\city-top.xnb</Output>
       <Time>2013-02-07T21:27:45.6584+01:00</Time>
     </Item>
+    <Item>
+      <Source>start-flag.png</Source>
+      <Name>start-flag</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\start-flag.xnb</Output>
+      <Time>2013-02-08T09:04:53.9478+01:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{3853E75F-1241-4A95-B2A8-C8F51F4CA2E4}</ContentProjectGUID>

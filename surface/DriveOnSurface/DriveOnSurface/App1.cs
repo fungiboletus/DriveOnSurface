@@ -48,7 +48,7 @@ namespace DriveOnSurface
 
         Dictionary<String, TouchPoint> TagValues = new Dictionary<string, TouchPoint>();
 
-        enum GameState { menu, play }
+        enum GameState { menu, play, waiting }
 
         GameState CurrentState = GameState.menu;
 
@@ -215,6 +215,14 @@ namespace DriveOnSurface
                     {
                         refreshGameState();
 
+                        if (DrawableObjects.ContainsKey("greenlights"))
+                        {
+                            GreenLights gl = (GreenLights)DrawableObjects["greenlights"];
+                            if(gameTime.TotalGameTime.Seconds > gl.last_update + 1) {
+                                DrawableObjects.Remove("greenlights");
+                            }
+                        }
+
                         List<String> detectedTags = new List<string>();
 
                         foreach (var t in touches) // création de la liste des tags posés
@@ -229,9 +237,10 @@ namespace DriveOnSurface
                                         + t.Tag.Value.ToString() + "/" + t.CenterX / 16 + "/" + t.CenterY / 16 + "/" + t.Orientation);
                                 }
                             }
-                            else if (! t.IsFingerRecognized) // ni un doigt, ni un tag : c'est donc un blob
+                            else if (!t.IsFingerRecognized) // ni un doigt, ni un tag : c'est donc un blob
                             {
-                                //TODO envoyer coordonnées du blob au serveur
+                                WebRequest wrGETURL = WebRequest.Create(serverURL + "blob/"
+                                    + t.CenterX + "/" + t.CenterY);
                             }
                         }
 
@@ -293,12 +302,82 @@ namespace DriveOnSurface
 
                         if (isTrackSelected)
                         {
-                            CurrentState = GameState.play;
+                            CurrentState = GameState.waiting;
                             Background trackBackground = new Background(new Vector2(0, 0), selectedTrack);
                             trackBackground.LoadContent(this.Content);
                             DrawableObjects["background"] = trackBackground;
-                            //TODO envoyer circuit choisi au serveur. (/track/nomDuCircuit)
+                            //envoyer circuit choisi au serveur. (/track/nomDuCircuit)
+                            string trackName = "none";
+                            switch (selectedTrack)
+                            {
+                                case Background.Track.Classic:
+                                    trackName = "classic";
+                                    break;
+                                case Background.Track.RainbowRoad:
+                                    trackName = "rainbow";
+                                    break;
+                                case Background.Track.City:
+                                    trackName = "city";
+                                    break;
+                            }
+                            WebRequest wrGETURL = WebRequest.Create(serverURL + "track/" + trackName);
                         }
+                    }
+                    else if (CurrentState == GameState.waiting)
+                    {
+                        refreshGameState();
+
+                        GreenLights gl;
+
+                        if (DrawableObjects.ContainsKey("greenlights"))
+                        {
+                            gl = (GreenLights)DrawableObjects["greenlights"];
+                        }
+                        else
+                        {
+                            Console.WriteLine("new lights");
+                            gl = new GreenLights();
+                            gl.LoadContent(this.Content);
+                            DrawableObjects.Add("greenlights", gl);
+                        }
+
+                        switch (gl.currentState)
+                        {
+                            case GreenLights.GLState.Waiting:
+                                foreach (var t in touches)
+                                {
+                                    if (t.Y > 220 && t.Y < 860 && t.X > 640 && t.X < 1280) //clic sur le drapeau
+                                    {
+                                        gl.currentState = GreenLights.GLState.R3;
+                                        gl.last_update = gameTime.TotalGameTime.Seconds;
+                                    }
+                                }
+                                break;
+                            case GreenLights.GLState.R3 :
+                                if (gameTime.TotalGameTime.Seconds > gl.last_update + 1)
+                                {
+                                    gl.currentState = GreenLights.GLState.R2;
+                                    gl.last_update = gameTime.TotalGameTime.Seconds;
+                                }
+                                break;
+                            case GreenLights.GLState.R2 :
+                                if (gameTime.TotalGameTime.Seconds > gl.last_update + 1)
+                                {
+                                    gl.currentState = GreenLights.GLState.R1;
+                                    gl.last_update = gameTime.TotalGameTime.Seconds;
+                                }
+                                break;
+                            case GreenLights.GLState.R1 :
+                                if (gameTime.TotalGameTime.Seconds > gl.last_update + 1)
+                                {
+                                    gl.currentState = GreenLights.GLState.GO;
+                                    gl.last_update = gameTime.TotalGameTime.Seconds;
+                                    CurrentState = GameState.play;
+                                    WebRequest wrGETURL = WebRequest.Create(serverURL + "start");
+                                }
+                                break;
+                        }
+
                     }
 
                 }
@@ -444,6 +523,7 @@ namespace DriveOnSurface
 
                     List<string> objectsIdToKeep = new List<string>();
                     objectsIdToKeep.Add("background");
+                    objectsIdToKeep.Add("greenlights");
 
                     try
                     {
@@ -551,11 +631,11 @@ namespace DriveOnSurface
                         {
                             foreach (JObject prop in o["props"])
                             {
-                                
+
                                 int width = ((int)prop["size"][0] * scale);
                                 int h = ((int)prop["size"][1] * scale);
-                                int x = (int)prop["position"][0] * scale - width/2;
-                                int y = (int)prop["position"][1] * scale - h/2;
+                                int x = (int)prop["position"][0] * scale - width / 2;
+                                int y = (int)prop["position"][1] * scale - h / 2;
                                 float angle = (float)prop["angle"];
 
                                 RectangleOverlay r = new RectangleOverlay(new Rectangle(x, y, width, h), Color.White, this, angle);

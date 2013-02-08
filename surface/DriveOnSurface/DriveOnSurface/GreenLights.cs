@@ -11,29 +11,38 @@ namespace DriveOnSurface
     class GreenLights : IDrawableObject
     {
 
-        public enum GLState { R3, R2, R1, GO };
+        public enum GLState { Waiting, R3, R2, R1, GO };
 
         public Sprite redLight;
 
         public Sprite greenLight;
 
-        public GLState currentState = GLState.R3;
+        public Sprite startFlag;
+
+        public GLState currentState = GLState.Waiting;
+
+        public int last_update;
 
         public GreenLights()
         {
             redLight = new Sprite();
             greenLight = new Sprite();
+            startFlag = new Sprite();
 
             Vector2 Position = new Vector2(640, 424);
 
             greenLight.Position = Position;
             redLight.Position = Position;
+            startFlag.Position = new Vector2(1920 / 2, 1080 / 2);
+            startFlag.origin = new Vector2(640 / 2, 640 / 2);
 
             greenLight.rotation = 0;
             redLight.rotation = 0;
+            startFlag.rotation = 0;
 
             greenLight.depth = 0.05f;
             redLight.depth = 0.05f;
+            startFlag.depth = 0.05f;
         }
 
         public string getID()
@@ -43,7 +52,11 @@ namespace DriveOnSurface
 
         public void Draw(SpriteBatch sb)
         {
-            if (currentState == GLState.R3)
+            if (currentState == GLState.Waiting)
+            {
+                startFlag.Draw(sb);
+            }
+            else if (currentState == GLState.R3)
             {
                 redLight.Position.X = 480;
                 redLight.Draw(sb);
@@ -85,6 +98,7 @@ namespace DriveOnSurface
         {
             greenLight.LoadContent(theContentManager, "green_light");
             redLight.LoadContent(theContentManager, "red_light");
+            startFlag.LoadContent(theContentManager, "start-flag");
         }
     }
 }
