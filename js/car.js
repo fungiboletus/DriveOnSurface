@@ -144,7 +144,7 @@ Car.prototype.update=function(msDuration){
         //2. SET WHEEL ANGLE
   
         //calculate the change in wheel's angle for this update, assuming the wheel will reach is maximum angle from zero in 200 ms
-        var incr=(this.max_steer_angle/1000) * msDuration;
+        var incr=(this.max_steer_angle/3000) * msDuration;
         
         if(this.steer==STEER_RIGHT){
             this.wheel_angle=Math.min(Math.max(this.wheel_angle, 0)+incr, this.max_steer_angle); //increment angle without going over max steer

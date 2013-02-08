@@ -61,11 +61,6 @@ if (canvas)
 	});
 }
 
-app.get('/track/:name');
-app.get('/start');
-//put_tag/:code/centreX(m)/centreY(m)/rotation?
-//remove_tag/:code
-//blob/centreX/centreY/larger/longueur
 
 // Send a Json object representing the game state
 app.get('/state', function(req, res) {
@@ -184,8 +179,28 @@ app.get('/plot/:radius/:left/:top/:type', function(req, res) {
 });
 
 app.get('/blob/:left/:top', function(req, res) {
+	console.log("Blob", req.params);
 	gameInstance.setBlobTarget(parseFloat(req.params.left), parseFloat(req.params.top));
+	res.header("Access-Control-Allow-Origin", "*");
+	res.send('ok');
 });
+
+app.get('/track/:name');
+app.get('/start');
+
+app.get('/put_tag/:code/:left/:top/:angle', function(req, res){
+	console.log("Put_tag", req.params);
+	res.header("Access-Control-Allow-Origin", "*");
+	res.send('ok');
+});
+app.get('/remove_tag/:code', function(req, res){
+	console.log("remove_tag", req.params);
+	res.header("Access-Control-Allow-Origin", "*");
+	res.send('ok');
+});
+//put_tag/:code/centreX(m)/centreY(m)/rotation?
+//remove_tag/:code
+//blob/centreX/centreY/larger/longueur
 
 io.sockets.on('connection', function (socket) {
 	console.log("Connection of a new gamer");
