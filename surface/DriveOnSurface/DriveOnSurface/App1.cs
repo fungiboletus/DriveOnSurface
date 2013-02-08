@@ -242,7 +242,7 @@ namespace DriveOnSurface
                                     
                                 }
                             }
-                            else if (!t.IsFingerRecognized) // ni un doigt, ni un tag : c'est donc un blob
+                            else //  un doigt ou un blob
                             {
                                 string data = wc.DownloadString(serverURL + "blob/"
                                     + t.CenterX / scale + "/" + t.CenterY / scale);
