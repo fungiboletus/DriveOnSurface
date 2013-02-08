@@ -151,13 +151,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="bonusblock1.png">
-      <Name>bonusblock1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="nails.jpg">
       <Name>nails</Name>
       <Importer>TextureImporter</Importer>
@@ -165,6 +158,13 @@
     </Compile>
     <Compile Include="rabbit.jpg">
       <Name>rabbit</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="bonusblock1.png">
+      <Name>bonusblock1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

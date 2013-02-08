@@ -222,7 +222,8 @@ namespace DriveOnSurface
                         if (DrawableObjects.ContainsKey("greenlights"))
                         {
                             GreenLights gl = (GreenLights)DrawableObjects["greenlights"];
-                            if(gameTime.TotalGameTime.Seconds > gl.last_update + 1) {
+                            if (gameTime.TotalGameTime.Seconds > gl.last_update + 1)
+                            {
                                 DrawableObjects.Remove("greenlights");
                             }
                         }
@@ -239,7 +240,7 @@ namespace DriveOnSurface
                                     TagValues.Add(t.Tag.Value.ToString(), t);
                                     string data = wc.DownloadString(serverURL + "put_tag/"
                                         + t.Tag.Value.ToString() + "/" + t.CenterX / scale + "/" + t.CenterY / scale + "/" + t.Orientation);
-                                    
+
                                 }
                             }
                             else //  un doigt ou un blob
@@ -358,21 +359,21 @@ namespace DriveOnSurface
                                     }
                                 }
                                 break;
-                            case GreenLights.GLState.R3 :
+                            case GreenLights.GLState.R3:
                                 if (gameTime.TotalGameTime.Seconds > gl.last_update + 1)
                                 {
                                     gl.currentState = GreenLights.GLState.R2;
                                     gl.last_update = gameTime.TotalGameTime.Seconds;
                                 }
                                 break;
-                            case GreenLights.GLState.R2 :
+                            case GreenLights.GLState.R2:
                                 if (gameTime.TotalGameTime.Seconds > gl.last_update + 1)
                                 {
                                     gl.currentState = GreenLights.GLState.R1;
                                     gl.last_update = gameTime.TotalGameTime.Seconds;
                                 }
                                 break;
-                            case GreenLights.GLState.R1 :
+                            case GreenLights.GLState.R1:
                                 if (gameTime.TotalGameTime.Seconds > gl.last_update + 1)
                                 {
                                     gl.currentState = GreenLights.GLState.GO;
@@ -591,7 +592,7 @@ namespace DriveOnSurface
                     catch { }
 
                     //recuperation des feux de départ    
-                    try
+                    /*try
                     {
                         foreach (JObject greenlights in o["starting_lights"])
                         {
@@ -627,7 +628,7 @@ namespace DriveOnSurface
                             }
                         }
                     }
-                    catch { }
+                    catch { }*/
 
                     if (debug)
                     {
@@ -660,17 +661,51 @@ namespace DriveOnSurface
                         foreach (JObject bonus in o["bonus"])
                         {
 
-                           /* int width = ((int)prop["size"][0] * scale);
-                            int h = ((int)prop["size"][1] * scale);
-                            int x = (int)prop["position"][0] * scale - width / 2;
-                            int y = (int)prop["position"][1] * scale - h / 2;
-                            float angle = (float)prop["angle"];
+                            string type = (string)bonus["type"];
+                            string id = (string)bonus["id"];
+                            double x = (double)bonus["position_x"] * scale;
+                            double y = (double)bonus["position_y"] * scale;
+                            float angle = (float)bonus["angle"];
 
-                            RectangleOverlay r = new RectangleOverlay(new Rectangle(x, y, width, h), Color.White, this, angle);
-                            r.Initialize();
-                            r.LoadContent();
-                            rects.Add(r);
-                            //Console.WriteLine("newRect : " + x + ", " + y);*/
+                            objectsIdToKeep.Add(id);
+
+                            Bonus b;
+
+                            if (DrawableObjects.ContainsKey(id))
+                            {
+                                b = (Bonus)DrawableObjects[id];
+                                b.setPosition((int)x, (int)y);
+                                b.setRotation(angle);
+                            }
+                            else
+                            {
+                                Bonus.BType btype;
+
+                                switch (type)
+                                {
+                                    case "nails":
+                                        btype = Bonus.BType.Clous;
+                                        break;
+                                    case "train":
+                                        btype = Bonus.BType.Train;
+                                        break;
+                                    case "rabbit":
+                                        btype = Bonus.BType.Granny;
+                                        break;
+                                    default:
+                                        btype = Bonus.BType.Unknown;
+                                        break;
+                                }
+
+                                b = new Bonus(id, btype);
+                                b.LoadContent(this.Content);
+                                b.setPosition((int)x, (int)y);
+                                b.setRotation(angle);
+
+                                DrawableObjects.Add(id, b);
+
+                            }
+
                         }
                     }
                     catch { }
@@ -702,7 +737,7 @@ namespace DriveOnSurface
                     }
                     Console.WriteLine("============================END====================================");*/
 
-                    
+
 
                 }
                 catch (Exception e) { Console.WriteLine(e.Message); }
