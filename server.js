@@ -129,8 +129,6 @@ app.get('/state', function(req, res) {
 		positionsGamers.sort(function(a, b) {
 			var rankA = a.rank,
 				rankB = b.rank;
-				
-			console.log(rankA, rankB);
 
 			if (rankA.turn > rankB.turn)
 				return -1;
@@ -159,6 +157,9 @@ app.get('/state', function(req, res) {
 			var gamer = positionsGamers[i];
 			logPositions += "\t" + gamer.name + " : " + ++i;
 			gamer.socket.emit('rank', i);
+
+			if (gamer.rank.turn > gameInstance.nbTurns)
+				gamer.socket.emit('rankEnd', i);
 		}
 		console.log(logPositions);
 	}
@@ -182,6 +183,9 @@ app.get('/plot/:radius/:left/:top/:type', function(req, res) {
 	res.send('ok');
 });
 
+app.get('/blob/:left/:top', function(req, res) {
+	gameInstance.setBlobTarget(parseFloat(req.params.left), parseFloat(req.params.top));
+});
 
 io.sockets.on('connection', function (socket) {
 	console.log("Connection of a new gamer");

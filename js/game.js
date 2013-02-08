@@ -3,8 +3,8 @@
 var	box2d = require('./vendor/Box2dWeb-2.1.a.3'),
 	Car = require('./car'),
 	BoxProp = require('./boxprop'),
-    Plot = require('./plot'),
-    Line = require('./Line');
+	Plot = require('./plot'),
+	Line = require('./Line');
 
 
 var WIDTH_PX=960;   //screen width in pixels
@@ -15,47 +15,47 @@ var HEIGHT_M=HEIGHT_PX/SCALE; //world height in meters
 var b2world;
 
 module.exports = function(canvas) {
-    //SET UP B2WORLD
-    // b2world=new box2d.b2World(new box2d.b2Vec2(0, 0), true);
-    b2world=new box2d.b2World(new box2d.b2Vec2(0, 0));
-    global.b2world = b2world;
+	//SET UP B2WORLD
+	// b2world=new box2d.b2World(new box2d.b2Vec2(0, 0), true);
+	b2world=new box2d.b2World(new box2d.b2Vec2(0, 0));
+	global.b2world = b2world;
 
-    //set up box2d debug draw to draw the bodies for us.
-    //in a real game, car will propably be drawn as a sprite rotated by the car's angle
-    if (canvas) {
-        var debugDraw = new box2d.b2DebugDraw();
-        debugDraw.SetSprite(canvas.getContext("2d"));
-        debugDraw.SetDrawScale(SCALE);
-        debugDraw.SetFillAlpha(0.5);
-        debugDraw.SetLineThickness(1.0);
-        debugDraw.SetFlags(box2d.b2DebugDraw.e_shapeBit);
-        b2world.SetDebugDraw(debugDraw);
-    }
+	//set up box2d debug draw to draw the bodies for us.
+	//in a real game, car will propably be drawn as a sprite rotated by the car's angle
+	if (canvas) {
+		var debugDraw = new box2d.b2DebugDraw();
+		debugDraw.SetSprite(canvas.getContext("2d"));
+		debugDraw.SetDrawScale(SCALE);
+		debugDraw.SetFillAlpha(0.5);
+		debugDraw.SetLineThickness(1.0);
+		debugDraw.SetFlags(box2d.b2DebugDraw.e_shapeBit);
+		b2world.SetDebugDraw(debugDraw);
+	}
 
 
-    // Create a new and wonderfull listener
-    var listener = new box2d.Box2D.Dynamics.b2ContactListener();
-    listener.BeginContact = function(contact) {
-        var fa = contact.GetFixtureA(),
-            fb = contact.GetFixtureB(),
-            ba = fa.GetBody(),
-            bb = fb.GetBody();
+	// Create a new and wonderfull listener
+	var listener = new box2d.Box2D.Dynamics.b2ContactListener();
+	listener.BeginContact = function(contact) {
+		var fa = contact.GetFixtureA(),
+			fb = contact.GetFixtureB(),
+			ba = fa.GetBody(),
+			bb = fb.GetBody();
 
-        if (ba.associatedCar && bb.onContact)
-            bb.onContact(ba.associatedCar);
-        else if (bb.associatedCar && ba.onContact)
-            ba.onContact(bb.associatedCar);
-    };
-    b2world.SetContactListener(listener);
-    
-    //outer walls
-    var wallWidth = 0.3,
-        semiWallWidth = wallWidth / 2,
-        dblWallWidth = wallWidth * 2;
-    new BoxProp([WIDTH_M, wallWidth],[WIDTH_M/2, semiWallWidth]);
-    new BoxProp([wallWidth, HEIGHT_M-dblWallWidth],[semiWallWidth, HEIGHT_M/2]);
-    new BoxProp([WIDTH_M, wallWidth],[WIDTH_M/2, HEIGHT_M-semiWallWidth]);
-    new BoxProp([wallWidth, HEIGHT_M-dblWallWidth],[WIDTH_M-semiWallWidth, HEIGHT_M/2]);
+		if (ba.associatedCar && bb.onContact)
+			bb.onContact(ba.associatedCar);
+		else if (bb.associatedCar && ba.onContact)
+			ba.onContact(bb.associatedCar);
+	};
+	b2world.SetContactListener(listener);
+	
+	//outer walls
+	var wallWidth = 0.3,
+		semiWallWidth = wallWidth / 2,
+		dblWallWidth = wallWidth * 2;
+	new BoxProp([WIDTH_M, wallWidth],[WIDTH_M/2, semiWallWidth]);
+	new BoxProp([wallWidth, HEIGHT_M-dblWallWidth],[semiWallWidth, HEIGHT_M/2]);
+	new BoxProp([WIDTH_M, wallWidth],[WIDTH_M/2, HEIGHT_M-semiWallWidth]);
+	new BoxProp([wallWidth, HEIGHT_M-dblWallWidth],[WIDTH_M-semiWallWidth, HEIGHT_M/2]);
 
 /*new Plot(3.35416666418314, [70.75, 28.375]);
 new Plot(4.66666666418314, [104.875, 23.75]);
@@ -272,154 +272,186 @@ new Line([19.5, 1], [16.25, 49.375], 2.2689280275926285, 2, false);
 new Line([21.75, 1], [13.375, 31.625], 0.24434609527920614, 1, false);
 
 var startPositions = [
-    [7.875, 28.125],
-    [12.875, 29.125],
-    [14.375, 24.375],
-    [9.25, 23],
-    [10.875, 18.125],
-    [16.125, 19.375],
-    [17.875, 14.75],
-    [12.625, 13.375],
-    [14.25, 9],
-    [19.375, 10]
+	[7.875, 28.125],
+	[12.875, 29.125],
+	[14.375, 24.375],
+	[9.25, 23],
+	[10.875, 18.125],
+	[16.125, 19.375],
+	[17.875, 14.75],
+	[12.625, 13.375],
+	[14.25, 9],
+	[19.375, 10]
 ];
 
 
-    /*for (var i = 0; i < 150; ++i)
-        new Plot(0.5 + Math.random() * 1.5, [Math.random() * 80, Math.random() *    60]);*/
+	/*for (var i = 0; i < 150; ++i)
+		new Plot(0.5 + Math.random() * 1.5, [Math.random() * 80, Math.random() *    60]);*/
 
-    /*new BoxProp([0.8, 15], [12, 29]);
-    new BoxProp([0.8, 8], [13.2, 18], 0.3);
-    new BoxProp([0.8, 6], [16.5, 12.8], 0.9);
-    new BoxProp([8, 0.8], [22.5, 10.2], -0.2 );
+	/*new BoxProp([0.8, 15], [12, 29]);
+	new BoxProp([0.8, 8], [13.2, 18], 0.3);
+	new BoxProp([0.8, 6], [16.5, 12.8], 0.9);
+	new BoxProp([8, 0.8], [22.5, 10.2], -0.2 );
 
-    new BoxProp([18, 0.8], [35, 9.5]);
+	new BoxProp([18, 0.8], [35, 9.5]);
 
-    new Plot(1.8, [45, 10.6]);
-    new Plot(2.8, [46, 12.5]);
-    new Plot(1.5, [47.2, 14]);
+	new Plot(1.8, [45, 10.6]);
+	new Plot(2.8, [46, 12.5]);
+	new Plot(1.5, [47.2, 14]);
 
-    new BoxProp([0.8, 8.5], [41, 11.7], -1.05 );
+	new BoxProp([0.8, 8.5], [41, 11.7], -1.05 );
 
-    new BoxProp([0.8, 13], [15.3, 42], -0.5);
-    new BoxProp([0.8, 13], [22, 48.5], -1);
-    new BoxProp([10, 0.8], [31.5, 52.5], 0.2);
-    new BoxProp([60, 2.5], [63, 54.5], 0.01);
+	new BoxProp([0.8, 13], [15.3, 42], -0.5);
+	new BoxProp([0.8, 13], [22, 48.5], -1);
+	new BoxProp([10, 0.8], [31.5, 52.5], 0.2);
+	new BoxProp([60, 2.5], [63, 54.5], 0.01);
 
-    new BoxProp([11, 0.8], [28, 54], 0.2);
-    new BoxProp([9, 0.8], [19.5, 50], 0.7);
-    new BoxProp([12, 0.8], [14.1, 41.8], 1.2);
+	new BoxProp([11, 0.8], [28, 54], 0.2);
+	new BoxProp([9, 0.8], [19.5, 50], 0.7);
+	new BoxProp([12, 0.8], [14.1, 41.8], 1.2);
 
-    new Plot(3.5, [32.2, 20]);
-    new Plot(6.5, [24.8, 23]);
+	new Plot(3.5, [32.2, 20]);
+	new Plot(6.5, [24.8, 23]);
 
-    new BoxProp([5, 1], [33.530452728271484, 43.125], 0.2792526803190927);
+	new BoxProp([5, 1], [33.530452728271484, 43.125], 0.2792526803190927);
 new BoxProp([5, 1], [29.337600708007812, 40.375], 0.5585053606381855);
 new BoxProp([5, 1], [25.756677627563477, 36.75], 0.767944870877505);
 new BoxProp([5, 1], [22.889986038208008, 33.125], 0.9075712110370514);*/
 
-    // new BoxProp([18, 0.8], [0, 0]);
+	// new BoxProp([18, 0.8], [0, 0]);
 
   /*  var fs = require('fs'),
-    xml2js = require('xml2js');
+	xml2js = require('xml2js');
 
 
 function matrixToAngle(matrix) {
-    var arrMatrix = matrix.match(/[\-0-9.]+/g);
-    if(
-        (parseFloat(arrMatrix[1]) == (-1 * parseFloat(arrMatrix[2]))) ||
-        (parseFloat(arrMatrix[3]) == parseFloat(arrMatrix[0])) ||
-        ((parseFloat(arrMatrix[0]) * parseFloat(arrMatrix[3]) - parseFloat(arrMatrix[2]) * parseFloat(arrMatrix[1])) == 1)
-    ) {
-        return  Math.round(Math.acos(parseFloat(arrMatrix[0])) * 180 / Math.PI);
-    } else {
-        return 0;
-    }
+	var arrMatrix = matrix.match(/[\-0-9.]+/g);
+	if(
+		(parseFloat(arrMatrix[1]) == (-1 * parseFloat(arrMatrix[2]))) ||
+		(parseFloat(arrMatrix[3]) == parseFloat(arrMatrix[0])) ||
+		((parseFloat(arrMatrix[0]) * parseFloat(arrMatrix[3]) - parseFloat(arrMatrix[2]) * parseFloat(arrMatrix[1])) == 1)
+	) {
+		return  Math.round(Math.acos(parseFloat(arrMatrix[0])) * 180 / Math.PI);
+	} else {
+		return 0;
+	}
 }
 
 var parser = new xml2js.Parser();
 fs.readFile(__dirname + '/../circuit.svg', function(err, data) {
-    parser.parseString(data, function (err, result) {
-        // console.dir(result);
+	parser.parseString(data, function (err, result) {
+		// console.dir(result);
 
-        var coef = 1.0/18.0;
+		var coef = 1.0/18.0;
 
-        for (var gs = result.svg.g, i = 0, len = gs.length; i < len; ++i) {
-            var calque = gs[i];
+		for (var gs = result.svg.g, i = 0, len = gs.length; i < len; ++i) {
+			var calque = gs[i];
 
-            if (calque.rect)
-                for (var gi = calque.rect, ii = 0, len2 = gi.length; ii < len2; ++ii)
-                {
-                    var rect = gi[ii].$,
-                        angle = rect.transform ? matrixToAngle(rect.transform) : 0;
-                    // console.log(rect);
-                    //new BoxProp([0.8, 8.5], [41, 11.7], -1.05 );
-                    // console.log("new BoxProp(["+rect.width * coef+', '+rect.height * coef+
-                    //     '], [' + rect.x * coef + ', ' + rect.y * coef + '], '+
-                    //     angle + ');');
-                    // if (rect.angle)
-                        // angle = parseFloat(rect.angle);
-                        console.log(rect.transform);
+			if (calque.rect)
+				for (var gi = calque.rect, ii = 0, len2 = gi.length; ii < len2; ++ii)
+				{
+					var rect = gi[ii].$,
+						angle = rect.transform ? matrixToAngle(rect.transform) : 0;
+					// console.log(rect);
+					//new BoxProp([0.8, 8.5], [41, 11.7], -1.05 );
+					// console.log("new BoxProp(["+rect.width * coef+', '+rect.height * coef+
+					//     '], [' + rect.x * coef + ', ' + rect.y * coef + '], '+
+					//     angle + ');');
+					// if (rect.angle)
+						// angle = parseFloat(rect.angle);
+						console.log(rect.transform);
 
-                    angle *= (Math.PI / 180);
+					angle *= (Math.PI / 180);
 
-                    var transform = rect.transform;
+					var transform = rect.transform;
 
-                    if (rect.transform) {
-                        var matrix = transform.match(/[\-0-9.]+/g);
-                        angle = Math.atan2(parseFloat(matrix[1]), parseFloat(matrix[0]));
-                    }
+					if (rect.transform) {
+						var matrix = transform.match(/[\-0-9.]+/g);
+						angle = Math.atan2(parseFloat(matrix[1]), parseFloat(matrix[0]));
+					}
 
-                    new BoxProp([rect.width * coef, rect.height * coef],
-                        [(parseFloat(rect.x) + rect.width / 2)* coef,
-                        (parseFloat(rect.y) + rect.height / 2) * coef], angle);
+					new BoxProp([rect.width * coef, rect.height * coef],
+						[(parseFloat(rect.x) + rect.width / 2)* coef,
+						(parseFloat(rect.y) + rect.height / 2) * coef], angle);
 
-                }
-        }
-        console.log('Done');
-    });
+				}
+		}
+		console.log('Done');
+	});
 });
 */
 
-    var cars = [];
+	var cars = [];
 
-    var randInt = function(min, max) {
-        return Math.floor(Math.random()*(max-min))+min;
-    };
+	var randInt = function(min, max) {
+		return Math.floor(Math.random()*(max-min))+min;
+	};
 
-    //let box2d draw it's bodies
+	var blob = null,
+		blobRemoveTimeout = null,
+		removeBlobCallback = function() {
+			b2world.DestroyBody(blob.plot.body);
+			b2world.DestroyJoint(blob.mouseJoint);
+			blob = null;
+		};
+
+	//let box2d draw it's bodies
 	return {
-        newCar: function() {
-            var car = new Car({'width':1.8,
-                    'length':2.5,
-                    'position':startPositions.shift(),
-                    'angle':190,
-                    'power':2,
-                    'max_steer_angle':30,
-                    'max_speed':60,
-                    'wheels':[{'x':-0.65, 'y':-0.9, 'width':0.33, 'length':0.8, 'revolving':true, 'powered':true}, //top left
-                                {'x':0.65, 'y':-0.9, 'width':0.33, 'length':0.8, 'revolving':true, 'powered':true}, //top right
-                                {'x':-0.65, 'y':0.9, 'width':0.33, 'length':0.8, 'revolving':false, 'powered':false}, //back left
-                                {'x':0.65, 'y':0.9, 'width':0.33, 'length':0.8, 'revolving':false, 'powered':false}]}); //back right
-            cars.push(car);
-            return car;
-        },
-        tick: function(msDuration) {
-            for (var i = 0, len = cars.length; i < len; ++i)
-                cars[i].update(msDuration);
+		nbTurns: 2,
+		newCar: function() {
+			var car = new Car({'width':1.8,
+					'length':2.5,
+					'position':startPositions.shift(),
+					'angle':190,
+					'power':30,
+					'max_steer_angle':30,
+					'max_speed':60,
+					'wheels':[{'x':-0.65, 'y':-0.9, 'width':0.33, 'length':0.8, 'revolving':true, 'powered':true}, //top left
+								{'x':0.65, 'y':-0.9, 'width':0.33, 'length':0.8, 'revolving':true, 'powered':true}, //top right
+								{'x':-0.65, 'y':0.9, 'width':0.33, 'length':0.8, 'revolving':false, 'powered':false}, //back left
+								{'x':0.65, 'y':0.9, 'width':0.33, 'length':0.8, 'revolving':false, 'powered':false}]}); //back right
+			cars.push(car);
+			return car;
+		},
+		tick: function(msDuration) {
+			for (var i = 0, len = cars.length; i < len; ++i)
+				cars[i].update(msDuration);
 
-            b2world.Step(msDuration/1000, 10, 8);
+			b2world.Step(msDuration/1000, 10, 8);
 
-            b2world.ClearForces();
-        },
-        debugDraw: function() {
-            b2world.DrawDebugData();
-        },
-        newBox: function(p, dynamic) {
-            new BoxProp([parseFloat(p.width), parseFloat(p.height)], [parseFloat(p.left), parseFloat(p.top)], parseFloat(p.angle), dynamic);
-        },
-        newPlot: function(p) {
-            new Plot(parseFloat(p.radius), [parseFloat(p.left), parseFloat(p.top)]);
-        }
-    };
+			b2world.ClearForces();
+		},
+		debugDraw: function() {
+			b2world.DrawDebugData();
+		},
+		newBox: function(p, dynamic) {
+			new BoxProp([parseFloat(p.width), parseFloat(p.height)], [parseFloat(p.left), parseFloat(p.top)], parseFloat(p.angle), dynamic);
+		},
+		newPlot: function(p) {
+			new Plot(parseFloat(p.radius), [parseFloat(p.left), parseFloat(p.top)]);
+		},
+		setBlobTarget: function(x, y) {
+			if (blob === null) {
+				blob = {
+					plot: new Plot(6, [x, y], 'dynamic', 0x0004),
+					md: new box2d.Box2D.Dynamics.Joints.b2MouseJointDef()
+				};
+
+				blob.md.bodyA = b2world.GetGroundBody();
+				blob.md.bodyB = blob.plot.body;
+				blob.md.target.Set(x, y);
+				blob.md.collideConnected = true;
+				blob.md.maxForce = 1200*blob.plot.body.GetMass();
+				blob.mouseJoint  = b2world.CreateJoint(blob.md);
+				blob.plot.body.SetAwake(true);
+
+			}
+			else
+			{
+				clearTimeout(blobRemoveTimeout);
+				blob.mouseJoint.SetTarget(new box2d.b2Vec2(x, y));
+			}
+			blobRemoveTimeout = setTimeout(removeBlobCallback, 4000);
+		}
+	};
 };

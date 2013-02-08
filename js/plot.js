@@ -1,6 +1,6 @@
 var box2d = require('./vendor/Box2dWeb-2.1.a.3');
 
-module.exports = function(radius, position, type) {
+module.exports = function(radius, position, type, mask) {
     var bplot = new box2d.b2BodyDef();
     bplot.position = new box2d.b2Vec2(position[0], position[1]);
    
@@ -16,14 +16,19 @@ module.exports = function(radius, position, type) {
     // this.body.setMassFromShapes();
 
     var fixdef=new box2d.b2FixtureDef();
+    fixdef.filter.categoryBits = 0x0002;
+   
+    if (mask)
+        fixdef.filter.maskBits = mask;
+
     // fixdef.shape=new box2d.b2PolygonShape();
     fixdef.shape = new box2d.b2CircleShape(radius);
     // fixdef.restitution=0.3; //positively bouncy!
     // fixdef.elasticity = 10;
-    fixdef.density = 5.0;
+    fixdef.density = 0.9;
 
     if (type === 'sensor')
-        fiexdef.isSensor = true;
+        fixdef.isSensor = true;
     
     this.body.CreateFixture(fixdef);
     return this;
