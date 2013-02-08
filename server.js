@@ -81,17 +81,10 @@ app.get('/state', function(req, res) {
 	}
 
 	var state = {
-		bonus: [
-			{
-				type: "random",
-				id: "canard",
-				position_x: 30.0,
-				position_y: 30.0,
-				angle: 0.0
-			}
-		]
-	},
-		state_joueurs = [];
+		},
+		state_joueurs = [],
+		state_bonus = [],
+		i, len;
 
 	for (var pseudo in gamers) {
 
@@ -149,19 +142,34 @@ app.get('/state', function(req, res) {
 
 		// Building a string in order to prevent mixed output with socket.io debug
 		var logPositions = "Positions : \n";
-		for (var i = 0, len = positionsGamers.length; i < len;) {
-			var gamer = positionsGamers[i];
-			logPositions += "\t" + gamer.name + " : " + ++i;
-			gamer.socket.emit('rank', i);
+		for (i = 0, len = positionsGamers.length; i < len;) {
+			var igamer = positionsGamers[i];
+			logPositions += "\t" + igamer.name + " : " + (++i);
+			igamer.socket.emit('rank', i);
 
-			if (gamer.rank.turn > gameInstance.nbTurns)
-				gamer.socket.emit('rankEnd', i);
+			if (igamer.rank.turn > gameInstance.nbTurns)
+				igamer.socket.emit('rankEnd', i);
 		}
 		console.log(logPositions);
 	}
 
+	var bonus = gameInstance.getBonus();
+
+	for( i = 0, len = bonus.length; i < len; ++i) {
+		var b = bonus[i];
+		if (b.visible) {
+			state_bonus.push({
+				type: "random",
+				id: "random_"+i,
+				position_x: b.position[0],
+				position_y: b.position[1],
+				angle: 0.0
+			});
+		}
+	}
 
 	state.joueurs = state_joueurs;
+	state.bonus = state_bonus;
 
 	res.header("Access-Control-Allow-Origin", "*");
 	res.send(state);
