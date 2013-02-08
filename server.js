@@ -53,7 +53,7 @@ if (canvas)
 			diff = newDate - currentDate;
 
 		currentDate = newDate;
-		gameInstance.tick(diff);
+		gameInstance.tick(diff*ratio);
 		gameInstance.debugDraw();
 
 		// res.setHeader('pragma', 'no-cache');
@@ -146,6 +146,7 @@ app.get('/state', function(req, res) {
 			var igamer = positionsGamers[i];
 			logPositions += "\t" + igamer.name + " : " + (++i);
 			igamer.socket.emit('rank', i);
+			console.log(igamer.socket);
 
 			if (igamer.rank.turn > gameInstance.nbTurns)
 				igamer.socket.emit('rankEnd', i);
@@ -205,13 +206,78 @@ app.get('/start', function(req, res) {
 	res.send('ok');
 });
 
+var dataTagCodes = {
+	0x00: ["rabbit", "Yellow"],
+	0x01: ["nails", "Yellow"],
+	0x02: ["biggerengine", "Yellow"],
+	0x03: ["train", "Yellow"],
+
+	0x21: ["rabbit", "Red"],
+	0x20: ["nails", "Red"],
+	0x22: ["biggerengine", "Red"],
+	0x23: ["train", "Red"],
+
+	0x11: ["rabbit", "Blue"],
+	0x13: ["nails", "Blue"],
+	0x12: ["biggerengine", "Blue"],
+	0x10: ["train", "Blue"],
+
+	0x31: ["rabbit", "Green"],
+	0x32: ["nails", "Green"],
+	0x33: ["biggerengine", "Green"],
+	0x30: ["train", "Green"]
+};
+
+var getGoodBonus = function(code) {
+	if (dataTagCodes.hasOwnProperty(code)) {
+		var type = dataTagCodes[code][0],
+			color = dataTagCodes[code][1];
+
+		for (var pseudo in gamers) {
+
+			var gamer = gamers[pseudo];
+			if (gamer && gamer.color && gamer.color == color &&
+				gamer.bonus.hasOwnProperty(type)) {
+				return gamer.bonus[type];
+			}
+		}
+	}
+
+	return null;
+};
+
 app.get('/put_tag/:code/:left/:top/:angle', function(req, res){
 	console.log("Put_tag", req.params);
+
+	var bonus = getGoodBonus(parseInt(req.params.code, 10));
+	if (bonus) {
+		if (bonus.active)
+		{
+			bonus.start([
+				parseFloat(req.params.left),
+				parseFloat(req.params.top)],
+				parseFloat(req.params.angle));
+			bonus.disable();
+		}
+		else
+			console.log("**** YOU DON'T HAVE THE PERMISSION !!1");
+	}
+	else
+		console.log("UNKNOWN TAG CODE");
+
 	res.header("Access-Control-Allow-Origin", "*");
 	res.send('ok');
 });
 app.get('/remove_tag/:code', function(req, res){
 	console.log("remove_tag", req.params);
+
+	var bonus = getGoodBonus(parseInt(req.params.code, 10));
+
+	if (bonus)
+		bonus.stop();
+	else
+		console.log("UNKNOWN TAG CODE");
+
 	res.header("Access-Control-Allow-Origin", "*");
 	res.send('ok');
 });
@@ -307,6 +373,22 @@ io.sockets.on('connection', function (socket) {
 				else
 					car.steer = 0;
 
+			});
+
+			socket.on('bonus', function(data) {
+				console.log(pseudo, "bonus", data);
+				if (gamer.bonus.hasOwnProperty(data)) {
+					var bonus = gamer.bonus[data];
+					if (bonus.active)
+					{
+						bonus.start([0, 0], 0.0);
+						bonus.disable();
+					}
+					else
+						console.log("**** YOU DON'T HAVE THE PERMISSION !!1");
+				} else {
+					console.log("Unknown bonus");
+				}
 			});
 		});
 	});

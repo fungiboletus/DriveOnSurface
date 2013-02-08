@@ -9,6 +9,9 @@ Ext.define('DriveOnSurface.view.PlayMode', {
     extend:'Ext.Container',
     alias: "widget.play",
     fullscreen : true,
+
+    layout: 'ux.center',
+
     initialize: function(){
         this.callParent(arguments);
 
@@ -219,6 +222,9 @@ if(DriveOnSurface.app.iskartselected == true && DriveOnSurface.app.stop == false
                console.log('rank ' + rank);
                classement.crank = rank;
            });
+        DriveOnSurface.app.socket.on("rankEnd", function(data){
+           alert("Votre position finale: " + data);
+        });
         var bonus= new Ext.Button({
             //xtype: 'button',
             id: 'bonus',
@@ -331,9 +337,14 @@ if(DriveOnSurface.app.iskartselected == true && DriveOnSurface.app.stop == false
             };
         var hbox1 = {
             xtype: 'container',
-            layout: 'vbox',
+
+            layout: {
+                type: 'vbox',
+                align: 'center',
+                autoSize: true
+            },
             items: [
-                vitesse, {xtype: 'spacer', width : 100},classement, bonus
+                vitesse, classement, bonus,{xtype: 'spacer', height : 100}, exit
             ],
             flex: 1
         }
@@ -347,7 +358,7 @@ if(DriveOnSurface.app.iskartselected == true && DriveOnSurface.app.stop == false
             ]
         };*/
         //this.add([hbox1, hbox2, hbox3, exit]);
-        this.add([exit, hbox1]);
+        this.add([ hbox1]);
     },
     /*onTouchGaucheEvent : function(e, target, options, eventController){
         console.log(eventController.info.eventName);
@@ -396,6 +407,7 @@ if(DriveOnSurface.app.iskartselected == true && DriveOnSurface.app.stop == false
     onTouchExitEvent: function(e, target, options, eventController){
         DriveOnSurface.app.stop = true;
         DriveOnSurface.app.socket.emit("exit");
+        alert("Vous etes sortis du jeu");
         console.log("exit");
     }
 

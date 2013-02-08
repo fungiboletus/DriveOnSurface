@@ -8,6 +8,11 @@
 Ext.define('DriveOnSurface.view.Kart', {
     extend:'Ext.Container',
     alias: "widget.kart",
+    layout: {
+        type: 'vbox',
+        align: 'center',
+        autoSize: true
+    },
     initialize: function(){
         this.callParent(arguments);
 
@@ -44,7 +49,7 @@ Ext.define('DriveOnSurface.view.Kart', {
             //text: 'Rouge',
             height: 120,
             //ui:'plain',
-            html: '<div><img src=\'resources/rouge.jpg\' width = "100" heigth = "100" ></div>',
+            html: '<div><img src=\'resources/red.png\' width = "100" heigth = "100" ></div>',
             //handler : this.onChooseKartRouge(),
             listeners : {
                 tap : function() {
@@ -64,7 +69,7 @@ Ext.define('DriveOnSurface.view.Kart', {
             //text: 'vert',
             height: 120,
             //ui:'plain',
-            html: '<div><img src=\'resources/vert.jpg\' width = "100" heigth = "100" ></div>',
+            html: '<div><img src=\'resources/green.png\' width = "100" heigth = "100" ></div>',
             //handler : this.onVertTap(),
             listeners : {
                 tap : function() {
@@ -83,7 +88,7 @@ Ext.define('DriveOnSurface.view.Kart', {
             //text: 'bleu',
             height: 120,
             //ui:'plain',
-            html: '<div><img src=\'resources/bleu.jpg\' width = "100" heigth = "100" ></div>',
+            html: '<div><img src=\'resources/blue.png\' width = "100" heigth = "100" ></div>',
 
             //handler : this.onChooseKartBleu(),
             listeners : {
@@ -104,7 +109,7 @@ Ext.define('DriveOnSurface.view.Kart', {
             //text: 'jaune',
             height: 120,
             //ui:'plain',
-            html: '<div><img src=\'resources/jaune.jpg\' width = "100" heigth = "100" ></div>',
+            html: '<div><img src=\'resources/yellow.png\' width = "100" heigth = "100" ></div>',
            // handler : this.onChooseKartJaune(),
             listeners : {
                 tap : function() {
@@ -126,8 +131,12 @@ Ext.define('DriveOnSurface.view.Kart', {
 
        var panel = {
             xtype : 'panel',
-            layout: 'hbox',
-            align: 'center',
+
+           layout: {
+               type: 'hbox',
+               align: 'center',
+               autoSize: true
+           },
 
             items: [
                 rouge, vert, bleu, jaune

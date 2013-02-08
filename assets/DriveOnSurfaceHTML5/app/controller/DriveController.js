@@ -51,29 +51,29 @@ Ext.define("DriveOnSurface.controller.DriveController", {
         Ext.Viewport.animateActiveItem(this.getKart(), this.slideLeftTransition );
     },
     onChooseKartRouge : function(record){
-        var text = "Tu as choisi le kart rouge" ;
+        //var text = "Tu as choisi le kart rouge" ;
         DriveOnSurface.app.iskartselected = true;
-        Ext.Msg.alert("Kart", text );
+        //Ext.Msg.alert("Kart", text );
         Ext.Viewport.animateActiveItem(this.getPlay(), this.slideLeftTransition );
     },
     onChooseKartVert : function(record){
-        var text = "Tu as choisi le kart vert" ;
+        //var text = "Tu as choisi le kart vert" ;
         DriveOnSurface.app.iskartselected = true;
-        Ext.Msg.alert("Kart", text );
+        //Ext.Msg.alert("Kart", text );
         Ext.Viewport.animateActiveItem(this.getPlay(), this.slideLeftTransition );
 
     },
     onChooseKartBleu : function(record){
-        var text = "Tu as choisi le kart bleu" ;
+        //var text = "Tu as choisi le kart bleu" ;
         DriveOnSurface.app.iskartselected = true;
-        Ext.Msg.alert("Kart", text );
+        //Ext.Msg.alert("Kart", text );
 
         Ext.Viewport.animateActiveItem(this.getPlay(), this.slideLeftTransition );
     },
     onChooseKartJaune : function(record){
-        var text = "Tu as choisi le kart jaune" ;
+        //var text = "Tu as choisi le kart jaune" ;
         DriveOnSurface.app.iskartselected = new Boolean(true);
-        Ext.Msg.alert("Kart", text );
+        //Ext.Msg.alert("Kart", text );
 
         Ext.Viewport.animateActiveItem(this.getPlay(), this.slideLeftTransition );
     }

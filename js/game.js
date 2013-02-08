@@ -171,7 +171,8 @@ fs.readFile(__dirname + '/../circuit.svg', function(err, data) {
 		},
 		startPositions = [],
 		cars = [],
-		bonus = [];
+		bonus = [],
+		startAngle = 0;
 
 	//let box2d draw it's bodies
 	return {
@@ -180,12 +181,17 @@ fs.readFile(__dirname + '/../circuit.svg', function(err, data) {
 		},
 		nbTurns: 2,
 		newCar: function() {
+			var position = startPositions.shift();
+
+			if (!position)
+				position = [0.5+randInt(8,12), 0.5+randInt(8,12)];
+
 			var car = new Car({'width':1.8,
 					'length':2.5,
-					'position':startPositions.shift(),
-					'angle':190,
+					'position':position,
+					'angle':startAngle,
 					'power':25,
-					'max_steer_angle':30,
+					'max_steer_angle':25,
 					'max_speed':60,
 					'wheels':[{'x':-0.65, 'y':-0.9, 'width':0.33, 'length':0.8, 'revolving':true, 'powered':true}, //top left
 								{'x':0.65, 'y':-0.9, 'width':0.33, 'length':0.8, 'revolving':true, 'powered':true}, //top right
@@ -263,6 +269,8 @@ new BonusPlot([34.25, 7.875]),
 new BonusPlot([5.625, 9.75]),
 new BonusPlot([34.375, 27.75])
 ];
+
+startAngle = 10;
 
 new BoxProp([10.875, 1], [63.75, 29.5], 0.20943951023931956);
 new BoxProp([8.5, 1], [58.125, 32.375], 1.7802358370342162);
@@ -376,6 +384,8 @@ startPositions = [
 	[67.375, 58.125],
 	[67.25, 62.5]
 ];
+
+startAngle = 270.0;
 
 bonus = [
 	new BonusPlot([71.625, 19.875]),
@@ -529,23 +539,23 @@ new BoxProp([6.83333332836628, 1.0833333283662796], [28.875, 51.75], 0.349065850
 new BoxProp([6.83333332836628, 1.0833333283662796], [33.625, 53.125], 0.15707963267948966);
 }
 else {
-new BoxProp([9.75, 1], [31.75, 60.125], 1.6231562043547265);
-new BoxProp([13.75, 1], [13.75, 55.125], 2.111848394913139);
-new BoxProp([9.25, 1], [7.25, 38.5], 2.9670597283903604);
-new BoxProp([9.25, 1], [10.75, 11.25], 0.4014257279586958);
-new BoxProp([7.25, 1], [25.25, 5.25], 1.4311699866353502);
-new BoxProp([9, 1], [50.375, 5.5], 2.4958208303518914);
-new BoxProp([9, 1], [40.5, 17.125], 2.7401669256310974);
-new BoxProp([6.25, 1], [16.875, 17.375], 0.9250245035569946);
-new BoxProp([9.75, 1], [21.5, 42.75], 2.4958208303518914);
-new BoxProp([8.5, 1], [49.5, 48.875], 1.6406094968746698);
-new BoxProp([9.5, 1], [71.875, 39.625], 0.017453292519943295);
-new BoxProp([8.5, 1], [72.25, 15.375], 0.5061454830783556);
-new BoxProp([5, 1], [99.875, 3.625], 1.6406094968746698);
-new BoxProp([6.25, 1], [100.125, 15.75], 1.1519173063162575);
-new BoxProp([9, 1], [104.75, 34.375], 1.7278759594743862);
-new BoxProp([7.75, 1], [104, 56.875], 1.1868238913561442);
-new BoxProp([8.75, 1], [66.25, 59.625], 1.5707963267948966);
+
+startPositions = [
+	[35.375, 57.125],
+	[35.5, 61.875],
+	[42.25, 57.625],
+	[42, 61.625],
+	[49.5, 57.75],
+	[49.625, 62],
+	[56.75, 58],
+	[56.625, 62],
+	[62.125, 57.875],
+	[62, 62.375],
+	[67.375, 58.125],
+	[67.25, 62.5]
+];
+
+startAngle = 270.0;
 }
 		}
 	};
