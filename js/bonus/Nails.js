@@ -37,7 +37,7 @@ Nails.prototype.onContact = function(car) {
 	this.victims.push(car);
 	car.oldLinearDamping = car.linearDamping;
 	// Very important linear damping
-	car.linearDamping = 1.66;
+	car.linearDamping = 2.66;
 };
 
 module.exports = Nails;
