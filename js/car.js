@@ -61,6 +61,7 @@ function Car(pars){
     fixdef.friction = 0.3; //friction when rubbing agaisnt other shapes
     // fixdef.friction = 0.5; //friction when rubbing agaisnt other shapes
     fixdef.restitution = 0.4;  //amount of force feedback when hitting something. >0 makes the car bounce off, it's fun!
+    fixdef.filter.categoryBits = 0x0004;
     fixdef.shape=new box2d.b2PolygonShape();
     fixdef.shape.SetAsBox(pars.width/2, pars.length/2);
     this.body.CreateFixture(fixdef);
