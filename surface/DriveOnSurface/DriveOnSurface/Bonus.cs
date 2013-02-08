@@ -41,13 +41,15 @@ namespace DriveOnSurface
             {
                 case BType.Clous:
                     BSprite.LoadContent(theContentManager, "nails");
-                    //BSprite.origin = new Vector2();
+                    BSprite.origin = new Vector2(50,50);
                     break;
                 case BType.Train:
                     BSprite.LoadContent(theContentManager, "train");
+                    BSprite.origin = new Vector2(160, 35);
                     break;
                 case BType.Granny:
                     BSprite.LoadContent(theContentManager, "rabbit");
+                    BSprite.origin = new Vector2(15, 15);
                     break;
                 default:
                     BSprite.LoadContent(theContentManager, "bonusblock1");

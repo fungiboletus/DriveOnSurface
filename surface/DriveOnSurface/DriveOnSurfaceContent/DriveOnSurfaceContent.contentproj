@@ -113,11 +113,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="train.png">
-      <Name>train</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="rainbow-bottom.png">
@@ -151,20 +146,29 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="nails.jpg">
-      <Name>nails</Name>
+    <Compile Include="bonusblock1.png">
+      <Name>bonusblock1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="rabbit.jpg">
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="rabbit.png">
       <Name>rabbit</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="bonusblock1.png">
-      <Name>bonusblock1</Name>
+    <Compile Include="nails.png">
+      <Name>nails</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="train.png">
+      <Name>train</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
