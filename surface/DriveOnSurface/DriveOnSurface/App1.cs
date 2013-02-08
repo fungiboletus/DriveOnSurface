@@ -44,6 +44,8 @@ namespace DriveOnSurface
 
         String serverURL;
 
+        bool fullScreen = false;
+
         Dictionary<String, TouchPoint> TagValues = new Dictionary<string, TouchPoint>();
 
         enum GameState { menu, play }
@@ -88,8 +90,10 @@ namespace DriveOnSurface
             // Get the window sized right.
             Program.InitializeWindow(Window);
             // Set the graphics device buffers.
-            graphics.PreferredBackBufferWidth = Program.WindowSize.Width;
-            graphics.PreferredBackBufferHeight = Program.WindowSize.Height;
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.IsFullScreen = fullScreen;
+
             graphics.ApplyChanges();
             // Make sure the window is in the right location.
             Program.PositionWindow();
@@ -609,6 +613,7 @@ namespace DriveOnSurface
                     String line = sr.ReadToEnd();
                     JObject o = JObject.Parse(line);
                     serverURL = (string)o["server-url"];
+                    fullScreen = (bool)o["full-screen"];
                 }
             }
             catch (Exception e)
