@@ -58,6 +58,10 @@ namespace DriveOnSurface
 
         List<RectangleOverlay> rects = new List<RectangleOverlay>();
 
+        int scale = 16; // echelle mètres * scale -> pixels
+
+        WebClient wc = new WebClient();
+
         /// <summary>
         /// The target receiving all surface input for the application.
         /// </summary>
@@ -233,14 +237,15 @@ namespace DriveOnSurface
                                 if (!TagValues.ContainsKey(t.Tag.Value.ToString()))
                                 {
                                     TagValues.Add(t.Tag.Value.ToString(), t);
-                                    WebRequest wrGETURL = WebRequest.Create(serverURL + "put_tag/"
-                                        + t.Tag.Value.ToString() + "/" + t.CenterX / 16 + "/" + t.CenterY / 16 + "/" + t.Orientation);
+                                    string data = wc.DownloadString(serverURL + "put_tag/"
+                                        + t.Tag.Value.ToString() + "/" + t.CenterX / scale + "/" + t.CenterY / scale + "/" + t.Orientation);
+                                    
                                 }
                             }
                             else if (!t.IsFingerRecognized) // ni un doigt, ni un tag : c'est donc un blob
                             {
-                                WebRequest wrGETURL = WebRequest.Create(serverURL + "blob/"
-                                    + t.CenterX + "/" + t.CenterY);
+                                string data = wc.DownloadString(serverURL + "blob/"
+                                    + t.CenterX / scale + "/" + t.CenterY / scale);
                             }
                         }
 
@@ -251,7 +256,7 @@ namespace DriveOnSurface
                             if (!detectedTags.Contains(tagV))
                             {
                                 tagsToDelete.Add(tagV);
-                                WebRequest wrGETURL = WebRequest.Create(serverURL + "removed_tag/"
+                                string data = wc.DownloadString(serverURL + "remove_tag/"
                                     + tagV);
                             }
                         }
@@ -320,7 +325,7 @@ namespace DriveOnSurface
                                     trackName = "city";
                                     break;
                             }
-                            WebRequest wrGETURL = WebRequest.Create(serverURL + "track/" + trackName);
+                            string data = wc.DownloadString(serverURL + "track/" + trackName);
                         }
                     }
                     else if (CurrentState == GameState.waiting)
@@ -373,7 +378,7 @@ namespace DriveOnSurface
                                     gl.currentState = GreenLights.GLState.GO;
                                     gl.last_update = gameTime.TotalGameTime.Seconds;
                                     CurrentState = GameState.play;
-                                    WebRequest wrGETURL = WebRequest.Create(serverURL + "start");
+                                    string data = wc.DownloadString(serverURL + "start");
                                 }
                                 break;
                         }
@@ -509,9 +514,8 @@ namespace DriveOnSurface
 
         public void refreshGameState()
         {
-            int scale = 16; // echelle mètres * scale -> pixels
 
-            using (var w = new WebClient())
+            WebClient w = wc;
             {
                 var json_data = string.Empty;
                 // attempt to download JSON data as a string
@@ -697,6 +701,8 @@ namespace DriveOnSurface
                             Console.WriteLine("Token: {0}", reader.TokenType);
                     }
                     Console.WriteLine("============================END====================================");*/
+
+                    
 
                 }
                 catch (Exception e) { Console.WriteLine(e.Message); }

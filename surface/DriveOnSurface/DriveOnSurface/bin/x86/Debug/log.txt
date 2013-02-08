@@ -1,1 +1,2 @@
 Initialisation du jeu
+new lights
