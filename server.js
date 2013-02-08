@@ -111,6 +111,20 @@ app.get('/state', function(req, res) {
 				positionsGamers.push(gamer);
 				gamer.socket.emit('speed', speed);
 			}
+
+			for (var key in gamer.bonus) {
+				var b = gamer.bonus[key];
+				if (b.visible) {
+					state_bonus.push(
+					{
+						type: key+"",
+						id: key+"_"+gamer.pseudo,
+						position_x: b.position[0],
+						position_y: b.position[1],
+						angle: b.angle
+					});
+				}
+			}
 		}
 	}
 
