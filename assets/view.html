@@ -6,8 +6,8 @@
 <body>
 <img src="/canvas" alt="" id="debug" />
 <!-- <iframe src="http://localhost/gamejs/" id="game"></iframe> -->
-<img src="circuits/town/bottom.png" alt="" id="circuit-bottom"/>
-<img src="circuits/town/top.png" alt="" id="circuit-top"/>
+<img src="circuits/classic/bottom.png" alt="" id="circuit-bottom"/>
+<img src="circuits/classic/top.png" alt="" id="circuit-top"/>
 <div class="block cursor"></div>
 <style type="text/css">
 	#debug, #circuit-bottom, #circuit-top, #game {
@@ -215,10 +215,10 @@ function getCode(all) {
 		{
 			var server = '';
 			if (block.hasClass('round'))
-				// var url =  server+"/plot/"+width/2+"/"+
-					// left+"/"+top+"/sensor";
-				var url =  server+"blob/"+
-					left+"/"+top;
+				var url =  server+"/plot/"+width/2+"/"+
+					left+"/"+top+"/sensor";
+				// var url =  server+"blob/"+
+					// left+"/"+top;
 			else 
 				var url =  server+"/box/"+width+"/"+height+"/"+
 					left+"/"+top+"/"+ angle+"/sensor";	

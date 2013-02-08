@@ -31,7 +31,8 @@ var gameInstance = game(canvas),
 	gamers = {},
 	nbGamers = 0,
 	currentDate = +new Date(),
-	positionDate = 0;
+	positionDate = 0,
+	ratio = 0.001;
 	// gameInterval = 0;
 
 // app.get('/start', function(req, res) {
@@ -72,7 +73,7 @@ app.get('/state', function(req, res) {
 		positionsGamers = [];
 
 	currentDate = newDate;
-	gameInstance.tick(diff);
+	gameInstance.tick(diff*ratio);
 
 	if (currentDate - positionDate > 1000) {
 		positionDate = currentDate;
@@ -185,8 +186,16 @@ app.get('/blob/:left/:top', function(req, res) {
 	res.send('ok');
 });
 
-app.get('/track/:name');
-app.get('/start');
+app.get('/track/:name', function(req, res) {
+	gameInstance.selectTrack(req.params.name);
+	res.header("Access-Control-Allow-Origin", "*");
+	res.send('ok');
+});
+app.get('/start', function(req, res) {
+	ratio = 1.0;
+	res.header("Access-Control-Allow-Origin", "*");
+	res.send('ok');
+});
 
 app.get('/put_tag/:code/:left/:top/:angle', function(req, res){
 	console.log("Put_tag", req.params);
