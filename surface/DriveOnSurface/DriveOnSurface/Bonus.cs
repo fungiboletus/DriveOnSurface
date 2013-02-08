@@ -39,17 +39,19 @@ namespace DriveOnSurface
         {
             switch (BonusType)
             {
-                case BType.Clous :
+                case BType.Clous:
                     BSprite.LoadContent(theContentManager, "nails");
+                    //BSprite.origin = new Vector2();
                     break;
-                case BType.Train :
+                case BType.Train:
                     BSprite.LoadContent(theContentManager, "train");
                     break;
-                case BType.Granny :
+                case BType.Granny:
                     BSprite.LoadContent(theContentManager, "rabbit");
                     break;
-                default :
-                BSprite.LoadContent(theContentManager, "bonusblock1");
+                default:
+                    BSprite.LoadContent(theContentManager, "bonusblock1");
+                    BSprite.origin = new Vector2(15,15);
                     break;
 
             }
