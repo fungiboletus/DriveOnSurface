@@ -190,7 +190,7 @@ fs.readFile(__dirname + '/../circuit.svg', function(err, data) {
 					'length':2.5,
 					'position':position,
 					'angle':startAngle,
-					'power':25,
+					'power':15,
 					'max_steer_angle':25,
 					'max_speed':60,
 					'wheels':[{'x':-0.65, 'y':-0.9, 'width':0.33, 'length':0.8, 'revolving':true, 'powered':true}, //top left
