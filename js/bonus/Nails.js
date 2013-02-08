@@ -8,7 +8,7 @@ var Nails = function(gamer) {
 
 Nails.prototype = new Bonus("Nails", 10000);
 
-Nails.prototype.start = function(postion, angle) {
+Nails.prototype.start = function(position, angle) {
 	// List of cars wich touch the nails
 	this.victims = [];
 	this.body = new Plot(this.radius, position, 'sensor');
