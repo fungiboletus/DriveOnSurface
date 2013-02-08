@@ -53,7 +53,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\classic-background.xnb</Output>
-      <Time>2013-02-06T18:36:30.8718+01:00</Time>
+      <Time>2013-02-08T15:34:09.7388+01:00</Time>
     </Item>
     <Item>
       <Source>classic-trees.png</Source>
@@ -62,7 +62,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\classic-trees.xnb</Output>
-      <Time>2013-02-06T18:36:30.9048+01:00</Time>
+      <Time>2013-02-08T15:34:09.7548+01:00</Time>
     </Item>
     <Item>
       <Source>damier.png</Source>
