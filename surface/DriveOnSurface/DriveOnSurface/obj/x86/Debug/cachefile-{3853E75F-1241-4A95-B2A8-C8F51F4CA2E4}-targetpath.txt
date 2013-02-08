@@ -16,3 +16,6 @@ Content\rainbow-top.xnb
 Content\city-bottom.xnb
 Content\city-top.xnb
 Content\start-flag.xnb
+Content\bonusblock1.xnb
+Content\nails.xnb
+Content\rabbit.xnb

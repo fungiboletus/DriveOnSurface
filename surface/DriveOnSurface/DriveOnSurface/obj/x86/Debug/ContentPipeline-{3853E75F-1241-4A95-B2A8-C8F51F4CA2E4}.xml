@@ -163,6 +163,33 @@
       <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\start-flag.xnb</Output>
       <Time>2013-02-08T09:04:53.9478+01:00</Time>
     </Item>
+    <Item>
+      <Source>bonusblock1.png</Source>
+      <Name>bonusblock1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\bonusblock1.xnb</Output>
+      <Time>2013-02-08T09:47:41.1388+01:00</Time>
+    </Item>
+    <Item>
+      <Source>nails.jpg</Source>
+      <Name>nails</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\nails.xnb</Output>
+      <Time>2013-02-08T09:50:18.0798+01:00</Time>
+    </Item>
+    <Item>
+      <Source>rabbit.jpg</Source>
+      <Name>rabbit</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\bastien\Documents\GitHub\DriveOnSurface\surface\DriveOnSurface\DriveOnSurface\bin\x86\Debug\Content\rabbit.xnb</Output>
+      <Time>2013-02-08T09:50:18.0818+01:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{3853E75F-1241-4A95-B2A8-C8F51F4CA2E4}</ContentProjectGUID>

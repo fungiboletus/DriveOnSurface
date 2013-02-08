@@ -40,16 +40,16 @@ namespace DriveOnSurface
             switch (BonusType)
             {
                 case BType.Clous :
-                    BSprite.LoadContent(theContentManager, "clous");
+                    BSprite.LoadContent(theContentManager, "nails");
                     break;
                 case BType.Train :
                     BSprite.LoadContent(theContentManager, "train");
                     break;
                 case BType.Granny :
-                    //BSprite.LoadContent(theContentManager, "");
+                    BSprite.LoadContent(theContentManager, "rabbit");
                     break;
                 default :
-                //BSprite.LoadContent(theContentManager, "unknown");
+                BSprite.LoadContent(theContentManager, "bonusblock1");
                     break;
 
             }

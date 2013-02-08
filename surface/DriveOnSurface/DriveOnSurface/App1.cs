@@ -650,6 +650,27 @@ namespace DriveOnSurface
                         catch { }
                     }
 
+                    //bonus
+                    try
+                    {
+                        foreach (JObject bonus in o["bonus"])
+                        {
+
+                           /* int width = ((int)prop["size"][0] * scale);
+                            int h = ((int)prop["size"][1] * scale);
+                            int x = (int)prop["position"][0] * scale - width / 2;
+                            int y = (int)prop["position"][1] * scale - h / 2;
+                            float angle = (float)prop["angle"];
+
+                            RectangleOverlay r = new RectangleOverlay(new Rectangle(x, y, width, h), Color.White, this, angle);
+                            r.Initialize();
+                            r.LoadContent();
+                            rects.Add(r);
+                            //Console.WriteLine("newRect : " + x + ", " + y);*/
+                        }
+                    }
+                    catch { }
+
                     // suppression des objets qui n'existent plus
 
                     List<String> objectsToRemove = new List<string>();
