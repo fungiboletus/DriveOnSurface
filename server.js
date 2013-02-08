@@ -146,12 +146,11 @@ app.get('/state', function(req, res) {
 			var igamer = positionsGamers[i];
 			logPositions += "\t" + igamer.name + " : " + (++i);
 			igamer.socket.emit('rank', i);
-			console.log(igamer.socket);
 
 			if (igamer.rank.turn > gameInstance.nbTurns)
 				igamer.socket.emit('rankEnd', i);
 		}
-		console.log(logPositions);
+		// console.log(logPositions);
 	}
 
 	var bonus = gameInstance.getBonus();
