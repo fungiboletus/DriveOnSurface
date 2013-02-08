@@ -8,7 +8,7 @@ var BiggerEngine = function(gamer) {
 BiggerEngine.prototype = new Bonus("BiggerEngine", 5000);
 
 BiggerEngine.prototype.start = function(position, angle) {
-	if (gamer.car)
+	if (this.gamer.car)
 	{
 		this._start(position, angle);
 		this.oldPower = this.gamer.car.power;
