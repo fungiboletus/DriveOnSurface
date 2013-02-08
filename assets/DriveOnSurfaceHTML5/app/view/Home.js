@@ -35,8 +35,8 @@ Ext.define('DriveOnSurface.view.Home', {
             xtype:'textfield',
             label:'Choisis un serveur',
             //id:'pseudo',
-            name: 'serveur',
             value: window.location.host,
+            name: 'serveur',
             required : true
 
         };

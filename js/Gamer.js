@@ -48,7 +48,7 @@ Gamer.prototype.activateRandomBonus = function() {
 	do {
 		key = this.bonusKeys[Math.floor(this.bonusKeys.length * Math.random())];
 		bonus = this.bonus[key];
-	} while (bonus !== this.currentBonus);
+	} while (bonus === this.currentBonus);
 
 
 	if (this.currentBonus && this.currentBonus.active)

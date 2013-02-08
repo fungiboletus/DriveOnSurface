@@ -2,9 +2,8 @@
  * Bonus for a gamer.
  */
 
-var Bonus = function(name, gamer, duration) {
+var Bonus = function(name, duration) {
 	this.name = name;
-	this.gamer = gamer;
 	this.active = false;
 	this.duration = duration;
 	this.position = [0.0, 0.0];
@@ -16,6 +15,8 @@ var Bonus = function(name, gamer, duration) {
 
 	// If dynamic, remove sensor property
 	this.dynamic = false;
+
+	this.stopTimeout = null;
 };
 
 Bonus.prototype.enable = function() {
@@ -45,18 +46,22 @@ Bonus.prototype._start = function(position, angle) {
 	this.visible = true;
 
 	var obj = this;
-	window.setTimeout(function() {
+	this.stopTimeout = setTimeout(function() {
 		obj.stop();
 	}, this.duration);
 };
 
 Bonus.prototype._stop = function() {
-	console.log("End bonus " + this.name);
-	this.visible = false;
-	console.log(this.body);
+	if (this.visible) {
+		clearTimeout(this.stopTimeout);
 
-	if (this.body)
-		b2world.DestroyBody(this.body);
+		console.log("End bonus " + this.name);
+		this.visible = false;
+		console.log(this.body);
+
+		if (this.body)
+			b2world.DestroyBody(this.body);
+	}
 };
 
 module.exports = Bonus;

@@ -2,10 +2,11 @@ var Bonus = require('../Bonus'),
 	Plot = require('../plot');
 
 var Nails = function(gamer) {
-	this.newPower = 40;
-	this.radius = 10;
-	this.prototype = new Bonus("Nails", gamer, 10000);
+	this.radius = 5;
+	this.gamer = gamer;
 };
+
+Nails.prototype = new Bonus("Nails", 10000);
 
 Nails.prototype.start = function(postion, angle) {
 	// List of cars wich touch the nails
@@ -21,16 +22,17 @@ Nails.prototype.start = function(postion, angle) {
 };
 
 Nails.prototype.stop = function() {
+	if (this.visible) {
+		// Restore the olds linear damping values
+		for (var i = 0, len = this.victims.length; i < len; ++i)
+		{
+			var car = this.victims[i];
+			car.linearDamping = car.oldLinearDamping;
+			delete car.oldLinearDamping;
+		}
 
-	// Restore the olds linear damping values
-	for (var i = 0, len = this.victims.length; i < len; ++i)
-	{
-		var car = this.victims[i];
-		car.linearDamping = car.oldLinearDamping;
-		delete car.oldLinearDamping;
+		this._stop();
 	}
-
-	this._stop();
 };
 
 Nails.prototype.onContact = function(car) {

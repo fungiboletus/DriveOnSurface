@@ -3,8 +3,10 @@ var Bonus = require('../Bonus'),
 
 var Train = function(gamer) {
 	this.size = [20, 5];
-	this.prototype = new Bonus("Train", gamer, 3500);
+	this.gamer = gamer;
 };
+	
+Train.prototype = new Bonus("Train", 3500);
 
 Train.prototype.start = function(postion, angle) {
 	this.body = new Box(this.size, position, angle);
