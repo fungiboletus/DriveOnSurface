@@ -8,7 +8,7 @@ var Rabbit = function(gamer) {
 
 Rabbit.prototype = new Bonus("Rabbit", 20000);
 
-Rabbit.prototype.start = function(postion, angle) {
+Rabbit.prototype.start = function(position, angle) {
 	this.body = new Plot(this.radius, position, undefined, undefined, 0.25);
 
 	this._start(position, angle);

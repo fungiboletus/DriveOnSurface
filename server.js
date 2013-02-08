@@ -363,7 +363,7 @@ io.sockets.on('connection', function (socket) {
 				for (var i = 0; i < 5;++i)
 					cmd[i] = parseInt(cmd[i], 10);
 
-				if (cmd[2] > 5)
+				if (cmd[2] > 3)
 					car.accelerate = cmd[1]  === 0 ? 2 : 1;
 				else
 					car.accelerate = 0;
