@@ -433,7 +433,7 @@ fs.readFile(__dirname + '/../circuit.svg', function(err, data) {
 		setBlobTarget: function(x, y) {
 			if (blob === null) {
 				blob = {
-					plot: new Plot(5, [x, y], 'dynamic', 0x0004),
+					plot: new Plot(6, [x, y], 'dynamic', 0x0004),
 					md: new box2d.Box2D.Dynamics.Joints.b2MouseJointDef()
 				};
 
@@ -441,7 +441,7 @@ fs.readFile(__dirname + '/../circuit.svg', function(err, data) {
 				blob.md.bodyB = blob.plot.body;
 				blob.md.target.Set(x, y);
 				blob.md.collideConnected = true;
-				blob.md.maxForce = 900*blob.plot.body.GetMass();
+				blob.md.maxForce = 1200*blob.plot.body.GetMass();
 				blob.mouseJoint  = b2world.CreateJoint(blob.md);
 				blob.plot.body.SetAwake(true);
 
