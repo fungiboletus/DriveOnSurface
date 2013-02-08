@@ -360,7 +360,7 @@ io.sockets.on('connection', function (socket) {
 			 *  cmds[0] : état du jeu actif ou pas
 			 *            0 : STOP , 1 : GO
 			 *  cmds[1] : position : avancer ou reculer
-			 *           0 : UP, 1 :DOWN
+			 *           1 : UP, 0 :DOWN
 			 *  cmds[2] : vitesse : entre 0 et 10
 			 *  cmds[3] : direction pour tourner
 			 *          0 : LEFT, 1 : RIGHT
@@ -377,7 +377,7 @@ io.sockets.on('connection', function (socket) {
 					cmd[i] = parseInt(cmd[i], 10);
 
 				if (cmd[2] > 3)
-					car.accelerate = cmd[1]  === 1 ? 2 : 1;
+					car.accelerate = cmd[1]  === 0 ? 2 : 1;
 				else
 					car.accelerate = 0;
 
