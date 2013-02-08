@@ -403,7 +403,7 @@ fs.readFile(__dirname + '/../circuit.svg', function(err, data) {
 					'length':2.5,
 					'position':startPositions.shift(),
 					'angle':190,
-					'power':30,
+					'power':25,
 					'max_steer_angle':30,
 					'max_speed':60,
 					'wheels':[{'x':-0.65, 'y':-0.9, 'width':0.33, 'length':0.8, 'revolving':true, 'powered':true}, //top left
@@ -433,7 +433,7 @@ fs.readFile(__dirname + '/../circuit.svg', function(err, data) {
 		setBlobTarget: function(x, y) {
 			if (blob === null) {
 				blob = {
-					plot: new Plot(6, [x, y], 'dynamic', 0x0004),
+					plot: new Plot(3, [x, y], 'dynamic', 0x0004),
 					md: new box2d.Box2D.Dynamics.Joints.b2MouseJointDef()
 				};
 
