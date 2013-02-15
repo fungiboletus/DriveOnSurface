@@ -133,7 +133,7 @@ app.get('/state', function(req, res) {
 					state_bonus.push(
 					{
 						type: key+"",
-						id: key+"_"+gamer.pseudo,
+						id: key+"_"+gamer.name,
 						position_x: posBonus[0],
 						position_y: posBonus[1],
 						angle: b.angle
