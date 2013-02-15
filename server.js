@@ -133,7 +133,7 @@ app.get('/state', function(req, res) {
 					state_bonus.push(
 					{
 						type: key+"",
-						id: key+"_"+gamer.pseudo,
+						id: key+"_"+gamer.name,
 						position_x: posBonus[0],
 						position_y: posBonus[1],
 						angle: b.angle
@@ -178,7 +178,7 @@ app.get('/state', function(req, res) {
 			logPositions += "\t" + igamer.name + " : " + (++i);
 			igamer.socket.emit('rank', i);
 
-			if (igamer.rank.turn > gameInstance.nbTurns)
+			if (igamer.rank.turn > settings.nbTurns)
 				igamer.socket.emit('rankEnd', i);
 		}
 

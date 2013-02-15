@@ -21,8 +21,17 @@ module.exports = {
 	// Size of the canvas
 	// (don't touch to this if you don't want to change all the tracks)
 	canvasSize: [960, 540],
+
+	// Time interval for sending informations to the gamers
+	// (like positions, speed)
+	// (cpu and network expensive)
 	sendingDelay: 1000,
 
+	// Nb of turns
+	nbTurns: 3,
+
+	// The tag code associated with the gamer colors
+	// and the bonus type
 	tagCodes: {
 		0x00: ["rabbit", "Yellow"],
 		0x01: ["nails", "Yellow"],

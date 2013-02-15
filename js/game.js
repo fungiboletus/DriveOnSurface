@@ -180,7 +180,6 @@ fs.readFile(__dirname + '/../circuit.svg', function(err, data) {
 		getBonus: function() {
 			return bonus;
 		},
-		nbTurns: 2,
 		newCar: function() {
 			var position = startPositions.shift();
 

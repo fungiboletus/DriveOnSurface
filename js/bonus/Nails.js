@@ -7,40 +7,39 @@ var Nails = function(gamer) {
 	this.gamer = gamer;
 };
 
-Nails.prototype = new Bonus("Nails", 10000);
+Nails.prototype = new Bonus("Nails", 120000);
 
 Nails.prototype.start = function(position, angle) {
 	// List of cars wich touch the nails
-	this.victims = [];
 	this.body = new Plot(this.radius, position, 'sensor');
 
 	var obj = this;
-	this.body.onContact = function(car){
+	this.body.body.onContact = function(car){
 		obj.onContact(car);
 	};
 
 	this._start(position, angle);
 };
 
-Nails.prototype.stop = function() {
-	if (this.visible) {
-		// Restore the olds linear damping values
-		for (var i = 0, len = this.victims.length; i < len; ++i)
-		{
-			var car = this.victims[i];
-			car.linearDamping = car.oldLinearDamping;
-			delete car.oldLinearDamping;
-		}
-
-		this._stop();
-	}
-};
-
 Nails.prototype.onContact = function(car) {
-	this.victims.push(car);
-	car.oldLinearDamping = car.linearDamping;
+	if (car.nails_active) {
+		delete car.nails_active;
+		return;
+	}
+
+	var oldLinearDamping = car.body.GetLinearDamping(),
+		oldPower = car.power;
+
 	// Very important linear damping
-	car.linearDamping = 2.66;
+	car.body.SetLinearDamping(2.5);
+	car.power = 7.0;
+	car.nails_active = true;
+
+	setTimeout(function() {
+		car.body.SetLinearDamping(oldLinearDamping);
+		car.power = oldPower;
+		delete car.nails_active;
+	}, 10000);
 };
 
 module.exports = Nails;
