@@ -7,7 +7,7 @@ var Nails = function(gamer) {
 	this.gamer = gamer;
 };
 
-Nails.prototype = new Bonus("Nails", 120000);
+Nails.prototype = new Bonus("Nails", 60000);
 
 Nails.prototype.start = function(position, angle) {
 	this._start(position, angle);

@@ -7,7 +7,7 @@ var Train = function(gamer) {
 	this.gamer = gamer;
 };
 	
-Train.prototype = new Bonus("Train", 20000);
+Train.prototype = new Bonus("Train", 10000);
 
 Train.prototype.start = function(position, angle) {
 	this._start(position, angle);
