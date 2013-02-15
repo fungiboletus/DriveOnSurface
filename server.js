@@ -273,7 +273,7 @@ app.get('/put_tag/:code/:left/:top/:angle', function(req, res){
 	if (bonus) {
 		// TODO pas maintenant bitch
 		if (!bonus.active) {
-			bonus.active = "true";
+			bonus.active = true;
 			console.log("OH YEAH");
 		}
 

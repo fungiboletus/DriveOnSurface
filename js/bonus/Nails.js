@@ -10,6 +10,8 @@ var Nails = function(gamer) {
 Nails.prototype = new Bonus("Nails", 120000);
 
 Nails.prototype.start = function(position, angle) {
+	this._start(position, angle);
+
 	// List of cars wich touch the nails
 	this.body = new Plot(this.radius, position, 'sensor');
 
@@ -17,8 +19,6 @@ Nails.prototype.start = function(position, angle) {
 	this.body.body.onContact = function(car){
 		obj.onContact(car);
 	};
-
-	this._start(position, angle);
 };
 
 Nails.prototype.onContact = function(car) {
