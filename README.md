@@ -1,7 +1,7 @@
 DriveOnSurface
 ==============
 
-MarioKart like with Microsoft PixelSense, HTML5 Devices using Node.js, Socket.Io, Box2DJs and ravings rabbits.
+MarioKart like with Microsoft PixelSense, HTML5 Devices using Node.js, Socket.Io, Box2DWeb and ravings rabbits.
 
 ## Requirements
 
@@ -59,13 +59,13 @@ Visit the server, and select your favorite client. If you use the PhoneGap or An
  * Start the pixel sense client
  * Select the track and wait to gamers
  * Now, gamers can start the app and choose a pseudo (gamer key, so don't use the same pseudo)
- * and a kart color
+ * and a kart color…
  * Give the tags to the gamers according to their colors
  * Start the game (and wait to the green lights)
  * Gamers can control their karts using directions keys or orientation sensors
  * If a gamer obtain a bonus, he can put the correct tag on the table
  
- * If you want to play a other track, you have to restart all the process (restart the server, the pixel sense client and the gamers clients…).
+ _If you want to play a other track, you have to restart all the process (restart the server, the pixel sense client and the gamers clients…)._
 
 ## Licence
 
