@@ -7,6 +7,7 @@ module.exports = function(radius, position, type, mask, density) {
     if (type === 'dynamic') {
         bplot.type = box2d.b2Body.b2_dynamicBody;
         bplot.linearDamping = 0.08;
+        bplot.angularDamping=0.2;
     }
 
 
