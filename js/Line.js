@@ -14,7 +14,7 @@ var Line = function(size, position, angle, lineNumber, lastLine) {
 
 	var obj = this;
 	this.box.body.onContact = function(car){
-		console.log("*CANARD CANADR CARAD CANARD CANARD CANARD");
+		// console.log("line contact");
 		obj.onContact(car);
 	};
 

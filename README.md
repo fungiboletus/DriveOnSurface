@@ -13,15 +13,15 @@ MarioKart like with Microsoft PixelSense, HTML5 Devices using Node.js, Socket.Io
 
 ## Architecture
 
- * A server writen in Javascript with node.js
+ * A server written in Javascript with node.js
  	* Game logic and more
- * A Pixel Sense (surface) client writen in C# and XNA
+ * A Pixel Sense (surface) client written in C# and XNA
  	* The main view
  * A HTML5 client using SenchaTouch
  	* For gamer controls on PC and mobiles
  * A native Android client
  	* For gamer controls in Android (if you prefer compared to the HTML5 client)
- * A track editor and debug view writen in HTML5
+ * A track editor and debug view written in HTML5
 
 The communications betweens all these elements are done with a REST API and Socket.IO events.
 
