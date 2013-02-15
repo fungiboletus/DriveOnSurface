@@ -666,6 +666,9 @@ namespace DriveOnSurface
                                     case "rabbit":
                                         btype = Bonus.BType.Granny;
                                         break;
+                                    case "biggerengine":
+                                        btype = Bonus.BType.None;
+                                        break;
                                     default:
                                         btype = Bonus.BType.Unknown;
                                         break;
