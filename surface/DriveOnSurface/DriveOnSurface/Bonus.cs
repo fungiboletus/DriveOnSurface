@@ -26,7 +26,7 @@ namespace DriveOnSurface
         {
             BSprite = new Sprite();
 
-            BSprite.depth = 0.4f;
+            BSprite.depth = 0.9f;
 
             this.ID = ID;
 
