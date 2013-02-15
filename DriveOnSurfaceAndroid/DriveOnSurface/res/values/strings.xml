@@ -1,0 +1,35 @@
+<resources>
+
+    <string name="app_name">Drive On Surface</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_first_menu">Drive On Surface</string>
+    <string name="welcome_msg">Welcome to the game Drive On Surface. Choose a pseudo :</string>
+    <string name="pseudo">Pseudo</string>
+    <string name="play">Start</string>
+    <string name="goo">GO</string>
+    <string name="stop">STOP</string>
+    <string name="ingr">0</string>
+    <string name="blanc">   </string>
+    <string name="acc">Accelerometre : </string>
+    <string name="vitesse">Vitesse </string>
+    <string name="vitesseK">Vitesse en km/h  </string>
+    <string name="rank">Rank </string>
+    <string name="position">Position </string>
+    <string name="kart">Kart : </string>
+    <string name="direction">Direction</string>
+    <string name="exit">Exit</string>
+  
+    <string name="ip">IP :</string>
+    <string name="pref_IP">Server IP</string>
+    <string name="pref_IP_summary">Set the server IP</string>
+    <string name="pref_Port">Server Port</string>
+    <string name="pref_Port_summary">Set the server Port\'s number</string>
+    <string name="bonus">Bonus :</string>
+    <string name="pref_server_profile">Server Settings</string>
+    <string name="pref_server_setting">Update Settings</string>
+    <string name="engDes">bonus with a bigger engine</string>
+    
+    
+
+</resources>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TableLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:stretchColumns="1" >
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/blanc" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="@string/direction" />
+
+            <EditText
+                android:id="@+id/textDir"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="#D4D0C8"
+                android:text="@string/ingr"
+                android:textColor="#000000" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="@string/vitesse" />
+
+            <EditText
+                android:id="@+id/textVit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="#D4D0C8"
+                android:text="@string/ingr"
+                android:textColor="#000000" />
+
+           
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/blanc" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/vitesseK" />
+
+            <EditText
+                android:id="@+id/textKartVit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="#D4D0C8"
+                android:text="@string/ingr"
+                android:textColor="#000000" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="@string/rank" />
+
+            <EditText
+                android:id="@+id/textKartRk"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="#D4D0C8"
+                android:text="@string/ingr"
+                android:textColor="#000000" />
+             <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="@string/position" />
+
+            <EditText
+                android:id="@+id/textPos"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+               
+                android:background="#D4D0C8"
+                android:text="@string/ingr"
+                android:textColor="#000000" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/blanc" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/bonus" />
+        </TableRow>
+
+        <TableRow>
+
+            <ImageView
+                android:id="@+id/noBonus"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/engDes"
+                android:src="@drawable/nobonus" />
+
+            <ImageView
+                android:id="@+id/bonusRabbit"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:onClick="OnclickHandler"
+                android:src="@drawable/rabbit" />
+
+            <ImageView
+                android:id="@+id/bonusTrain"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:onClick="OnclickHandler"
+                android:src="@drawable/train" />
+
+            <ImageView
+                android:id="@+id/bonusNails"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:onClick="OnclickHandler"
+                android:src="@drawable/nails" />
+
+            <ImageView
+                android:id="@+id/bonusEngine"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/engDes"
+                android:onClick="OnclickHandler"
+                android:src="@drawable/biggerengine" />
+        </TableRow>
+
+        <Button
+            android:id="@+id/buttonGo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:onClick="OnclickHandler"
+            android:text="@string/goo" />
+
+        <Button
+            android:id="@+id/buttonExit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:onClick="OnclickHandler"
+            android:text="@string/exit" />
+    </TableLayout>
+
+</LinearLayout>
