@@ -331,10 +331,7 @@ $('#update_interval').click(function(e) {
 	updateInterval *= 2;
 
 	if (updateInterval > 8000)
-		if (updateInterval > 100000)
-			updateInterval = 50;
-		else
-			updateInterval = 100000;
+		updateInterval = 500/8.0;
 
 	$(this).text("Update: "+updateInterval/1000+"s");
 	e.preventDefault();

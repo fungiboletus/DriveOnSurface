@@ -16,7 +16,7 @@ Ext.application({
 
     stop : new Boolean(false),
     iskartselected : new Boolean(false),
-    socket : io.connect('http://192.168.1.11:3333/'),
+    socket : io.connect('/'),
     launch : function(){
 
         DriveOnSurface.app.socket.on('connect',function(){

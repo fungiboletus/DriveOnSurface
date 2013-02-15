@@ -4,8 +4,11 @@ module.exports = function(radius, position, type, mask, density) {
     var bplot = new box2d.b2BodyDef();
     bplot.position = new box2d.b2Vec2(position[0], position[1]);
    
-    if (type === 'dynamic')
+    if (type === 'dynamic') {
         bplot.type = box2d.b2Body.b2_dynamicBody;
+        bplot.linearDamping = 0.08;
+    }
+
 
     this.body = b2world.CreateBody(bplot);
     // var shape = new box2d.b2CircleShape(radius);
