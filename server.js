@@ -129,12 +129,13 @@ app.get('/state', function(req, res) {
 			for (var key in gamer.bonus) {
 				b = gamer.bonus[key];
 				if (b.visible) {
+					var posBonus = b.getPosition();
 					state_bonus.push(
 					{
 						type: key+"",
 						id: key+"_"+gamer.pseudo,
-						position_x: b.position[0],
-						position_y: b.position[1],
+						position_x: posBonus[0],
+						position_y: posBonus[1],
 						angle: b.angle
 					});
 				}

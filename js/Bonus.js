@@ -41,6 +41,10 @@ Bonus.prototype.stop = function() {
 	this._stop();
 };
 
+Bonus.prototype.getPosition = function() {
+	return this.position;
+};
+
 /** Classical methods for start and stop bonus. */
 Bonus.prototype._start = function(position, angle) {
 	console.log("Start bonus " + this.name);

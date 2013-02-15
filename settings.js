@@ -12,8 +12,14 @@ module.exports = {
 	// The verbose mode  (the windows console could make
 	// some lag with this settings activated)
 	verboseLog: false,
-	compressREST: false,
 
+	// Compress the REST output (less network activity but more CPU activity)
+	// You could use this settings if the server is on a other computer
+	// than the Pixel Sense client
+	compressREST: true,
+
+	// Size of the canvas
+	// (don't touch to this if you don't want to change all the tracks)
 	canvasSize: [960, 540],
 	sendingDelay: 1000,
 
