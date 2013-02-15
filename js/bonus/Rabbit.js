@@ -12,7 +12,7 @@ Rabbit.prototype = new Bonus("Rabbit", 60000);
 Rabbit.prototype.start = function(position, angle) {
 	this._start(position, angle);
 
-	this.body = new Plot(this.radius, position, 'dynamic', undefined, 0.35);
+	this.body = new Plot(this.radius, position, 'dynamic', 0x004, 0.35);
 };
 
 Rabbit.prototype.stop = function() {

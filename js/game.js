@@ -238,9 +238,10 @@ fs.readFile(__dirname + '/../circuit.svg', function(err, data) {
 				clearTimeout(blobRemoveTimeout);
 				blob.mouseJoint.SetTarget(new box2d.b2Vec2(x, y));
 			}
-			blobRemoveTimeout = setTimeout(removeBlobCallback, 4000);
+			blobRemoveTimeout = setTimeout(removeBlobCallback, 1200);
 		},
 
+		// Yes, this could be in an other file, but it's simple
 		selectTrack: function(name) {
 
 if (name === 'city') {
