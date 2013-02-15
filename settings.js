@@ -6,7 +6,11 @@
 
 module.exports = {
 
+	// The server port
 	port: 3333,
+
+	// The verbose mode  (the windows console could make
+	// some lag with this settings activated)
 	verboseLog: false,
 	compressREST: false,
 

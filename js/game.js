@@ -6,7 +6,7 @@ var	box2d = require('./vendor/Box2dWeb-2.1.a.3'),
 	Plot = require('./plot'),
 	Line = require('./Line'),
 	BonusPlot = require('./BonusPlot'),
-	settings = require('./Settings');
+	settings = require('./../settings');
 
 
 var WIDTH_PX=settings.canvasSize[0];   //screen width in pixels

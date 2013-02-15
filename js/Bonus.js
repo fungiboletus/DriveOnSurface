@@ -60,10 +60,10 @@ Bonus.prototype._stop = function() {
 
 		console.log("End bonus " + this.name);
 		this.visible = false;
-		console.log(this.body);
+		// console.log(this.body);
 
 		if (this.body)
-			b2world.DestroyBody(this.body);
+			b2world.DestroyBody(this.body.body);
 	}
 };
 

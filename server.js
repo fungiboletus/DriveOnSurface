@@ -5,7 +5,7 @@ var express = require('express'),
 	http = require('http'),
 	game = require('./js/game'),
 	Gamer = require('./js/Gamer'),
-	settings = require('./js/Settings');
+	settings = require('./settings');
 
 // For some reasons, it's difficult to use the canvas library on windows
 // The library is only used for develpment, so let's be an option
@@ -34,6 +34,8 @@ app.use('/circuits', express.static(__dirname+'/circuits'));
 
 // Start the server
 server.listen(settings.port);
+
+console.log("Server listening on "+settings.port+" port");
 
 // Create the game variables
 var gameInstance = game(canvas),
