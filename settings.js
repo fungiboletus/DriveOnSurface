@@ -27,6 +27,9 @@ module.exports = {
 	// (cpu and network expensive)
 	sendingDelay: 1000,
 
+	// Nb of turns
+	nbTurns: 3,
+
 	// The tag code associated with the gamer colors
 	// and the bonus type
 	tagCodes: {

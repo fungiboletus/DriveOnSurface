@@ -58,12 +58,14 @@ Visit the server, and select your favorite client. If you use the PhoneGap or An
  * Start the server
  * Start the pixel sense client
  * Select the track and wait to gamers
- * Gamers have to choose a pseudo (gamer key, so don't use the same pseudo)
- * Gamers have to choose a kart color
+ * Now, gamers can start the app and choose a pseudo (gamer key, so don't use the same pseudo)
+ * and a kart color
  * Give the tags to the gamers according to their colors
  * Start the game (and wait to the green lights)
  * Gamers can control their karts using directions keys or orientation sensors
  * If a gamer obtain a bonus, he can put the correct tag on the table
+ 
+ * If you want to play a other track, you have to restart all the process (restart the server, the pixel sense client and the gamers clients…).
 
 ## Licence
 

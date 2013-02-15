@@ -178,7 +178,7 @@ app.get('/state', function(req, res) {
 			logPositions += "\t" + igamer.name + " : " + (++i);
 			igamer.socket.emit('rank', i);
 
-			if (igamer.rank.turn > gameInstance.nbTurns)
+			if (igamer.rank.turn > settings.nbTurns)
 				igamer.socket.emit('rankEnd', i);
 		}
 
