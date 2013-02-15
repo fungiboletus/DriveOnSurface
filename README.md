@@ -30,7 +30,7 @@ The communications betweens all these elements are done with a REST API and Soc
 ### On the server
 
 You have to install Node.js and NPM first.
-You could take a look of the settings.js file, but it should be working out of box.
+You could take a look at the settings.js file, but it should be working out of box.
 
 ```shell
 # Install the server dependencies
@@ -57,13 +57,13 @@ Visit the server, and select your favorite client. If you use the PhoneGap or An
 
  * Start the server
  * Start the pixel sense client
- * Select the track and wait to gamers
- * Now, gamers can start the app and choose a pseudo (gamer key, so don't use the same pseudo)
+ * Select the track and wait for the players
+ * Now, players can start the app and choose a pseudo (gamer key, so don't use the same pseudo)
  * and a kart color…
- * Give the tags to the gamers according to their colors
+ * Give the tags to the players according to their colors
  * Start the game (and wait to the green lights)
- * Gamers can control their karts using directions keys or orientation sensors
- * If a gamer obtain a bonus, he can put the correct tag on the table
+ * Players can control their karts using directions keys or orientation sensors
+ * If a player obtain a bonus, he can put the correct tag on the table
  
  _If you want to play a other track, you have to restart all the process (restart the server, the pixel sense client and the gamers clients…)._
 
