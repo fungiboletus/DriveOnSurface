@@ -14,7 +14,7 @@ namespace DriveOnSurface
      */
     class Bonus : IDrawableObject, IMovableObject
     {
-        public enum BType { Clous, Train, Granny, Unknown };
+        public enum BType { Clous, Train, Granny, Unknown, None };
 
         public Sprite BSprite;
 
@@ -26,7 +26,7 @@ namespace DriveOnSurface
         {
             BSprite = new Sprite();
 
-            BSprite.depth = 0.4f;
+            BSprite.depth = 0.9f;
 
             this.ID = ID;
 
@@ -36,7 +36,10 @@ namespace DriveOnSurface
 
         public void Draw(SpriteBatch sb)
         {
-            BSprite.Draw(sb);
+            if (BonusType != BType.None)
+            {
+                BSprite.Draw(sb);
+            }
         }
 
         public void LoadContent(ContentManager theContentManager)

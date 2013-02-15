@@ -11,7 +11,9 @@ Ext.define("DriveOnSurface.controller.DriveController", {
         refs : {
             home : "home",
             kart : "kart",
-            play : "play"
+            play : "play",
+            vitesse: "vitesse",
+            classement: "classement"
         },
         control: {
             home: {
@@ -37,6 +39,12 @@ Ext.define("DriveOnSurface.controller.DriveController", {
             },
             '#jaune': {
                 tap: 'onChooseKartJaune'
+            },
+            'vitesse': {
+                speedChanged: 'onSpeedChanged'
+            },
+            'classement': {
+                rankChanged: 'onRankChanged'
             }
         }
 
@@ -76,5 +84,13 @@ Ext.define("DriveOnSurface.controller.DriveController", {
         //Ext.Msg.alert("Kart", text );
 
         Ext.Viewport.animateActiveItem(this.getPlay(), this.slideLeftTransition );
+    },
+    onSpeedChanged : function(record){
+        this.getVitesse().setHtml('coucou');
+
+    },
+    onRankChanged : function(record){
+        this.getClassement().setHtml('fuck');
+
     }
 })

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GridLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+   
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:alignmentMode="alignBounds"
+    android:columnCount="4"
+    android:rowOrderPreserved="false"
+    android:useDefaultMargins="true">
+    <TextView
+        android:layout_columnSpan="4"
+        android:layout_gravity="center_horizontal"
+        android:text="Email setup"
+        android:textSize="32dip" />
+
+    <TextView
+        android:layout_columnSpan="4"
+        android:layout_gravity="left"
+        android:text="You can configure email in just a few steps:"
+        android:textSize="16dip" />
+
+    <TextView
+        android:layout_gravity="right"
+        android:text="Email address:" />
+
+    <EditText android:ems="10" />
+
+    <TextView
+        android:layout_column="0"
+        android:layout_gravity="right"
+        android:text="Password:" />
+
+    <EditText android:ems="8" />
+
+    <net.peterkuterna.android.apps.gridlayout.Space
+        android:layout_column="2"
+        android:layout_gravity="fill"
+        android:layout_row="2"
+        android:layout_rowSpan="3" />
+
+    <Button
+        android:layout_column="3"
+        android:layout_row="5"
+        android:text="Manual setup" />
+
+    <Button
+        android:layout_column="3"
+        android:layout_gravity="fill_horizontal"
+        android:text="Next" />
+    </GridLayout>

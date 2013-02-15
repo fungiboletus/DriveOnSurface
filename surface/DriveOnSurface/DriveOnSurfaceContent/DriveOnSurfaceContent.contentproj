@@ -141,13 +141,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="rabbit.png">
-      <Name>rabbit</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="nails.png">
       <Name>nails</Name>
       <Importer>TextureImporter</Importer>
@@ -169,6 +162,13 @@
     </Compile>
     <Compile Include="classic-trees.png">
       <Name>classic-trees</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="rabbit.png">
+      <Name>rabbit</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
