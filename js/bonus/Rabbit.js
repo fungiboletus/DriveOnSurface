@@ -3,14 +3,14 @@ var Bonus = require('../Bonus'),
 	Plot = require('../plot');
 
 var Rabbit = function(gamer) {
-	this.radius = 1;
+	this.radius = 0.98;
 	this.gamer = gamer;
 };
 
 Rabbit.prototype = new Bonus("Rabbit", 60000);
 
 Rabbit.prototype.start = function(position, angle) {
-	this.body = new Plot(this.radius, position, 'dynamic', undefined, 0.25);
+	this.body = new Plot(this.radius, position, 'dynamic', undefined, 0.35);
 
 	this._start(position, angle);
 };
