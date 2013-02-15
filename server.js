@@ -271,10 +271,9 @@ app.get('/put_tag/:code/:left/:top/:angle', function(req, res){
 		bonus = getGoodBonus(code);
 
 	if (bonus) {
-		// TODO pas maintenant bitch
-		if (!bonus.active) {
+		if (settings.funBonus && !bonus.active) {
 			bonus.active = true;
-			console.log("OH YEAH");
+			console.log("bonus activated");
 		}
 
 		if (bonus.active)

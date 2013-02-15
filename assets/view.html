@@ -6,10 +6,37 @@
 <body>
 <img src="/canvas" alt="" id="debug" />
 <!-- <iframe src="http://localhost/gamejs/" id="game"></iframe> -->
-<img src="circuits/town/bottom.png" alt="" id="circuit-bottom"/>
-<img src="circuits/town/top.png" alt="" id="circuit-top"/>
+<img src="circuits/empty/bottom.png" alt="" id="circuit-bottom"	/>
+<img src="circuits/empty/top.png" alt="" id="circuit-top"/>
 <div class="block cursor"></div>
+<div id="links">
+	<a href="#" id="link_start">Start</a>
+	<hr/>
+	<a href="#" class="track selected" id="track_empty">Empty</a>
+	<a href="#" class="track" id="track_classic">Classic track</a>
+	<a href="#" class="track" id="track_rainbow">Rainbow track</a>
+	<a href="#" class="track" id="track_city">City track</a>
+	<hr/>
+	<a href="#" class="selected type" id="type_dynamic">Dynamic</a>
+	<a href="#" class="type" id="type_static">Static</a>
+	<a href="#" class="type" id="type_sensor">Sensor</a>
+	<hr/>
+	<a href="#" class="block_type" id="block_type_round">Round</a>
+	<a href="#" class="block_type selected" id="block_type_square">Square</a>
+	<hr/>
+	<a href="#" id="get_code">Get code</a>
+	<a href="#" id="update_interval">Update: 0.5s</a>
+</div>
 <style type="text/css">
+html, img {
+	-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+-webkit-user-drag: none;
+}
 	#debug, #circuit-bottom, #circuit-top, #game {
 		width:960px;
 		height:540px;
@@ -66,15 +93,46 @@
 	iframe {
 		border:none;
 	}
+	#links {
+		position:absolute;
+		right:1em;
+		top:1em;
+		width: 8em;
+		z-index:10;
+		box-shadow:0px 0px 10px rgba(0,0,0,0.3);
+	}
+	#links a {
+		line-height:2em;
+		text-decoration: none;
+		text-align:center;
+		display:block;
+		background:rgba(0,0,0,0.4);
+		font-family: monospace;
+		color:white;
+	}	
+	#links a:hover {
+		text-decoration: underline;
+	}
+	#links hr {
+		margin:0;
+		border:1px solid rgba(0,0,0,0.5);
+	}
+	#links a.selected {
+		background:rgba(0,0,0,0.6);
+	}
 </style>
 <script type="text/javascript" src="js/vendor/jquery-1.9.0.min.js"></script>
 <script type="text/javascript" src="js/vendor/jquery.mousewheel.min.js"></script>
 <script type="text/javascript">
 var debug = document.getElementById('debug');
 var url = debug.src;
-var lapin = window.setInterval(function() {
-	debug.src = debug.src;
-}, 500);
+var updateInterval = 500
+	updateFunction = function callback() {
+		debug.src = debug.src;
+		window.setTimeout(callback, updateInterval);
+	};
+
+window.setTimeout(updateFunction, updateInterval);
 
 var block = $('.block:first'),
 	width = block.width(),
@@ -90,20 +148,17 @@ var manageMouse = function(e) {
 
 var round = false;
 
-window.setTimeout(function() {
-	document.onkeyup = function(e) {
-		if (e.keyCode === 32)
-		{
-			block.toggleClass('round');
-			round = block.hasClass('round');
-		}
-		else
-			window.clearInterval(lapin);
-	};
-}, 1000);
+document.onkeyup = function(e) {
+	if (e.keyCode === 32)
+	{
+		block.toggleClass('round');
+		round = block.hasClass('round');
+		$('#links .block_type').toggleClass('selected');
+	}
+};
 
 
-$(window).mousemove(manageMouse).mousewheel(function(e, delta, canard) {
+$('#debug').mousemove(manageMouse).mousewheel(function(e, delta, canard) {
 
 	if (!round)
 	{
@@ -155,6 +210,8 @@ $(window).mousemove(manageMouse).mousewheel(function(e, delta, canard) {
 	}
 
 });
+
+var blockType = "dynamic";
 
 function getCode(all) {
 	var code = '';
@@ -216,22 +273,74 @@ function getCode(all) {
 			var server = '';
 			if (block.hasClass('round'))
 				var url =  server+"/plot/"+width/2+"/"+
-					left+"/"+top+"/dynamic";
+					left+"/"+top+"/"+blockType;
 				// var url =  server+"blob/"+
 					// left+"/"+top;
 			else 
 				var url =  server+"/box/"+width+"/"+height+"/"+
-					left+"/"+top+"/"+ angle+"/dynamic";	
+					left+"/"+top+"/"+ angle+"/"+blockType;	
 
 			$.get(url);
 		}
 	});
 
-	if (all)
+	if (all) {
 		console.log(code);
+		return code;
+	}
 
 }
 
+$('#link_start').click(function(e) {
+	$.get('/start');
+	e.preventDefault();
+});
+
+var tracks = $('#links a.track');
+tracks.click(function(e) {
+	tracks.removeClass('selected');
+	var circuit = $(this).addClass('selected').attr('id').substr(6);
+
+	$('#circuit-bottom').attr('src','circuits/'+circuit+'/bottom.png');
+	$('#circuit-top').attr('src','circuits/'+circuit+'/top.png');
+	e.preventDefault();
+});
+
+var types = $('#links a.type');
+types.click(function(e) {
+	types.removeClass('selected');
+	blockType = $(this).addClass('selected').attr('id').substr(5);
+	e.preventDefault();
+});
+
+var block_types = $('#links .block_type');
+
+block_types.click(function(e) {
+	block_types.removeClass('selected');
+	round = $(this).addClass('selected').attr('id').substr(11) === 'round';
+	block.toggleClass('round');
+	e.preventDefault();
+});
+
+$('#get_code').click(function(e) {
+	alert(getCode(true));
+	e.preventDefault();
+});
+
+$('#update_interval').click(function(e) {
+	updateInterval *= 2;
+
+	if (updateInterval > 8000)
+		if (updateInterval > 100000)
+			updateInterval = 50;
+		else
+			updateInterval = 100000;
+
+	$(this).text("Update: "+updateInterval/1000+"s");
+	e.preventDefault();
+});
+
 </script>
+
 </body>
 </html>

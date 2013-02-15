@@ -211,11 +211,11 @@ fs.readFile(__dirname + '/../circuit.svg', function(err, data) {
 		debugDraw: function() {
 			b2world.DrawDebugData();
 		},
-		newBox: function(p, dynamic) {
-			new BoxProp([parseFloat(p.width), parseFloat(p.height)], [parseFloat(p.left), parseFloat(p.top)], parseFloat(p.angle), dynamic);
+		newBox: function(p, type) {
+			new BoxProp([parseFloat(p.width), parseFloat(p.height)], [parseFloat(p.left), parseFloat(p.top)], parseFloat(p.angle), type);
 		},
-		newPlot: function(p) {
-			new Plot(parseFloat(p.radius), [parseFloat(p.left), parseFloat(p.top)]);
+		newPlot: function(p, type) {
+			new Plot(parseFloat(p.radius), [parseFloat(p.left), parseFloat(p.top)], type);
 		},
 		setBlobTarget: function(x, y) {
 			if (blob === null) {
