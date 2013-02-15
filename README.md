@@ -53,6 +53,12 @@ Start the executable, and enjoy.
 
 Visit the server, and select your favorite client. If you use the PhoneGap or Android client, you have to set the server address.
 
+
+##### Tags replacement
+
+If you need to change the tags used, you only have to edit server's settings.json to associate new tag values to the traps.
+
+
 ## How to play
 
  * Start the server
@@ -63,7 +69,7 @@ Visit the server, and select your favorite client. If you use the PhoneGap or An
  * Give the tags to the players according to their colors
  * Start the game (and wait to the green lights)
  * Players can control their karts using directions keys or orientation sensors
- * If a player obtain a bonus, he can put the correct tag on the table
+ * If a player obtain a bonus, he can put the correct tag on the table where he wants to put the trap
  
  _If you want to play a other track, you have to restart all the process (restart the server, the pixel sense client and the gamers clients…)._
 
