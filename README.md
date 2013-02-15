@@ -19,11 +19,14 @@ MarioKart like with Microsoft PixelSense, HTML5 Devices using Node.js, Socket.Io
 ## How to use
 
 ### On the server
+
+You have to install Node.js and NPM first.
+
 ```shell
 # Install the server dependencies
 npm install
 
-# optionnal
+# Optionnal (if you want the debug view)
 npm install canvas
 
 # Start the the server

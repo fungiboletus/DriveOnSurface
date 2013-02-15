@@ -264,7 +264,7 @@ var getGoodBonus = function(code) {
 // When the gamer add a tag
 app.get('/put_tag/:code/:left/:top/:angle', function(req, res){
 	console.log("Put_tag", req.params);
-	var code =  parseInt(req.params.code, 10)),
+	var code =  parseInt(req.params.code, 10),
 		bonus = getGoodBonus(code);
 
 	if (bonus) {
