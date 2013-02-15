@@ -31,7 +31,7 @@ module.exports = {
 	nbTurns: 3,
 
 	// If true, don't check if the player could use the bonus
-	funBonus: false,
+	funBonus: true,
 
 	// The tag code associated with the gamer colors
 	// and the bonus type
