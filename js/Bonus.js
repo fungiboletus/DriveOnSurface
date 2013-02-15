@@ -1,5 +1,8 @@
 /*
  * Bonus for a gamer.
+ *
+ *
+ * This file is released under the CeCILL-B V1 licence.
  */
 
 var Bonus = function(name, duration) {

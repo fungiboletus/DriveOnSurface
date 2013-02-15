@@ -1,5 +1,7 @@
 /**
  * Virtual line for a race.
+ *
+ * This file is released under the CeCILL-B V1 licence.
  */
 
 var BoxProp = require('./boxprop');

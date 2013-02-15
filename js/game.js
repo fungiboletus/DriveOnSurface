@@ -5,11 +5,12 @@ var	box2d = require('./vendor/Box2dWeb-2.1.a.3'),
 	BoxProp = require('./boxprop'),
 	Plot = require('./plot'),
 	Line = require('./Line'),
-	BonusPlot = require('./BonusPlot');
+	BonusPlot = require('./BonusPlot'),
+	settings = require('./Settings');
 
 
-var WIDTH_PX=960;   //screen width in pixels
-var HEIGHT_PX=540; //screen height in pixels
+var WIDTH_PX=settings.canvasSize[0];   //screen width in pixels
+var HEIGHT_PX=settings.canvasSize[1]; //screen height in pixels
 var SCALE=8;      //how many pixels in a meter
 var WIDTH_M=WIDTH_PX/SCALE; //world width in meters. for this example, world is as large as the screen
 var HEIGHT_M=HEIGHT_PX/SCALE; //world height in meters

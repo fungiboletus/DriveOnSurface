@@ -1,5 +1,6 @@
 /*
  * A gamer (in real life)
+ * This file is released under the CeCILL-B V1 licence.
  */
 
 var BiggerEngine = require('./bonus/BiggerEngine'),

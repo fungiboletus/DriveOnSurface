@@ -1,3 +1,4 @@
+/* This file is released under the CeCILL-B V1 licence. */
 var Bonus = require('../Bonus'),
 	Plot = require('../plot');
 

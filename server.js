@@ -1,15 +1,18 @@
+/* This file is released under the CeCILL-B V1 licence.*/
+
 var express = require('express'),
 	io = require('socket.io'),
 	http = require('http'),
 	game = require('./js/game'),
-	Gamer = require('./js/Gamer');
+	Gamer = require('./js/Gamer'),
+	settings = require('./js/Settings');
 
 // For some reasons, it's difficult to use the canvas library on windows
 // The library is only used for develpment, so let's be an option
 try {
 
 	var Canvas = require('canvas'),
-		canvas = new Canvas(960, 540);
+		canvas = new Canvas(settings.canvasSize[0], settings.canvasSize[1]);
 }
 catch (e) {}
 
@@ -18,15 +21,21 @@ var app = express(),
 	server = http.createServer(app),
 	io = io.listen(server);
 
-// app.use(express.logger());
-// app.use(express.compress());
+if (settings.verboseLog)
+	app.use(express.logger());
 
+if (settings.compressREST)
+	app.use(express.compress());
+
+// Initialize statics file access
 app.use('/', express.static(__dirname+'/assets'));
 app.use('/js', express.static(__dirname+'/js'));
 app.use('/circuits', express.static(__dirname+'/circuits'));
 
-server.listen(3333);
+// Start the server
+server.listen(settings.port);
 
+// Create the game variables
 var gameInstance = game(canvas),
 	gamers = {},
 	nbGamers = 0,
@@ -42,8 +51,6 @@ var gameInstance = game(canvas),
 // 	res.send({ok: true});
 // });*/
 
-// Object representings the gamers
-
 
 // Send a png image of the current game state
 if (canvas)
@@ -56,7 +63,7 @@ if (canvas)
 		gameInstance.tick(diff*ratio);
 		gameInstance.debugDraw();
 
-		// res.setHeader('pragma', 'no-cache');
+		res.setHeader('pragma', 'no-cache');
 		res.type('png');
 		res.send(canvas.toBuffer());
 	});
@@ -75,16 +82,20 @@ app.get('/state', function(req, res) {
 	currentDate = newDate;
 	gameInstance.tick(diff*ratio);
 
-	if (currentDate - positionDate > 1000) {
+	// If the last tick is older than one second ago
+	if (currentDate - positionDate > settings.sendingDelay) {
 		positionDate = currentDate;
+
+		// It's time to send the positions to gamers
 		sendPosition = true;
 	}
 
+	// Variables for construct the REST result
 	var state = {
 		},
 		state_joueurs = [],
 		state_bonus = [],
-		i, len;
+		i, len, b;
 
 	for (var pseudo in gamers) {
 
@@ -112,8 +123,9 @@ app.get('/state', function(req, res) {
 				gamer.socket.emit('speed', speed);
 			}
 
+			// Show the bonus of the gamer
 			for (var key in gamer.bonus) {
-				var b = gamer.bonus[key];
+				b = gamer.bonus[key];
 				if (b.visible) {
 					state_bonus.push(
 					{
@@ -129,6 +141,8 @@ app.get('/state', function(req, res) {
 	}
 
 	if (sendPosition) {
+
+		// Calcul the gamer ranking
 		positionsGamers.sort(function(a, b) {
 			var rankA = a.rank,
 				rankB = b.rank;
@@ -164,13 +178,15 @@ app.get('/state', function(req, res) {
 			if (igamer.rank.turn > gameInstance.nbTurns)
 				igamer.socket.emit('rankEnd', i);
 		}
-		// console.log(logPositions);
+
+		if (settings.verboseLog)
+			console.log(logPositions);
 	}
 
+	// Add the global game bonus
 	var bonus = gameInstance.getBonus();
-
 	for( i = 0, len = bonus.length; i < len; ++i) {
-		var b = bonus[i];
+		b = bonus[i];
 		if (b.visible) {
 			state_bonus.push({
 				type: "random",
@@ -195,12 +211,14 @@ app.get('/box/:width/:height/:left/:top/:angle/:type', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.send('ok');
 });
+
 app.get('/plot/:radius/:left/:top/:type', function(req, res) {
 	gameInstance.newPlot(req.params, req.params.type);
 	res.header("Access-Control-Allow-Origin", "*");
 	res.send('ok');
 });
 
+// REST API for the blob managment
 app.get('/blob/:left/:top', function(req, res) {
 	console.log("Blob", req.params);
 	gameInstance.setBlobTarget(parseFloat(req.params.left), parseFloat(req.params.top));
@@ -208,39 +226,23 @@ app.get('/blob/:left/:top', function(req, res) {
 	res.send('ok');
 });
 
+// Track selection
 app.get('/track/:name', function(req, res) {
 	gameInstance.selectTrack(req.params.name);
 	res.header("Access-Control-Allow-Origin", "*");
 	res.send('ok');
 });
+
+// Game start
 app.get('/start', function(req, res) {
 	ratio = 1.0;
 	res.header("Access-Control-Allow-Origin", "*");
 	res.send('ok');
 });
 
-var dataTagCodes = {
-	0x00: ["rabbit", "Yellow"],
-	0x01: ["nails", "Yellow"],
-	0x02: ["biggerengine", "Yellow"],
-	0x03: ["train", "Yellow"],
+var dataTagCodes = settings.tagCodes;
 
-	0x21: ["rabbit", "Red"],
-	0x20: ["nails", "Red"],
-	0x22: ["biggerengine", "Red"],
-	0x23: ["train", "Red"],
-
-	0x11: ["rabbit", "Blue"],
-	0x13: ["nails", "Blue"],
-	0x12: ["biggerengine", "Blue"],
-	0x10: ["train", "Blue"],
-
-	0x31: ["rabbit", "Green"],
-	0x32: ["nails", "Green"],
-	0x33: ["biggerengine", "Green"],
-	0x30: ["train", "Green"]
-};
-
+// Get the bonus according to the key code
 var getGoodBonus = function(code) {
 	if (dataTagCodes.hasOwnProperty(code)) {
 		var type = dataTagCodes[code][0],
@@ -259,11 +261,18 @@ var getGoodBonus = function(code) {
 	return null;
 };
 
+// When the gamer add a tag
 app.get('/put_tag/:code/:left/:top/:angle', function(req, res){
 	console.log("Put_tag", req.params);
 
 	var bonus = getGoodBonus(parseInt(req.params.code, 10));
 	if (bonus) {
+		// TODO pas maintenant bitch
+		if (!bonus.active) {
+			bonus.active = "true";
+			console.log("OH YEAH");
+		}
+
 		if (bonus.active)
 		{
 			bonus.start([
@@ -281,15 +290,18 @@ app.get('/put_tag/:code/:left/:top/:angle', function(req, res){
 	res.header("Access-Control-Allow-Origin", "*");
 	res.send('ok');
 });
+
+// When the gamer remove a tag
 app.get('/remove_tag/:code', function(req, res){
 	console.log("remove_tag", req.params);
+	console.log("ignored");
 
-	var bonus = getGoodBonus(parseInt(req.params.code, 10));
+	/*var bonus = getGoodBonus(parseInt(req.params.code, 10));
 
 	if (bonus)
 		bonus.stop();
 	else
-		console.log("UNKNOWN TAG CODE");
+		console.log("UNKNOWN TAG CODE");*/
 
 	res.header("Access-Control-Allow-Origin", "*");
 	res.send('ok');
@@ -305,13 +317,17 @@ io.sockets.on('connection', function (socket) {
 		gamer = null,
 		car = null;
 
+	// When the user send his pseudo
 	socket.on('pseudo', function (data) {
 		console.log(pseudo, "pseudo", data);
 		pseudo = data;
 
+		// Get back the gamer instance if a gamer
+		// with the same pseudo already exist
 		if (gamers.hasOwnProperty(pseudo))
 			gamer = gamers[pseudo];
 		else {
+			// Create a new gamer
 			gamer = new Gamer(pseudo, gameInstance);
 			gamer.rank.pos = ++nbGamers;
 			gamers[pseudo] = gamer;
@@ -322,14 +338,17 @@ io.sockets.on('connection', function (socket) {
 		// to the gamer in other parts of this program
 		gamer.socket = socket;
 
+		// When the user send his kart selection
 		socket.on('kart', function(data) {
 			console.log(pseudo, "kart", data);
 
+			// Create a new car if necessary
 			if (gamer.car === null)
 				gamer.createCar();
 			else
 				console.log("A car is already associated with the gamer");
 
+			// Set the color of the kart (the only one important information)
 			gamer.color = data;
 			car = gamer.car;
 
@@ -388,6 +407,7 @@ io.sockets.on('connection', function (socket) {
 
 			});
 
+			// When the user launcha bonus
 			socket.on('bonus', function(data) {
 				console.log(pseudo, "bonus", data);
 				if (gamer.bonus.hasOwnProperty(data)) {
@@ -406,14 +426,17 @@ io.sockets.on('connection', function (socket) {
 		});
 	});
 
+	// On user disconnetion, it could be a network problem
 	socket.on('disconnect', function() {
 		console.log(pseudo, "user is disconnected");
+		// Just set the car controls to nothing
 		if (car) {
 			car.accelerate = 0;
 			car.steer = 0;
 		}
 	});
 
+	// When the user send an explicit exit
 	socket.on('exit', function() {
 		console.log(pseudo, "exit");
 
