@@ -264,8 +264,9 @@ var getGoodBonus = function(code) {
 // When the gamer add a tag
 app.get('/put_tag/:code/:left/:top/:angle', function(req, res){
 	console.log("Put_tag", req.params);
+	var code =  parseInt(req.params.code, 10)),
+		bonus = getGoodBonus(code);
 
-	var bonus = getGoodBonus(parseInt(req.params.code, 10));
 	if (bonus) {
 		// TODO pas maintenant bitch
 		if (!bonus.active) {
@@ -285,7 +286,7 @@ app.get('/put_tag/:code/:left/:top/:angle', function(req, res){
 			console.log("**** YOU DON'T HAVE THE PERMISSION !!1");
 	}
 	else
-		console.log("UNKNOWN TAG CODE");
+		console.log("UNKNOWN TAG CODE: "+code);
 
 	res.header("Access-Control-Allow-Origin", "*");
 	res.send('ok');
