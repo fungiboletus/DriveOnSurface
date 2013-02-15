@@ -34,6 +34,11 @@ Bonus.prototype.disable = function() {
 
 /** This methods should be overidded if necessary */
 Bonus.prototype.start = function(position, angle) {
+
+	// Protection for multiples starts
+	if (this.visible)
+		this.stop();
+
 	this._start(position, angle);
 };
 
