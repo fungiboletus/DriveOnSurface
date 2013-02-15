@@ -8,6 +8,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DriveOnSurface
 {
+
+    /**
+     * Représente les bonus (pièges posés ou les bonus à ramasser)
+     */
     class Bonus : IDrawableObject, IMovableObject
     {
         public enum BType { Clous, Train, Granny, Unknown };

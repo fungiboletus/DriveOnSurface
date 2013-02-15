@@ -34,32 +34,39 @@ namespace DriveOnSurface
         private UserOrientation currentOrientation = UserOrientation.Bottom;
         private Matrix screenTransform = Matrix.Identity;
 
-        // Les objets du jeu
-
+        /* ============== Les objets du jeu ============= */
+        // Les objets dessinables.
         Dictionary<string, IDrawableObject> DrawableObjects = new Dictionary<string, IDrawableObject>();
 
         SpriteFont spriteFont;
 
+        // Redirige la console dans un fichier de log (meilleures performances).
         OutToFile redir = new OutToFile("log.txt");
 
+        // L'url où tourne le serveur node.js
         String serverURL;
 
         bool fullScreen = false;
 
+        // Valeur des tags posés sur la table.
         Dictionary<String, TouchPoint> TagValues = new Dictionary<string, TouchPoint>();
 
+        // les différentes phases de jeu
         enum GameState { menu, play, waiting }
 
+        // la phase de jeu en cours
         GameState CurrentState = GameState.menu;
 
+        // le circuit sélectionné
         Background.Track selectedTrack = Background.Track.Menu;
 
         bool debug = false;
-
+        // pour afficher les bordures lors du debug.
         List<RectangleOverlay> rects = new List<RectangleOverlay>();
 
         int scale = 16; // echelle mètres * scale -> pixels
 
+        // web clien responsable des communications avec le serveur.
         WebClient wc = new WebClient();
 
         /// <summary>
@@ -215,14 +222,14 @@ namespace DriveOnSurface
                     // ReadOnlyTouchPointCollection touches = touchTarget.GetState();
 
                     ReadOnlyTouchPointCollection touches = touchTarget.GetState();
-                    if (CurrentState == GameState.play)
+                    if (CurrentState == GameState.play) // si on est en cours de partie
                     {
-                        refreshGameState();
+                        refreshGameState(); // on rafraichit la liste des objets à afficher
 
-                        if (DrawableObjects.ContainsKey("greenlights"))
+                        if (DrawableObjects.ContainsKey("greenlights")) // affichage des feux de départ
                         {
                             GreenLights gl = (GreenLights)DrawableObjects["greenlights"];
-                            if (gameTime.TotalGameTime.Seconds > gl.last_update + 1)
+                            if (gameTime.TotalGameTime.Seconds > gl.last_update + 1) // ils disparaissent au bout d'une seconde
                             {
                                 DrawableObjects.Remove("greenlights");
                             }
@@ -238,6 +245,7 @@ namespace DriveOnSurface
                                 if (!TagValues.ContainsKey(t.Tag.Value.ToString()))
                                 {
                                     TagValues.Add(t.Tag.Value.ToString(), t);
+                                    // envoi de l'évent au serveur
                                     string data = wc.DownloadString(serverURL + "put_tag/"
                                         + t.Tag.Value.ToString() + "/" + t.CenterX / scale + "/" + t.CenterY / scale + "/" + t.Orientation);
 
@@ -268,7 +276,7 @@ namespace DriveOnSurface
                         }
 
                     }
-                    else if (CurrentState == GameState.menu)
+                    else if (CurrentState == GameState.menu) // si on est dans le menu.
                     {
                         bool isTrackSelected = false;
                         foreach (var t in touches)
@@ -306,7 +314,7 @@ namespace DriveOnSurface
                             }
                         }
 
-                        if (isTrackSelected)
+                        if (isTrackSelected) // si le joueur à cliqué sur un circuit.
                         {
                             CurrentState = GameState.waiting;
                             Background trackBackground = new Background(new Vector2(0, 0), selectedTrack);
@@ -329,7 +337,7 @@ namespace DriveOnSurface
                             string data = wc.DownloadString(serverURL + "track/" + trackName);
                         }
                     }
-                    else if (CurrentState == GameState.waiting)
+                    else if (CurrentState == GameState.waiting) // état en attente du départ (après sélection du circuit et avant  le départ)
                     {
                         refreshGameState();
 
@@ -347,7 +355,7 @@ namespace DriveOnSurface
                             DrawableObjects.Add("greenlights", gl);
                         }
 
-                        switch (gl.currentState)
+                        switch (gl.currentState) // mise à jour des feux de départ toute les secondes.
                         {
                             case GreenLights.GLState.Waiting:
                                 foreach (var t in touches)
@@ -419,7 +427,7 @@ namespace DriveOnSurface
             //Console.WriteLine(gameTime.ElapsedGameTime);
 
 
-            foreach (IDrawableObject DObj in DrawableObjects.Values)
+            foreach (IDrawableObject DObj in DrawableObjects.Values) // on dessine tout les objets dessinables
             {
                 DObj.Draw(this.spriteBatch);
                 if (DObj is IMovableObject)
@@ -428,7 +436,7 @@ namespace DriveOnSurface
                 }
             }
 
-            foreach (RectangleOverlay r in rects)
+            foreach (RectangleOverlay r in rects) // on dessine les bordures du circuit (la liste est vide si !debug)
             {
                 r.Draw(this.spriteBatch);
                 //Console.WriteLine("drawing rect at : " + r.dummyRectangle.Center);
@@ -513,6 +521,9 @@ namespace DriveOnSurface
 
         #endregion
 
+        /**
+         *  Récupère les objets sur le serveur et les ajoute à la liste des objets dessinables.
+         **/
         public void refreshGameState()
         {
 
@@ -591,44 +602,7 @@ namespace DriveOnSurface
                     }
                     catch { }
 
-                    //recuperation des feux de départ    
-                    /*try
-                    {
-                        foreach (JObject greenlights in o["starting_lights"])
-                        {
-                            objectsIdToKeep.Add("greenlights");
-
-                            GreenLights gl;
-
-                            if (DrawableObjects.Keys.Contains("greenlights"))
-                            {
-                                gl = (GreenLights)DrawableObjects["greenlights"];
-                            }
-                            else
-                            {
-                                gl = new GreenLights();
-                                gl.LoadContent(this.Content);
-                                DrawableObjects.Add("greenlights", gl);
-                            }
-
-                            switch ((string)greenlights["state"])
-                            {
-                                case "3":
-                                    gl.currentState = GreenLights.GLState.R3;
-                                    break;
-                                case "2":
-                                    gl.currentState = GreenLights.GLState.R2;
-                                    break;
-                                case "1":
-                                    gl.currentState = GreenLights.GLState.R1;
-                                    break;
-                                default:
-                                    gl.currentState = GreenLights.GLState.GO;
-                                    break;
-                            }
-                        }
-                    }
-                    catch { }*/
+                    
 
                     if (debug)
                     {
@@ -746,6 +720,9 @@ namespace DriveOnSurface
             }
         }
 
+        /**
+         * Charge les paramètres depuis le fichier de config.
+         */
         public void loadConfig()
         {
             try

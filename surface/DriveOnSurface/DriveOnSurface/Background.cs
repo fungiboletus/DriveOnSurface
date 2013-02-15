@@ -8,6 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DriveOnSurface
 {
+    /**
+     * Objet qui représente le décor ou le menu.
+     */
     class Background : IDrawableObject
     {
         public enum Track { Menu, Classic, RainbowRoad, City };

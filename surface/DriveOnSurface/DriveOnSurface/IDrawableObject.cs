@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework.Content;
 
 namespace DriveOnSurface
 {
+    /**
+    * Interface pour les objets dessinables.
+    **/
     interface IDrawableObject
     {
         String getID();

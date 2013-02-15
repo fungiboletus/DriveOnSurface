@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DriveOnSurface
 {
+    /**
+     * Classe pour dessiner des rectangles.
+     **/
     public class RectangleOverlay : DrawableGameComponent
     {
         SpriteBatch spriteBatch;

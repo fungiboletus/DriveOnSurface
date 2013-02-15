@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework;
 
 namespace DriveOnSurface
 {
+    /**
+     * Interface pour les objets déplaçables.
+     **/
     interface IMovableObject : IDrawableObject
     {
         Vector2 getPosition();
